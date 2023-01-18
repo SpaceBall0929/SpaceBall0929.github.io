@@ -1,0 +1,792 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Junxin Liu">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="什么是iterators定义：一个对象，可以把一个序列变成“一个一个来”的元素（词穷是这样的  可以理解成position in a sequence  iter(iterable) 变成一个iterator next(iterator) returns the next element in an iterator. next是不可逆的 举例： 12345678toppings &#x3D; [&amp;quot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS61A-16-iterators">
+<meta property="og:url" content="http://example.com/2022/08/10/CS61A/16-iterators%20&%20lab6/index.html">
+<meta property="og:site_name" content="Space">
+<meta property="og:description" content="什么是iterators定义：一个对象，可以把一个序列变成“一个一个来”的元素（词穷是这样的  可以理解成position in a sequence  iter(iterable) 变成一个iterator next(iterator) returns the next element in an iterator. next是不可逆的 举例： 12345678toppings &#x3D; [&amp;quot">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018211105174.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018184158454.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018184405521.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018211014066.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018202734345.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018202746639.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203114282.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203337883.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203359317.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203611626.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203823872.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018204138982.png">
+<meta property="og:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019111711933.png">
+<meta property="og:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019112035959.png">
+<meta property="og:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019112449717.png">
+<meta property="og:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019112936444.png">
+<meta property="og:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019121658198.png">
+<meta property="og:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019121724268.png">
+<meta property="og:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019122009770.png">
+<meta property="article:published_time" content="2022-08-10T03:33:24.000Z">
+<meta property="article:modified_time" content="2023-01-18T06:05:24.123Z">
+<meta property="article:author" content="Junxin Liu">
+<meta property="article:tag" content="Computer Sciense">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018211105174.png">
+  
+  
+  
+  <title>CS61A-16-iterators - Space</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20220809105458628.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CS61A-16-iterators"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-10 11:33" pubdate>
+          August 10, 2022 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.3k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          62 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CS61A-16-iterators</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="什么是iterators"><a href="#什么是iterators" class="headerlink" title="什么是iterators"></a>什么是iterators</h2><p>定义：一个对象，可以把一个序列变成“一个一个来”的元素（词穷是这样的</p>
+<blockquote>
+<p>可以理解成position in a sequence</p>
+</blockquote>
+<p><code>iter(iterable)</code> 变成一个iterator</p>
+<p><code>next(iterator)</code> returns the next element in an iterator.</p>
+<p>next是不可逆的</p>
+<p>举例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">toppings = [<span class="hljs-string">&quot;pineapple&quot;</span>, <span class="hljs-string">&quot;pepper&quot;</span>, <span class="hljs-string">&quot;mushroom&quot;</span>, <span class="hljs-string">&quot;roasted red pepper&quot;</span>]<br><br>topperator = <span class="hljs-built_in">iter</span>(toppings)<br><span class="hljs-built_in">next</span>(<span class="hljs-built_in">iter</span>) <span class="hljs-comment"># &#x27;pineapple&#x27;</span><br><span class="hljs-built_in">next</span>(<span class="hljs-built_in">iter</span>) <span class="hljs-comment"># &#x27;pepper&#x27;</span><br><span class="hljs-built_in">next</span>(<span class="hljs-built_in">iter</span>) <span class="hljs-comment"># &#x27;mushroom&#x27;</span><br><span class="hljs-built_in">next</span>(<span class="hljs-built_in">iter</span>) <span class="hljs-comment"># &#x27;roasted red pepper&#x27;</span><br><span class="hljs-built_in">next</span>(<span class="hljs-built_in">iter</span>) <span class="hljs-comment"># ❌ StopIteration exception</span><br></code></pre></td></tr></table></figure>
+
+<p>什么样的才算iterable呢：Lists, tuples, dictionaries, strings, and ranges</p>
+<p>这些内容都可以生成迭代器。</p>
+<p>重复生成iterator,你会得到同一个东西:</p>
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018211105174.png" srcset="/img/loading.gif" lazyload alt="image-20221018211105174" style="zoom: 67%;" />
+
+<h5 id="对于字典"><a href="#对于字典" class="headerlink" title="对于字典"></a>对于字典</h5><p>字典中item的顺序：</p>
+<ul>
+<li>版本3.5以后：加入顺序</li>
+<li>3.5及以前：arbitrary order</li>
+</ul>
+<p>而对于字典，可以有三种选择：keys iterator, values iterator, keys&amp;values(iterms) iterator.</p>
+<p><code>iter(d</code>默认使用keys)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">price_iter = <span class="hljs-built_in">iter</span>(prices.items())<br><span class="hljs-built_in">next</span>(price_iter)  <span class="hljs-comment"># (&quot;pineapple&quot;, 9.99)</span><br></code></pre></td></tr></table></figure>
+
+<p>如果迭代的时候，字典的结构&#x2F;值被改变，则不能继续做iteration：</p>
+<p><img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018184158454.png" srcset="/img/loading.gif" lazyload alt="image-20221018184158454"></p>
+<p>即这个时候迭代器不能用了。应该是出于数据安全性考虑！</p>
+<h2 id="iterator-遍历"><a href="#iterator-遍历" class="headerlink" title="iterator 遍历"></a>iterator 遍历</h2><p>在使用for的时候，会自动call next（）</p>
+<p>注意，iteration是<strong>不可逆</strong>的，任何情况都是！：</p>
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018184405521.png" srcset="/img/loading.gif" lazyload alt="image-20221018184405521" style="zoom:80%;" />
+
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018211014066.png" srcset="/img/loading.gif" lazyload alt="image-20221018211014066" style="zoom:80%;" />
+
+<p>除非重新创建一个iterator呢。 </p>
+<p>iterator是mutable的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">nums = <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">4</span>)<br>num_iter = <span class="hljs-built_in">iter</span>(nums)<br>first = <span class="hljs-built_in">next</span>(num_iter)<br><br><span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> num_iter:<br>    <span class="hljs-built_in">print</span>(num)<br></code></pre></td></tr></table></figure>
+
+<h2 id="一些好用的function"><a href="#一些好用的function" class="headerlink" title="一些好用的function"></a>一些好用的function</h2><p>把iterable转换成别的类型：</p>
+<table>
+<thead>
+<tr>
+<th align="left">Function</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functions.html#func-list"><code>list(iterable)</code></a></td>
+<td align="left">Returns a list containing all items in <code>iterable</code></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functions.html#func-tuple"><code>tuple(iterable)</code></a></td>
+<td align="left">Returns a tuple containing all items in <code>iterable</code></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functions.html#sorted"><code>sorted(iterable)</code></a></td>
+<td align="left">Returns a sorted list containing all items in <code>iterable</code></td>
+</tr>
+</tbody></table>
+<p>把别的类型转换成iterable：</p>
+<table>
+<thead>
+<tr>
+<th align="left">Function</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functions.html#reversed"><code>reversed(sequence)</code></a></td>
+<td align="left">reverse了sequence [(See example in PythonTutor)](<a target="_blank" rel="noopener" href="http://pythontutor.com/visualize.html#code=chocolate_bars">http://pythontutor.com/visualize.html#code=chocolate_bars</a> %3D (“90%”, “70%”, “55%”) worst_first %3D reversed(chocolate_bars) for chocolate in worst_first%3A    print(chocolate)&amp;cumulative&#x3D;true&amp;curInstr&#x3D;0&amp;heapPrimitives&#x3D;nevernest&amp;mode&#x3D;display&amp;origin&#x3D;opt-frontend.js&amp;py&#x3D;3&amp;rawInputLstJSON&#x3D;[]&amp;textReferences&#x3D;false)</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functions.html#zip"><code>zip(*iterables)</code></a></td>
+<td align="left">Iterate over co-indexed tuples with elements from each of the <code>iterables</code>（有点像笛卡尔积，把一维变成二维，两个序列合在一起了。） [(See example in PythonTutor)](<a target="_blank" rel="noopener" href="http://pythontutor.com/composingprograms.html#code=eng_nums">http://pythontutor.com/composingprograms.html#code=eng_nums</a> %3D [“one”, “two”, “three”] esp_nums %3D [“uno”, “dos”, “tres”] zip_iter %3D zip(eng_nums, esp_nums) eng, esp %3D next(zip_iter) print(eng, esp) for eng, esp in zip(eng_nums, esp_nums)%3A    print(eng, esp)&amp;cumulative&#x3D;true&amp;curInstr&#x3D;0&amp;mode&#x3D;display&amp;origin&#x3D;composingprograms.js&amp;py&#x3D;3&amp;rawInputLstJSON&#x3D;[])</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functions.html#map"><code>map(func, iterable, ...)</code></a></td>
+<td align="left">Iterate over <code>func(x)</code> for <code>x</code> in <code>iterable</code> Same as <code>[func(x) for x in iterable]</code> （返回函数值序列迭代器）[(See example in PythonTutor)](<a target="_blank" rel="noopener" href="http://pythontutor.com/visualize.html#code=nums">http://pythontutor.com/visualize.html#code=nums</a> %3D [1, 2, 3, 4, 5] %23 Map returns an iterator squares1 %3D map(lambda num%3A num ** 2, nums) %23 Create a list of all the elements from the iterator squares1 %3D list(squares1) %23 Compare to… squares2 %3D [num**2 for num in nums]&amp;cumulative&#x3D;true&amp;curInstr&#x3D;0&amp;heapPrimitives&#x3D;nevernest&amp;mode&#x3D;display&amp;origin&#x3D;opt-frontend.js&amp;py&#x3D;3&amp;rawInputLstJSON&#x3D;[]&amp;textReferences&#x3D;false)</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functions.html#filter"><code>filter(func, iterable)</code></a></td>
+<td align="left">Iterate over <code>x</code> in <code>iterable</code> if <code>func(x)</code> Same as <code>[x for x in iterable if func(x)]</code>（条件） [(See example in PythonTutor)](<a target="_blank" rel="noopener" href="http://pythontutor.com/visualize.html#code=nums">http://pythontutor.com/visualize.html#code=nums</a> %3D [1, 2, 3, 4, 5] %23 Filter returns an iterator even1 %3D filter(lambda num%3A num % 2 %3D%3D 0, nums) %23 Create a list of all the elements from the iterator even1 %3D list(even1) %23 Compare to… even2 %3D [num for num in nums if num % 2 %3D%3D 0]&amp;cumulative&#x3D;true&amp;curInstr&#x3D;0&amp;heapPrimitives&#x3D;nevernest&amp;mode&#x3D;display&amp;origin&#x3D;opt-frontend.js&amp;py&#x3D;3&amp;rawInputLstJSON&#x3D;[]&amp;textReferences&#x3D;false)</td>
+</tr>
+</tbody></table>
+<h5 id="map："><a href="#map：" class="headerlink" title="map："></a>map：</h5><p>可不只是把函数值放进列表里这么简单哦！<br>实际上它有 <strong>调用函数</strong>这一步！</p>
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018202734345.png" srcset="/img/loading.gif" lazyload alt="image-20221018202734345" style="zoom:67%;" />
+
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018202746639.png" srcset="/img/loading.gif" lazyload alt="image-20221018202746639" style="zoom:67%;" />
+
+<p>可以看到print语句也被执行了。</p>
+<p>test：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">termified</span>(<span class="hljs-params">n, term</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Returns every the result of calling TERM</span><br><span class="hljs-string">    on each element in the range from 0 to N (inclusive).</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; termified(5, lambda x: 2 ** x)</span><br><span class="hljs-string">    [1, 2, 4, 8, 16, 32]</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">list</span>(<span class="hljs-built_in">map</span>(term, <span class="hljs-built_in">range</span>(n + <span class="hljs-number">1</span>)))<br></code></pre></td></tr></table></figure>
+<h5 id="filter："><a href="#filter：" class="headerlink" title="filter："></a>filter：</h5><p>和map结合在一起：</p>
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203114282.png" srcset="/img/loading.gif" lazyload alt="image-20221018203114282" style="zoom:67%;" />
+
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203337883.png" srcset="/img/loading.gif" lazyload alt="image-20221018203337883" style="zoom:67%;" />
+
+<p>可以发现，map的结果并不是返回一个单纯的函数序列， 而是”map“这个类型，也就是说，生成map的时候函数是没有被调用的。</p>
+<blockquote>
+<p>PS：iterator本身也是iterable的哦。</p>
+</blockquote>
+<p>转换成了filter的iterator，call next之后，一直调用map的func知道满足filter条件为止。</p>
+<p>之后，我们可以把剩下的元素list出来：</p>
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203359317.png" srcset="/img/loading.gif" lazyload alt="image-20221018203359317" style="zoom:67%;" />
+
+<p>呀！已经没有剩下的了~</p>
+<h6 id="list"><a href="#list" class="headerlink" title="list"></a>list</h6><p>list（）把iteration转换成了列表，也就代表它全部<code>next</code>了一遍,把结果生成了一个list.对,map里的func也被一直call直到结束为止!</p>
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203611626.png" srcset="/img/loading.gif" lazyload alt="image-20221018203611626" style="zoom:67%;" />
+
+<p>test:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">divisors</span>(<span class="hljs-params">n</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Returns all the divisors of N.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; divisors(12)</span><br><span class="hljs-string">    [1, 2, 3, 4, 6]</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    #return list(filter(lambda x, n:n % x == 0, range(1, n / 2)))</span><br><span class="hljs-string">    #并不用传n进lambda，因为都在filter的frame里；而且也不能这么做，&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">list</span>(<span class="hljs-built_in">filter</span>(<span class="hljs-keyword">lambda</span> x: n % x == <span class="hljs-number">0</span>, <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, n)))<br></code></pre></td></tr></table></figure>
+
+<h5 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h5><p>list之间是可以直接用关系运算符比较的:</p>
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203823872.png" srcset="/img/loading.gif" lazyload alt="image-20221018203823872" style="zoom:67%;" />
+
+<h5 id="zip"><a href="#zip" class="headerlink" title="zip:"></a>zip:</h5><p>遇到对不上的,就直接丢了:</p>
+<p><img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018204138982.png" srcset="/img/loading.gif" lazyload alt="image-20221018204138982"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">matches</span>(<span class="hljs-params">a, b</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Return the number of values k such that A[k] == B[k].</span><br><span class="hljs-string">    &gt;&gt;&gt; matches([1, 2, 3, 4, 5], [3, 2, 3, 0, 5])</span><br><span class="hljs-string">    3</span><br><span class="hljs-string">    &gt;&gt;&gt; matches(&quot;abdomens&quot;, &quot;indolence&quot;)</span><br><span class="hljs-string">    4</span><br><span class="hljs-string">    &gt;&gt;&gt; matches(&quot;abcd&quot;, &quot;dcba&quot;)</span><br><span class="hljs-string">    0</span><br><span class="hljs-string">    &gt;&gt;&gt; matches(&quot;abcde&quot;, &quot;edcba&quot;)</span><br><span class="hljs-string">    1</span><br><span class="hljs-string">    &gt;&gt;&gt; matches(&quot;abcdefg&quot;, &quot;edcba&quot;)</span><br><span class="hljs-string">    1</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-comment">#zipped = list(zip(a, b))</span><br>    <span class="hljs-comment">#return len(list(filter(lambda x:x[0] == x[1], zipped)))</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">sum</span>([<span class="hljs-number">1</span> <span class="hljs-keyword">for</span> a, b <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(a, b) <span class="hljs-keyword">if</span> a == b])<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">palindrome</span>(<span class="hljs-params">s</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Return whether s is the same sequence backward and forward.</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    &gt;&gt;&gt; palindrome([3, 1, 4, 1, 5])</span><br><span class="hljs-string">    False</span><br><span class="hljs-string">    &gt;&gt;&gt; palindrome([3, 1, 4, 1, 3])</span><br><span class="hljs-string">    True</span><br><span class="hljs-string">    &gt;&gt;&gt; palindrome(&#x27;seveneves&#x27;)</span><br><span class="hljs-string">    True</span><br><span class="hljs-string">    &gt;&gt;&gt; palindrome(&#x27;seven eves&#x27;)</span><br><span class="hljs-string">    False</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>   <span class="hljs-comment"># forward = iterator(s)</span><br>   <span class="hljs-comment"># backward = reserved(s)</span><br>   <span class="hljs-comment"># return forward == backward</span><br><br>	<span class="hljs-comment">#return list(s) == list(reversed(s))</span><br>	<span class="hljs-keyword">return</span> <span class="hljs-built_in">all</span>([a == b <span class="hljs-keyword">for</span> a, b <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(s, <span class="hljs-built_in">reversed</span>(s))])<br></code></pre></td></tr></table></figure>
+
+<p>all:相当于全用and连接</p>
+<h2 id="iterator实例"><a href="#iterator实例" class="headerlink" title="iterator实例"></a>iterator实例</h2><p>为啥用iterator，它有什么好处吗？</p>
+<ul>
+<li>转换格式很方便</li>
+<li>所以其他人用起来也方便</li>
+<li>有”位置“这个新的信息，而且只能向前不能回头</li>
+</ul>
+<p>example:casino blackjack</p>
+<h2 id="Lab6"><a href="#Lab6" class="headerlink" title="Lab6"></a>Lab6</h2><h5 id="Q1"><a href="#Q1" class="headerlink" title="Q1"></a>Q1</h5><p>append()似乎是没有返回值的。</p>
+<img src="C:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019111711933.png" srcset="/img/loading.gif" lazyload alt="image-20221019111711933" style="zoom:67%;" />
+
+<p>pop()参数就是lst的下标。</p>
+<img src="C:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019112035959.png" srcset="/img/loading.gif" lazyload alt="image-20221019112035959" style="zoom:80%;" />
+
+<p>a和lst指向的是同一个东西（会一起变），而b不是</p>
+<img src="C:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019112449717.png" srcset="/img/loading.gif" lazyload alt="image-20221019112449717" style="zoom:67%;" />
+
+<p>注意运算顺序。也注意看看返回值应该是什么噢：</p>
+<p><img src="C:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019112936444.png" srcset="/img/loading.gif" lazyload alt="image-20221019112936444"></p>
+<h5 id="Q2"><a href="#Q2" class="headerlink" title="Q2"></a>Q2</h5><p>更自由控制循环的方式就是用while</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">insert_items</span>(<span class="hljs-params">lst, entry, elem</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Inserts elem into lst after each occurence of entry and then returns lst.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; test_lst = [1, 5, 8, 5, 2, 3]</span><br><span class="hljs-string">    &gt;&gt;&gt; new_lst = insert_items(test_lst, 5, 7)</span><br><span class="hljs-string">    &gt;&gt;&gt; new_lst</span><br><span class="hljs-string">    [1, 5, 7, 8, 5, 7, 2, 3]</span><br><span class="hljs-string">    &gt;&gt;&gt; double_lst = [1, 2, 1, 2, 3, 3]</span><br><span class="hljs-string">    &gt;&gt;&gt; double_lst = insert_items(double_lst, 3, 4)</span><br><span class="hljs-string">    &gt;&gt;&gt; double_lst</span><br><span class="hljs-string">    [1, 2, 1, 2, 3, 4, 3, 4]</span><br><span class="hljs-string">    &gt;&gt;&gt; large_lst = [1, 4, 8]</span><br><span class="hljs-string">    &gt;&gt;&gt; large_lst2 = insert_items(large_lst, 4, 4)</span><br><span class="hljs-string">    &gt;&gt;&gt; large_lst2</span><br><span class="hljs-string">    [1, 4, 4, 8]</span><br><span class="hljs-string">    &gt;&gt;&gt; large_lst3 = insert_items(large_lst2, 4, 6)</span><br><span class="hljs-string">    &gt;&gt;&gt; large_lst3</span><br><span class="hljs-string">    [1, 4, 6, 4, 6, 8]</span><br><span class="hljs-string">    &gt;&gt;&gt; large_lst3 is large_lst</span><br><span class="hljs-string">    True</span><br><span class="hljs-string">    &gt;&gt;&gt; # Ban creating new lists</span><br><span class="hljs-string">    &gt;&gt;&gt; from construct_check import check</span><br><span class="hljs-string">    &gt;&gt;&gt; check(HW_SOURCE_FILE, &#x27;insert_items&#x27;,</span><br><span class="hljs-string">    ...       [&#x27;List&#x27;, &#x27;ListComp&#x27;, &#x27;Slice&#x27;])</span><br><span class="hljs-string">    True</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-string">&quot;*** YOUR CODE HERE ***&quot;</span><br>    i = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span>(i &lt; <span class="hljs-built_in">len</span>(lst)):<br>        <span class="hljs-keyword">if</span> lst[i] == entry:<br>            lst.insert(i + <span class="hljs-number">1</span>, elem)<br>            i = i + <span class="hljs-number">1</span><br>        i = i + <span class="hljs-number">1</span><br>    <span class="hljs-keyword">return</span> lst<br></code></pre></td></tr></table></figure>
+
+<h5 id="Q3"><a href="#Q3" class="headerlink" title="Q3"></a>Q3</h5><p><img src="C:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019121658198.png" srcset="/img/loading.gif" lazyload alt="image-20221019121658198"></p>
+<img src="C:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019121724268.png" srcset="/img/loading.gif" lazyload alt="image-20221019121724268" style="zoom:80%;" />
+
+<p>map如果碰到list，会把list里的所有元素都……</p>
+<p>但是这样就不行</p>
+<p><img src="C:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019122009770.png" srcset="/img/loading.gif" lazyload alt="image-20221019122009770"></p>
+<h5 id="Q5"><a href="#Q5" class="headerlink" title="Q5"></a>Q5</h5><p>在做之前先看清题目……</p>
+<blockquote>
+<p>参考textbook的：<a target="_blank" rel="noopener" href="http://composingprograms.com/pages/24-mutable-data.html#local-state">http://composingprograms.com/pages/24-mutable-data.html#local-state</a></p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">repeated</span>(<span class="hljs-params">t, k</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Return the first value in iterator T that appears K times in a row.</span><br><span class="hljs-string">    Iterate through the items such that if the same iterator is passed into</span><br><span class="hljs-string">    the function twice, it continues in the second call at the point it left</span><br><span class="hljs-string">    off in the first.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; s = iter([10, 9, 10, 9, 9, 10, 8, 8, 8, 7])</span><br><span class="hljs-string">    &gt;&gt;&gt; repeated(s, 2)</span><br><span class="hljs-string">    9</span><br><span class="hljs-string">    &gt;&gt;&gt; s2 = iter([10, 9, 10, 9, 9, 10, 8, 8, 8, 7])</span><br><span class="hljs-string">    &gt;&gt;&gt; repeated(s2, 3)</span><br><span class="hljs-string">    8</span><br><span class="hljs-string">    &gt;&gt;&gt; s = iter([3, 2, 2, 2, 1, 2, 1, 4, 4, 5, 5, 5])</span><br><span class="hljs-string">    &gt;&gt;&gt; repeated(s, 3)</span><br><span class="hljs-string">    2</span><br><span class="hljs-string">    &gt;&gt;&gt; repeated(s, 3)</span><br><span class="hljs-string">    5</span><br><span class="hljs-string">    &gt;&gt;&gt; s2 = iter([4, 1, 6, 6, 7, 7, 8, 8, 2, 2, 2, 5])</span><br><span class="hljs-string">    &gt;&gt;&gt; repeated(s2, 3)</span><br><span class="hljs-string">    2</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">assert</span> k &gt; <span class="hljs-number">1</span><br>    <span class="hljs-string">&quot;*** YOUR CODE HERE ***&quot;</span><br>    last, times = <span class="hljs-literal">None</span>, <span class="hljs-number">0</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">repeat</span>():<br>        <span class="hljs-keyword">nonlocal</span> last, times<br>        <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>            n = <span class="hljs-built_in">next</span>(t)<br>            <span class="hljs-keyword">if</span> n == last:<br>                times += <span class="hljs-number">1</span><br>            <span class="hljs-keyword">else</span>:<br>                last = n<br>                times = <span class="hljs-number">1</span><br>            <span class="hljs-keyword">if</span> times == k:<br>                <span class="hljs-keyword">return</span> last<br>    <span class="hljs-keyword">return</span> repeat()<br></code></pre></td></tr></table></figure>
+
+<p>这题主要是掌握nonlocal的用法。</p>
+<p>（好像不用也行啊……</p>
+<p>其实题目有点表述不清？从上一次位置开始，没说要保留上一次的结果……</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CS61A/" class="category-chain-item">CS61A</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Computer-Sciense/">#Computer Sciense</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CS61A-16-iterators</div>
+      <div>http://example.com/2022/08/10/CS61A/16-iterators &amp; lab6/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Junxin Liu</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 10, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/11/CS61A/17-generators%20&amp;%20hw5/" title="CS61A-17-generators">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CS61A-17-generators</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/10/CS61A/lab5/" title="CS61A-lab5">
+                        <span class="hidden-mobile">CS61A-lab5</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

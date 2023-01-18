@@ -1,0 +1,734 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Junxin Liu">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Lists in Environment Diagrams对比append和extend对于append，是把s的末尾指向了t  而对于extend，是在s末尾增加了t的元素，修改t并不会改变s       addtion &amp; slicinga &#x3D; s + [t]:新建了一个list指向t   然后把s和这个新建的list加起来   而实际上,新建的那个list是临时创建 ,reach不到">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS61A-24">
+<meta property="og:url" content="http://example.com/2022/08/18/CS61A/24-data%20examples/index.html">
+<meta property="og:site_name" content="Space">
+<meta property="og:description" content="Lists in Environment Diagrams对比append和extend对于append，是把s的末尾指向了t  而对于extend，是在s末尾增加了t的元素，修改t并不会改变s       addtion &amp; slicinga &#x3D; s + [t]:新建了一个list指向t   然后把s和这个新建的list加起来   而实际上,新建的那个list是临时创建 ,reach不到">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105145800510.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105145942501.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105150001897.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105150149404.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105150623586.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105150801265.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105150929656.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105151747106.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105151942789.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105152021481.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105152226392.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105154244843.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105154340326.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105154517582.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105154700475.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105163338850.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105164219995.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105164659711.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105164710509.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105164812217.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105165105276.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105202550676.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105203231248.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105204203097.png">
+<meta property="article:published_time" content="2022-08-18T03:33:24.000Z">
+<meta property="article:modified_time" content="2023-01-18T03:48:29.721Z">
+<meta property="article:author" content="Junxin Liu">
+<meta property="article:tag" content="Computer Sciense">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105145800510.png">
+  
+  
+  
+  <title>CS61A-24 - Space</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20220809105458628.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CS61A-24"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-18 11:33" pubdate>
+          August 18, 2022 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CS61A-24</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id=""><a href="#" class="headerlink" title=""></a></h2><h3 id="Lists-in-Environment-Diagrams"><a href="#Lists-in-Environment-Diagrams" class="headerlink" title="Lists in Environment Diagrams"></a>Lists in Environment Diagrams</h3><h6 id="对比append和extend"><a href="#对比append和extend" class="headerlink" title="对比append和extend"></a>对比append和extend</h6><p>对于append，是把s的末尾指向了t</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105145800510.png" srcset="/img/loading.gif" lazyload alt="image-20221105145800510"></p>
+<p>而对于extend，是在s末尾增加了t的元素，修改t并不会改变s</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105145942501.png" srcset="/img/loading.gif" lazyload alt="image-20221105145942501" style="zoom:67%;" />
+
+
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105150001897.png" srcset="/img/loading.gif" lazyload alt="image-20221105150001897" style="zoom:67%;" />
+
+<h6 id="addtion-amp-slicing"><a href="#addtion-amp-slicing" class="headerlink" title="addtion &amp; slicing"></a>addtion &amp; slicing</h6><p><code>a = s + [t]</code>:新建了一个list指向t</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105150149404.png" srcset="/img/loading.gif" lazyload alt="image-20221105150149404" style="zoom:67%;" />
+
+<p>然后把s和这个新建的list加起来</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105150623586.png" srcset="/img/loading.gif" lazyload alt="image-20221105150623586" style="zoom:67%;" />
+
+<p>而实际上,新建的那个list是临时创建 ,reach不到的,为了好表达,就变成了上面这幅图了.</p>
+<p><code>b = a[1:]</code>:看看b长啥样,后面长得和a一样</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105150801265.png" srcset="/img/loading.gif" lazyload alt="image-20221105150801265" style="zoom:67%;" />
+
+<p><code>a[1] = 9 </code></p>
+<p><code>b[1][1] = 0</code></p>
+<p>看看<code>b[1][1]</code>是哪个:<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105150929656.png" srcset="/img/loading.gif" lazyload alt="image-20221105150929656" style="zoom:67%;" /></p>
+<p>ei!t也被改了.</p>
+<h6 id="The-list-function"><a href="#The-list-function" class="headerlink" title="The list function"></a>The list function</h6><p>creates a new  list containing  existing elements</p>
+<p><code>t = list(s)</code></p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105151747106.png" srcset="/img/loading.gif" lazyload alt="image-20221105151747106" style="zoom:67%;" />
+
+<h6 id="slice-assignment"><a href="#slice-assignment" class="headerlink" title="slice assignment"></a>slice assignment</h6><p>replaces a slice with  new values</p>
+<p><code>s[0:0] = t</code></p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105151942789.png" srcset="/img/loading.gif" lazyload alt="image-20221105151942789" style="zoom:67%;" />
+
+<p><code>s[3:] = t</code></p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105152021481.png" srcset="/img/loading.gif" lazyload alt="image-20221105152021481" style="zoom:80%;" />
+
+<h6 id="others"><a href="#others" class="headerlink" title="others"></a>others</h6><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105152226392.png" srcset="/img/loading.gif" lazyload alt="image-20221105152226392" style="zoom:80%;" />
+
+<h6 id="Lists-in-Lists-in-Lists-in-Environment-Diagrams"><a href="#Lists-in-Lists-in-Lists-in-Environment-Diagrams" class="headerlink" title="Lists in Lists in Lists in Environment Diagrams"></a>Lists in Lists in Lists in Environment Diagrams</h6><p><code>t[1:3] = [t]</code>:先build一个list containing t</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105154244843.png" srcset="/img/loading.gif" lazyload alt="image-20221105154244843" style="zoom:80%;" />
+
+<p>然后replace:</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105154340326.png" srcset="/img/loading.gif" lazyload alt="image-20221105154340326" style="zoom:67%;" />
+
+<p><code>t.extend(t)</code></p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105154517582.png" srcset="/img/loading.gif" lazyload alt="image-20221105154517582" style="zoom:67%;" />
+
+<blockquote>
+<p>???为什么</p>
+</blockquote>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105154700475.png" srcset="/img/loading.gif" lazyload alt="image-20221105154700475"></p>
+<p>而append是把t[1:2]当成一个list元素加进去</p>
+<h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><ul>
+<li>Instance attributes are found before class attributes; </li>
+<li>class attributes are inherited</li>
+</ul>
+<p>eg:land owners</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105163338850.png" srcset="/img/loading.gif" lazyload alt="image-20221105163338850"></p>
+<p>注意这个<code>jack.greeting = ‘Maam’</code>先找了jack instance里的,但是没有,尽管如此</p>
+<p>然后往jack这个instance里加了greeting,而不是修改了类的greeting</p>
+<blockquote>
+<p>就是说,jack自己改了自己的,当然不能连所有人的一起改喽.</p>
+</blockquote>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105164219995.png" srcset="/img/loading.gif" lazyload alt="image-20221105164219995" style="zoom:80%;" />
+
+<p>第二个是有‘’的</p>
+<p><code>john.elf</code>似乎是指他的父亲(继承的class)</p>
+<h2 id="Iterables-amp-Iterators"><a href="#Iterables-amp-Iterators" class="headerlink" title="Iterables &amp; Iterators"></a>Iterables &amp; Iterators</h2><p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105164659711.png" srcset="/img/loading.gif" lazyload alt="image-20221105164659711"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">min_abs_indices</span>(<span class="hljs-params">s</span>):<br>    <span class="hljs-comment">#我的:</span><br>    <span class="hljs-comment">#return [i for i in range(len(s)) if abs(s[i]) == abs(min(s, key=abs))]</span><br>    <span class="hljs-comment">#老师的:</span><br>    min_abs = <span class="hljs-built_in">min</span>(<span class="hljs-built_in">map</span>(<span class="hljs-built_in">abs</span>, s))<br>    <span class="hljs-keyword">return</span> [i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(s)) <span class="hljs-keyword">if</span> <span class="hljs-built_in">abs</span>(s[i]) == min_abs]<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105164710509.png" srcset="/img/loading.gif" lazyload alt="image-20221105164710509"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">largest_adj_sum</span>(<span class="hljs-params">s</span>):<br>    <span class="hljs-comment">#我的(和老师说的第一种方法一样👍)</span><br>    <span class="hljs-comment">#return max([s[i] + s[i + 1] for i in range(len(s) - 1)])</span><br>    <span class="hljs-comment">#第二种方法</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">max</span>(i + j <span class="hljs-keyword">for</span> i, j <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(s[:-<span class="hljs-number">1</span>], s[<span class="hljs-number">1</span>:]))<span class="hljs-comment">#和老师一样捏</span><br>    <br></code></pre></td></tr></table></figure>
+
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105164812217.png" srcset="/img/loading.gif" lazyload alt="image-20221105164812217"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">digit_dict</span>(<span class="hljs-params">s</span>):<br>    <span class="hljs-comment">#mine</span><br>    <span class="hljs-keyword">return</span> &#123;x: [y <span class="hljs-keyword">for</span> y <span class="hljs-keyword">in</span> s <span class="hljs-keyword">if</span> x == y % <span class="hljs-number">10</span>] <br>            <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x: x % <span class="hljs-number">10</span>, s)&#125;<br>	<span class="hljs-comment">#instructor</span><br>    <span class="hljs-keyword">return</span> &#123;d: [x <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> s <span class="hljs-keyword">if</span> x % <span class="hljs-number">10</span> == d] <span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>) <span class="hljs-keyword">if</span> <span class="hljs-built_in">any</span>([x % <span class="hljs-number">10</span> == d <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> s])&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这个any,以及dict的built-in function是新接触到的用法</p>
+<p>any:后面的列表里有一个true就返回true</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105165105276.png" srcset="/img/loading.gif" lazyload alt="image-20221105165105276"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">all_have_an_equal</span>(<span class="hljs-params">s</span>):<br>    <span class="hljs-comment">#这种方法不行,因为它表示要全部元素相等</span><br>    <span class="hljs-comment">#return all([x == y for x in s y in s])</span><br>	<span class="hljs-keyword">return</span> <span class="hljs-built_in">all</span>([s[i] <span class="hljs-keyword">in</span> s[<span class="hljs-number">0</span>:i] + s[i+<span class="hljs-number">1</span>:] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(s))])<br>	<span class="hljs-keyword">return</span> <span class="hljs-built_in">min</span>([<span class="hljs-built_in">sum</span>([<span class="hljs-number">1</span> <span class="hljs-keyword">for</span> y <span class="hljs-keyword">in</span> s <span class="hljs-keyword">if</span> y == x]) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> s]) &gt;= <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="Linked-List"><a href="#Linked-List" class="headerlink" title="Linked List"></a>Linked List</h2><p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105202550676.png" srcset="/img/loading.gif" lazyload alt="image-20221105202550676"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">ordered</span>(<span class="hljs-params">s</span>):<br>    <span class="hljs-comment">#注:没说不能出现一个或者空的</span><br>    <span class="hljs-keyword">if</span> s <span class="hljs-keyword">is</span> Link.empty <span class="hljs-keyword">or</span> s.rest <span class="hljs-keyword">is</span> Link.empty:<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">all</span>(s.first &lt;= s.rest.first, ordered(s.rest))<br>    <span class="hljs-comment">#我觉得我这个比老师的好^ ^</span><br><br><span class="hljs-comment">#加上了key的版本</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">ordered</span>(<span class="hljs-params">s, key=<span class="hljs-keyword">lambda</span> x:x</span>):<br>	<span class="hljs-keyword">if</span> s <span class="hljs-keyword">is</span> Link.empty <span class="hljs-keyword">or</span> s.rest <span class="hljs-keyword">is</span> Link.empty:<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">all</span>(key(s.first) &lt;= key(s.rest.first), ordered(s.rest))<br></code></pre></td></tr></table></figure>
+
+<p>老师的版本:</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105203231248.png" srcset="/img/loading.gif" lazyload alt="image-20221105203231248" style="zoom:67%;" />
+
+<p>其实这个递归的return不需要用and,只要递归的时候有false就会return了,如果没有false就一直到base case,然后return true</p>
+<p>所以老师的版本还利用了base case</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105204203097.png" srcset="/img/loading.gif" lazyload alt="image-20221105204203097"></p>
+<p>自己这个写的着实不行,可能是想复杂了.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">merge_in_place</span>(<span class="hljs-params">s, t</span>):<br>    <span class="hljs-keyword">if</span> t == Link.empty:<br>        <span class="hljs-keyword">return</span> s<br>    <span class="hljs-keyword">elif</span> s.rest == Link.empty:<br>        <span class="hljs-keyword">if</span> s.first &lt; t.first:<br>            s.rest = t<br>        <span class="hljs-keyword">else</span>:<br>            s.rest = Link(s.first)<br>            s.first = t.first<br>        <span class="hljs-keyword">return</span> s<br>    <span class="hljs-keyword">else</span>:<br>        s2 = s<br>        <span class="hljs-keyword">while</span>(s2.rest.first &lt; t.first):<br>            s2 = s2.rest<br>        s_re = s2.rest<br>        s2.rest = t<br>        s2.rest.rest = s_re<br>        <span class="hljs-keyword">return</span> merge_in_place(s, t.rest)<br></code></pre></td></tr></table></figure>
+
+<p>还是学一下老师的吧:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">merge</span>(<span class="hljs-params">s, t</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Return a sorted Link containing the elements of sorted s &amp; t.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; a = Link(1, Link(5))</span><br><span class="hljs-string">    &gt;&gt;&gt; b = Link(1, Link(4))</span><br><span class="hljs-string">    &gt;&gt;&gt; merge(a, b)</span><br><span class="hljs-string">    Link(1, Link(1, Link(4, Link(5))))</span><br><span class="hljs-string">    &gt;&gt;&gt; a</span><br><span class="hljs-string">    Link(1, Link(5))</span><br><span class="hljs-string">    &gt;&gt;&gt; b</span><br><span class="hljs-string">    Link(1, Link(4))</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">if</span> s <span class="hljs-keyword">is</span> Link.empty:<br>        <span class="hljs-keyword">return</span> t<br>    <span class="hljs-keyword">elif</span> t <span class="hljs-keyword">is</span> Link.empty:<br>        <span class="hljs-keyword">return</span> s<br>    <span class="hljs-keyword">elif</span> s.first &lt;= t.first:<br>        <span class="hljs-keyword">return</span> Link(s.first, merge(s.rest, t))<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">return</span> Link(t.first, merge(s, t.rest))<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">merge_in_place</span>(<span class="hljs-params">s, t</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Return a sorted Link containing the elements of sorted s &amp; t.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; a = Link(1, Link(5))</span><br><span class="hljs-string">    &gt;&gt;&gt; b = Link(1, Link(4))</span><br><span class="hljs-string">    &gt;&gt;&gt; merge_in_place(a, b)</span><br><span class="hljs-string">    Link(1, Link(1, Link(4, Link(5))))</span><br><span class="hljs-string">    &gt;&gt;&gt; a</span><br><span class="hljs-string">    Link(1, Link(1, Link(4, Link(5))))</span><br><span class="hljs-string">    &gt;&gt;&gt; b</span><br><span class="hljs-string">    Link(1, Link(4, Link(5)))#因为t那里不包含等于,所以t乐意当作是去重</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">if</span> s <span class="hljs-keyword">is</span> Link.empty:<br>        <span class="hljs-keyword">return</span> t<br>    <span class="hljs-keyword">elif</span> t <span class="hljs-keyword">is</span> Link.empty:<br>        <span class="hljs-keyword">return</span> s<br>    <span class="hljs-keyword">elif</span> s.first &lt;= t.first:<br>        s.rest = merge_in_place(s.rest, t)<br>        <span class="hljs-keyword">return</span> s<br>    <span class="hljs-keyword">else</span>:<br>        t.rest = merge_in_place(s, t.rest)<br>        <span class="hljs-keyword">return</span> t<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CS61A/" class="category-chain-item">CS61A</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Computer-Sciense/">#Computer Sciense</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CS61A-24</div>
+      <div>http://example.com/2022/08/18/CS61A/24-data examples/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Junxin Liu</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 18, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/20/CS61A/27-scheme%20lab10%20hw7/" title="CS61A-27-scheme">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CS61A-27-scheme</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/17/CS61A/23-decomposition/" title="CS61A-23-decomposision">
+                        <span class="hidden-mobile">CS61A-23-decomposision</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

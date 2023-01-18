@@ -1,0 +1,812 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Junxin Liu">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Titanium: A Metadata-Hiding File-Sharing System with Malicious Security补充知识参考：NDSS 2022 Titanium: A Metadata-Hiding File-Sharing System with Malicious Security - YouTube Metal Metal: A Metadata-Hiding">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Titanium">
+<meta property="og:url" content="http://example.com/2022/11/12/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Space">
+<meta property="og:description" content="Titanium: A Metadata-Hiding File-Sharing System with Malicious Security补充知识参考：NDSS 2022 Titanium: A Metadata-Hiding File-Sharing System with Malicious Security - YouTube Metal Metal: A Metadata-Hiding">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190906115745598.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L211dG91cmVuZA==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190906121317439.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L211dG91cmVuZA==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221030115455275.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221030101855046.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094122896.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094201996.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094313611.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094520741.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094938203.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105095231602.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105100108690.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105100209752.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105100340718.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105101102813.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105101420166.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105101555131.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105101754461.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105102045180.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105102537911.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105102829326.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105103332649.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105103351303.png">
+<meta property="article:published_time" content="2022-11-12T03:33:24.000Z">
+<meta property="article:modified_time" content="2023-01-18T06:03:21.797Z">
+<meta property="article:author" content="Junxin Liu">
+<meta property="article:tag" content="Security">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190906115745598.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L211dG91cmVuZA==,size_16,color_FFFFFF,t_70">
+  
+  
+  
+  <title>Titanium - Space</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20220809105458628.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Titanium"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-12 11:33" pubdate>
+          November 12, 2022 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          51 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Titanium</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Titanium-A-Metadata-Hiding-File-Sharing-System-with-Malicious-Security"><a href="#Titanium-A-Metadata-Hiding-File-Sharing-System-with-Malicious-Security" class="headerlink" title="Titanium: A Metadata-Hiding File-Sharing System with Malicious Security"></a>Titanium: A Metadata-Hiding File-Sharing System with Malicious Security</h1><h2 id="补充知识"><a href="#补充知识" class="headerlink" title="补充知识"></a>补充知识</h2><p>参考：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=D4YktK9QZK8&list=PLfUWWM-POgQsS08uHJUJI6sawDO_3sNh0&index=2">NDSS 2022 Titanium: A Metadata-Hiding File-Sharing System with Malicious Security - YouTube</a></p>
+<h4 id="Metal"><a href="#Metal" class="headerlink" title="Metal"></a>Metal</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.ndss-symposium.org/ndss-paper/metal-a-metadata-hiding-file-sharing-system/">Metal: A Metadata-Hiding File-Sharing System – NDSS Symposium (ndss-symposium.org)</a></p>
+</blockquote>
+<h4 id="End-to-endencrypted-file-sharing-systems"><a href="#End-to-endencrypted-file-sharing-systems" class="headerlink" title="End-to-endencrypted file-sharing systems"></a>End-to-endencrypted file-sharing systems</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.ibm.com/topics/end-to-end-encryption">What is end-to-end encryption? | IBM</a></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.ibm.com/topics/encryption">Data encryption</a> is the process of using an algorithm that transforms standard text characters into an <strong>unreadable</strong> format. </p>
+<blockquote>
+<p>Data encryption is a way of translating data from plaintext (unencrypted) to ciphertext (encrypted). Users can access encrypted data with an encryption key and decrypted data with a decryption key.</p>
+</blockquote>
+<p>this process uses <strong>encryption keys to scramble data</strong> so that <strong>only authorized users can read it</strong>. </p>
+<p>End-to-end encryption uses this same process, too. However, it takes it a step farther by securing communications from one endpoint to another.</p>
+<hr>
+<p>In many messaging services, third parties store the data, which is encrypted only in transit. </p>
+<ul>
+<li>This server-side encryption method secures the data from unauthorized viewers only. </li>
+<li>But as an effect of this method, <strong>the sender can view the information, too</strong>, which can be undesirable in cases where data privacy at all points is needed.</li>
+</ul>
+<p>所以出现了n2n:encrypted data is <strong>only viewable by those with decryption keys</strong>.</p>
+<p>How it works:</p>
+<ul>
+<li>End-to-end encryption begins with cryptography, a method for protecting information by transforming it into an unreadable format called ciphertext.</li>
+<li>Only users who possess a secret key can decipher, or decrypt, the message into plaintext.and only the intended receiver or reader can decrypt it.</li>
+</ul>
+<p>encrypts and decrypts the data using two separate cryptographic keys.</p>
+<ul>
+<li>The public key is used to encrypt a message and send it to the public key’s owner.</li>
+<li>the message can only be decrypted using a corresponding private key, also known as a decryption key.</li>
+</ul>
+<p><strong>Challenges with E2EE</strong></p>
+<ol>
+<li><p>E2EE only encrypts data between the endpoints.This fact means <strong>the endpoints themselves are</strong> <strong>vulnerable to attack</strong>.</p>
+</li>
+<li><p>Hackers can insert themselves between two endpoints, eavesdrop and intercept messages. They impersonate the intended recipient, swap decryption keys and forward the message to the actual recipient without being detected.</p>
+</li>
+</ol>
+<p>							</p>
+<h4 id="meta-data"><a href="#meta-data" class="headerlink" title="meta data"></a>meta data</h4><blockquote>
+<p>以文学领域为例，<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E5%90%8E%E7%8E%B0%E4%BB%A3%E4%B8%BB%E4%B9%89&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:65565699%7D">后现代主义</a>文学中有一种小说叫作“元小说”，也就是“关于小说的小说”</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E5%85%83%E6%95%B0%E6%8D%AE&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:65565699%7D">元数据</a>(meta data)——“data about data” 关于数据的数据，一般是结构化数据（如存储在数据库里的数据，规定了字段的长度、类型等）。</p>
+<p>元数据是指从信息资源中抽取出来的用于说明其特征、内容的结构化的数据(如题名,版本、出版数据、相关说明,包括检索点等)，用于组织、描述、检索、保存、管理信息和知识资源。</p>
+<h4 id="MAC"><a href="#MAC" class="headerlink" title="MAC"></a>MAC</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/375629961">密码学笔记 - Message Authentication Code（消息认证码） - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mutourend/article/details/100576422">(105条消息) 密码学中的MAC(message authentication code)_mutourend的博客-CSDN博客_message authentication code</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.fortinet.com/resources/cyberglossary/message-authentication-code">What Is a Message Authentication Code (MAC)? | Fortinet</a></p>
+</blockquote>
+<p>MAC ensures that the message is coming from the correct sender, has not been changed, and that the data transferred over a network or stored in or outside a system is legitimate and does not contain harmful code.</p>
+<p>If the resulting MAC the receiver arrives at equals the one sent by the sender, the message is verified</p>
+<p>when the recipient attempts to verify the authenticity of the data, the key will not work, and the end result will not match that of the sender.			</p>
+<p>​				<img src="https://img-blog.csdnimg.cn/20190906115745598.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L211dG91cmVuZA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190906121317439.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L211dG91cmVuZA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>人话：a的消息和key经过算法得到一个mac，b收到之后再过一遍这个算法看看mac是否相同，相同的话证明就是俺要的message</p>
+<h4 id="secret-sharing"><a href="#secret-sharing" class="headerlink" title="secret sharing"></a>secret sharing</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/44999983">密钥分享Secret Sharing介绍 - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/384759946">隐私计算技术之安全多方计算(MPC) - 知乎 (zhihu.com)</a></p>
+</blockquote>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221030115455275.png" srcset="/img/loading.gif" lazyload alt="image-20221030115455275"></p>
+<p>安全多方计算（Secure Multiparty Computation, MPC）旨在解决多个参与方之间的安全计算问题，目的是使各参与方在不知晓其他参与方输入信息的前提下完成计算，并可保证计算过程不泄漏输入信息。</p>
+<p>每个参与者P1P1，有一个自己的保密输入信息X1X1，n个参与者要共同计算一个函数f(X1,X2,…,Xn)&#x3D;(Y1,Y2,…,Yn)f(X1,X2,…,Xn)&#x3D;(Y1,Y2,…,Yn),计算结束时，每个参与者PiPi只能了解YiYi，不能了解其他方的任何信息。”</p>
+<h4 id="多级cache"><a href="#多级cache" class="headerlink" title="多级cache"></a>多级cache</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zgcjaxj/article/details/114970728">(107条消息) 多层次cache的包含关系_123axj的博客-CSDN博客</a></p>
+<h4 id="ORAM"><a href="#ORAM" class="headerlink" title="ORAM"></a>ORAM</h4><p>还没看</p>
+<p><a target="_blank" rel="noopener" href="https://research.kudelskisecurity.com/2020/04/22/an-introduction-to-oblivious-ram-oram/">An Introduction to Oblivious RAM (ORAM) – Kudelski Security Research</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/c630843901/article/details/120655057">(108条消息) ORAM简介_Joey Liao的博客-CSDN博客</a></p>
+<h4 id="沙米尔算法"><a href="#沙米尔算法" class="headerlink" title="沙米尔算法"></a>沙米尔算法</h4><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1zy4y1u7cn/?spm_id_from=333.337.search-card.all.click&vd_source=3413af2c1f998ce457ec6cf9d0a1f7b6">【shamir 算法】富翁的烦心的那些事……_哔哩哔哩_bilibili</a></p>
+<h4 id="random-oracle"><a href="#random-oracle" class="headerlink" title="random oracle"></a>random oracle</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://crypto.stackexchange.com/questions/879/what-is-the-random-oracle-model-and-why-is-it-controversial">provable security - What is the “Random Oracle Model” and why is it controversial? - Cryptography Stack Exchange</a></p>
+</blockquote>
+<p>we know nothing about the output we could get for a given input message m, until we actually try m</p>
+<h4 id="hash-function"><a href="#hash-function" class="headerlink" title="hash function"></a>hash function</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.ionos.com/digitalguide/server/security/hash-function/">Hash functions: definition, usage, and examples - IONOS</a></p>
+</blockquote>
+<h2 id="论文笔记"><a href="#论文笔记" class="headerlink" title="论文笔记"></a>论文笔记</h2><h5 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h5><p>e2ee虽然在分享文件的时候不会像server透露content，但是server仍然可以获得metadata（比如user的itentties和access patterns，whom the user shares files with）</p>
+<p>前人的工作有缺陷：</p>
+<ul>
+<li>Metal (NDSS ’20) is not secure against malicious servers.（对恶意服务器不安全）</li>
+<li>MCORAM (ASIACRYPT ’20) provides confidentiality against malicious servers, but not integrity.（不完整）</li>
+</ul>
+<p>Titanium： a <strong>metadata-hiding</strong> file-sharing system that offers <strong>confidentiality and integrity</strong> against <strong>malicious users and servers</strong>.</p>
+<h5 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h5><p> the impact of metadata leakage： a hacker or a malicious employee of the cloud may<br>already know the whistleblower’s identity.</p>
+<p><strong>malicious security</strong>：</p>
+<p>Malicious security should be the standard for distributed applications, rather than semi-honest security.</p>
+<ul>
+<li>handle malicious users</li>
+<li>malicious servers</li>
+</ul>
+<p><strong>efficient file access</strong></p>
+<p>Linear passing:expensive</p>
+<p>Titanium avoids linear passes by using a <strong>sublinear</strong> <strong>oblivious access algorithm</strong> on the multi-server model, Circuit ORAM [45], and making improvements that reduce its eviction overhead by up to a half.</p>
+<p><strong>Titanium’s goals and techniques</strong></p>
+<ol>
+<li>security against malicious users:</li>
+</ol>
+<p>   minimizing the users’ participation in the protocol, he can only sending requests and receiving the responses, through an API</p>
+<p>   never touch the data stored on the servers. </p>
+<blockquote>
+<p>RAM:<a target="_blank" rel="noopener" href="https://www.avast.com/c-what-is-ram-memory">What Is RAM? | Random Access Memory Definition | Avast</a></p>
+</blockquote>
+<ol start="2">
+<li><p>integrity for data storage:</p>
+<p> Titanium uses authenticated secret sharing to store the data</p>
+<p> at least one of the servers is assumed to be honest. The MACs enable t<strong>his server to detect if an incorrect version</strong> of the file is sent to the user or another file that the user did not request, thereby ensuring integrity</p>
+</li>
+<li><p>integrity for user inputs and outputs:</p>
+</li>
+</ol>
+<pre><code class="hljs">design a maliciously secure input/output protocol users can confirm that the proxy receives the correct inputs and the user receives the correct outputs from the proxy
+</code></pre>
+<ol start="4">
+<li>efficient file access.</li>
+</ol>
+<pre><code class="hljs">propose an optimized algorithm to perform the Circuit- ORAM eviction in secure computation more efficiently
+
+&gt; [Circuit ORAM - 腾讯云开发者社区-腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/1747284)
+</code></pre>
+<h5 id="why-semi-honest-security-is-insuffi-cient-in-practice"><a href="#why-semi-honest-security-is-insuffi-cient-in-practice" class="headerlink" title="why semi-honest security is insuffi-cient in practice"></a>why semi-honest security is insuffi-cient in practice</h5><p>未！！！！！</p>
+<h5 id="overview"><a href="#overview" class="headerlink" title="overview"></a>overview</h5><h6 id="System-model"><a href="#System-model" class="headerlink" title="System model"></a>System model</h6><p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221030101855046.png" srcset="/img/loading.gif" lazyload alt="image-20221030101855046"></p>
+<blockquote>
+<p>?那你这proxy权力有点大啊</p>
+</blockquote>
+<ol>
+<li>workflow</li>
+<li>API</li>
+<li>Randomized ID</li>
+</ol>
+<h6 id="Threat-model"><a href="#Threat-model" class="headerlink" title="Threat model"></a>Threat model</h6><ul>
+<li>threat举例</li>
+<li>security定义</li>
+<li>assumptions：存在遗留问题供探讨</li>
+</ul>
+<h5 id="Making-the-proxy’s-access-to-the-storage-maliciously-secure"><a href="#Making-the-proxy’s-access-to-the-storage-maliciously-secure" class="headerlink" title="Making the proxy’s access to the storage maliciously secure"></a>Making the proxy’s access to the storage maliciously secure</h5><blockquote>
+<p>开始对proxy下手2</p>
+</blockquote>
+<h6 id="File-storage-with-authenticated-secret-sharing"><a href="#File-storage-with-authenticated-secret-sharing" class="headerlink" title="File storage with authenticated secret sharing"></a>File storage with authenticated secret sharing</h6><h6 id="Running-the-proxy-in-secure-multiparty-computation"><a href="#Running-the-proxy-in-secure-multiparty-computation" class="headerlink" title="Running the proxy in secure multiparty computation"></a>Running the proxy in secure multiparty computation</h6><h2 id="思路总结"><a href="#思路总结" class="headerlink" title="思路总结"></a>思路总结</h2><h5 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h5><ul>
+<li>e2ee虽然在分享文件的时候不会像server透露content，但是server仍然可以获得metadata（比如user的itentties和access patterns）</li>
+<li>前人的工作各有缺陷（对恶意服务器不安全）（不完整）</li>
+</ul>
+<h2 id="PPT"><a href="#PPT" class="headerlink" title="PPT"></a>PPT</h2><p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094122896.png" srcset="/img/loading.gif" lazyload alt="image-20221105094122896"></p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094201996.png" srcset="/img/loading.gif" lazyload alt="image-20221105094201996"></p>
+<p>看似解决了，但是还有个问题，semi honest这个假设其实是个strong assuming</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094313611.png" srcset="/img/loading.gif" lazyload alt="image-20221105094313611"></p>
+<p>无法鉴别这个server是不是follow了指示，无法鉴别它是不是恶意的（<strong>eg在paper中</strong>）</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094520741.png" srcset="/img/loading.gif" lazyload alt="image-20221105094520741"></p>
+<hr>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094938203.png" srcset="/img/loading.gif" lazyload alt="image-20221105094938203"></p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105095231602.png" srcset="/img/loading.gif" lazyload alt="image-20221105095231602"></p>
+<p>ORAM藏匿了要的哪个文件</p>
+<p><strong>Malicious security</strong></p>
+<p>包括privacy和integrity</p>
+<ol>
+<li>server—ORAM</li>
+</ol>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105100108690.png" srcset="/img/loading.gif" lazyload alt="image-20221105100108690"></p>
+<p>2.storage—authenticated secret sharing</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105100209752.png" srcset="/img/loading.gif" lazyload alt="image-20221105100209752"></p>
+<p>3.communication between servers and users—-黑客可以篡改request</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105100340718.png" srcset="/img/loading.gif" lazyload alt="image-20221105100340718"></p>
+<p><strong>关于overhead</strong></p>
+<p>前人工作解决了malicious security会有overhead</p>
+<p>但是titanium解决了这个问题</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105101102813.png" srcset="/img/loading.gif" lazyload alt="image-20221105101102813"></p>
+<p>efficient ORAM：</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105101420166.png" srcset="/img/loading.gif" lazyload alt="image-20221105101420166"></p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105101555131.png" srcset="/img/loading.gif" lazyload alt="image-20221105101555131"></p>
+<p>传统方法：</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105101754461.png" srcset="/img/loading.gif" lazyload alt="image-20221105101754461"></p>
+<p>提出的升级版：</p>
+<p>改成swap</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105102045180.png" srcset="/img/loading.gif" lazyload alt="image-20221105102045180"></p>
+<p>对于第四个case：</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105102537911.png" srcset="/img/loading.gif" lazyload alt="image-20221105102537911"><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105102829326.png" srcset="/img/loading.gif" lazyload alt="image-20221105102829326" style="zoom: 50%;" /></p>
+<p>evaluation</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105103332649.png" srcset="/img/loading.gif" lazyload alt="image-20221105103332649" style="zoom:67%;" />
+
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105103351303.png" srcset="/img/loading.gif" lazyload alt="image-20221105103351303"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Essay-Notes/" class="category-chain-item">Essay Notes</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Security/">#Security</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Titanium</div>
+      <div>http://example.com/2022/11/12/论文笔记/论文笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Junxin Liu</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>November 12, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/01/18/hello-world/" title="Hello World">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/09/21/%E8%AF%BE%E5%86%85/lab1/" title="编译原理词法分析实验报告">
+                        <span class="hidden-mobile">编译原理词法分析实验报告</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,661 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Junxin Liu">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Interpreting SchemeThe Structure of an Interpreter见pdf文件 Lab111一遍过真舒服,所以要理解问题再下手比较好！  123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS61A-30-interpreters">
+<meta property="og:url" content="http://example.com/2022/08/22/CS61A/30-interpreters&lab11/index.html">
+<meta property="og:site_name" content="Space">
+<meta property="og:description" content="Interpreting SchemeThe Structure of an Interpreter见pdf文件 Lab111一遍过真舒服,所以要理解问题再下手比较好！  123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221120122042345.png">
+<meta property="article:published_time" content="2022-08-22T03:33:24.000Z">
+<meta property="article:modified_time" content="2023-01-18T03:50:03.323Z">
+<meta property="article:author" content="Junxin Liu">
+<meta property="article:tag" content="Computer Sciense">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221120122042345.png">
+  
+  
+  
+  <title>CS61A-30-interpreters - Space</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20220809105458628.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CS61A-30-interpreters"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-22 11:33" pubdate>
+          August 22, 2022 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.5k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          55 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CS61A-30-interpreters</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id=""><a href="#" class="headerlink" title=""></a></h2><h1 id="Interpreting-Scheme"><a href="#Interpreting-Scheme" class="headerlink" title="Interpreting Scheme"></a>Interpreting Scheme</h1><h2 id="The-Structure-of-an-Interpreter"><a href="#The-Structure-of-an-Interpreter" class="headerlink" title="The Structure of an Interpreter"></a>The Structure of an Interpreter</h2><p>见pdf文件</p>
+<h1 id="Lab11"><a href="#Lab11" class="headerlink" title="Lab11"></a>Lab11</h1><h4 id="1"><a href="#1" class="headerlink" title="1"></a>1</h4><p>一遍过真舒服,所以要理解问题再下手比较好！</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221120122042345.png" srcset="/img/loading.gif" lazyload alt="image-20221120122042345"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Buffer</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;A Buffer provides a way of accessing a sequence of tokens across lines.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    Its constructor takes an iterator, called &quot;the source&quot;, that returns the</span><br><span class="hljs-string">    next line of tokens as a list each time it is queried, or None to indicate</span><br><span class="hljs-string">    the end of data.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    The Buffer in effect concatenates the sequences returned from its source</span><br><span class="hljs-string">    and then supplies the items from them one at a time through its pop_first()</span><br><span class="hljs-string">    method, calling the source for more sequences of items only when needed.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    In addition, Buffer provides a current method to look at the</span><br><span class="hljs-string">    next item to be supplied, without sequencing past it.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    The __str__ method prints all tokens read so far, up to the end of the</span><br><span class="hljs-string">    current line, and marks the current token with &gt;&gt;.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; buf = Buffer(iter([[&#x27;(&#x27;, &#x27;+&#x27;], [15], [12, &#x27;)&#x27;]]))</span><br><span class="hljs-string">    &gt;&gt;&gt; buf.pop_first()</span><br><span class="hljs-string">    &#x27;(&#x27;</span><br><span class="hljs-string">    &gt;&gt;&gt; buf.pop_first()</span><br><span class="hljs-string">    &#x27;+&#x27;</span><br><span class="hljs-string">    &gt;&gt;&gt; buf.current()</span><br><span class="hljs-string">    15</span><br><span class="hljs-string">    &gt;&gt;&gt; buf.current()   # Calling current twice should not change buf</span><br><span class="hljs-string">    15</span><br><span class="hljs-string">    &gt;&gt;&gt; buf.pop_first()</span><br><span class="hljs-string">    15</span><br><span class="hljs-string">    &gt;&gt;&gt; buf.current()</span><br><span class="hljs-string">    12</span><br><span class="hljs-string">    &gt;&gt;&gt; buf.pop_first()</span><br><span class="hljs-string">    12</span><br><span class="hljs-string">    &gt;&gt;&gt; buf.pop_first()</span><br><span class="hljs-string">    &#x27;)&#x27;</span><br><span class="hljs-string">    &gt;&gt;&gt; buf.pop_first()  # returns None</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, source</span>):<br>        self.index = <span class="hljs-number">0</span><br>        self.source = source<br>        self.current_line = ()<br>        self.current()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">pop_first</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;Remove the next item from self and return it. If self has</span><br><span class="hljs-string">        exhausted its source, returns None.&quot;&quot;&quot;</span><br>        <span class="hljs-comment"># BEGIN PROBLEM 1</span><br>        <span class="hljs-string">&quot;*** YOUR CODE HERE ***&quot;</span><br>        current_element = self.current()<br>        self.index += <span class="hljs-number">1</span><br>        <span class="hljs-keyword">return</span> current_element<br>        <span class="hljs-comment"># END PROBLEM 1</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">current</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;Return the current element, or None if none exists.&quot;&quot;&quot;</span><br>        <span class="hljs-keyword">while</span> <span class="hljs-keyword">not</span> self.more_on_line():<br>            <span class="hljs-keyword">try</span>:<br>                <span class="hljs-comment"># BEGIN PROBLEM 1</span><br>                <span class="hljs-string">&quot;*** YOUR CODE HERE ***&quot;</span><br>                self.current_line = <span class="hljs-built_in">next</span>(self.source)<br>                self.index = <span class="hljs-number">0</span><br>                <span class="hljs-comment"># END PROBLEM 1</span><br>            <span class="hljs-keyword">except</span> StopIteration:<br>                self.current_line = ()<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span><br>        <span class="hljs-keyword">return</span> self.current_line[self.index]<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">more_on_line</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> self.index &lt; <span class="hljs-built_in">len</span>(self.current_line)<br></code></pre></td></tr></table></figure>
+
+<h4 id="2"><a href="#2" class="headerlink" title="2"></a>2</h4><blockquote>
+<p><strong>Important:</strong> Your code for this part should go in <code>scheme_reader.py</code>.</p>
+</blockquote>
+<p>Your job in this part is to write the parsing functionality, which consists of two mutually recursive functions: <code>scheme_read</code> and <code>read_tail</code>. Each function takes in a single <code>src</code> parameter, which is a <code>Buffer</code> instance.</p>
+<ul>
+<li><code>scheme_read</code> removes enough tokens from <code>src</code> to form a single expression and returns that expression in the correct <a target="_blank" rel="noopener" href="https://inst.eecs.berkeley.edu/~cs61a/fa21/lab/lab11/#internal-representations">internal representation</a>.</li>
+<li><code>read_tail</code> expects to read the rest of a list or <code>Pair</code>, assuming the open parenthesis of that list or <code>Pair</code> has already been removed by <code>scheme_read</code>. It will read expressions (and thus remove tokens) until the matching closing parenthesis <code>)</code> is seen. This list of expressions is returned as a linked list of <code>Pair</code> instances.</li>
+</ul>
+<p>In short, <code>scheme_read</code> returns the next single complete expression in the buffer and <code>read_tail</code> returns the rest of a list or <code>Pair</code> in the buffer. Both functions mutate the buffer, removing the tokens that have already been processed.</p>
+<p>The behavior of both functions depends on the first token currently in <code>src</code>. They should be implemented as follows:</p>
+<p><code>scheme_read</code>:</p>
+<ul>
+<li>If the current token is the string <code>&quot;nil&quot;</code>, return the <code>nil</code> object.</li>
+<li>If the current token is <code>(</code>, the expression is a pair or list. Call <code>read_tail</code> on the rest of <code>src</code> and return its result.</li>
+<li>If the current token is <code>&#39;</code>, the rest of the buffer should be processed as a <code>quote</code> expression. You will implement this portion in the next problem.</li>
+<li>If the next token is not a delimiter, then it must be a primitive expression (i.e. a number, boolean). Return it. <strong>Provided</strong></li>
+<li>If none of the above cases apply, raise an error. <strong>Provided</strong></li>
+</ul>
+<p><code>read_tail</code>:</p>
+<ul>
+<li>If there are no more tokens, then the list is missing a close parenthesis and we should raise an error. <strong>Provided</strong></li>
+<li>If the token is <code>)</code>, then we’ve reached the end of the list or pair. <strong>Remove this token from the buffer</strong> and return the <code>nil</code> object.</li>
+<li>If none of the above cases apply, the next token is the operator in a combination. For example, <code>src</code> could contain <code>+ 2 3)</code>. To parse this:<ol>
+<li><code>scheme_read</code> the next complete expression in the buffer.</li>
+<li>Call <code>read_tail</code> to read the rest of the combination until the matching closing parenthesis.</li>
+<li>Return the results as a <code>Pair</code> instance, where the first element is the next complete expression from (1) and the second element is the rest of the combination from (2).</li>
+</ol>
+</li>
+</ul>
+<p>要注意的在注释里标了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">scheme_read</span>(<span class="hljs-params">src</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Read the next expression from SRC, a Buffer of tokens.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; scheme_read(Buffer(tokenize_lines([&#x27;nil&#x27;])))</span><br><span class="hljs-string">    nil</span><br><span class="hljs-string">    &gt;&gt;&gt; scheme_read(Buffer(tokenize_lines([&#x27;1&#x27;])))</span><br><span class="hljs-string">    1</span><br><span class="hljs-string">    &gt;&gt;&gt; scheme_read(Buffer(tokenize_lines([&#x27;true&#x27;])))</span><br><span class="hljs-string">    True</span><br><span class="hljs-string">    &gt;&gt;&gt; scheme_read(Buffer(tokenize_lines([&#x27;(+ 1 2)&#x27;])))</span><br><span class="hljs-string">    Pair(&#x27;+&#x27;, Pair(1, Pair(2, nil)))</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">if</span> src.current() <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>        <span class="hljs-keyword">raise</span> EOFError<br>    val = src.pop_first()  <span class="hljs-comment"># Get and remove the first token</span><br>    <span class="hljs-keyword">if</span> val == <span class="hljs-string">&#x27;nil&#x27;</span>:<br>        <span class="hljs-comment"># BEGIN PROBLEM 2</span><br>        <span class="hljs-string">&quot;*** YOUR CODE HERE ***&quot;</span><br>        <span class="hljs-keyword">return</span> nil<br>        <span class="hljs-comment"># END PROBLEM 2</span><br>    <span class="hljs-keyword">elif</span> val == <span class="hljs-string">&#x27;(&#x27;</span>:<br>        <span class="hljs-comment"># BEGIN PROBLEM 2</span><br>        <span class="hljs-string">&quot;*** YOUR CODE HERE ***&quot;</span><br>        <span class="hljs-comment">#src.pop_first()已经pop过啦</span><br>        <span class="hljs-keyword">return</span> read_tail(src)<br>        <span class="hljs-comment"># END PROBLEM 2</span><br>    <span class="hljs-keyword">elif</span> val == <span class="hljs-string">&quot;&#x27;&quot;</span>:<br>        <span class="hljs-comment"># BEGIN PROBLEM 3</span><br>        <span class="hljs-string">&quot;*** YOUR CODE HERE ***&quot;</span><br>        <span class="hljs-comment"># END PROBLEM 3</span><br>    <span class="hljs-keyword">elif</span> val <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> DELIMITERS:<br>        <span class="hljs-keyword">return</span> val<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">raise</span> SyntaxError(<span class="hljs-string">&#x27;unexpected token: &#123;0&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(val))<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">read_tail</span>(<span class="hljs-params">src</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Return the remainder of a list in SRC, starting before an element or ).</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; read_tail(Buffer(tokenize_lines([&#x27;)&#x27;])))</span><br><span class="hljs-string">    nil</span><br><span class="hljs-string">    &gt;&gt;&gt; read_tail(Buffer(tokenize_lines([&#x27;2 3)&#x27;])))</span><br><span class="hljs-string">    Pair(2, Pair(3, nil))</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-keyword">if</span> src.current() <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>            <span class="hljs-keyword">raise</span> SyntaxError(<span class="hljs-string">&#x27;unexpected end of file&#x27;</span>)<br>        <span class="hljs-keyword">elif</span> src.current() == <span class="hljs-string">&#x27;)&#x27;</span>:<br>            <span class="hljs-comment"># BEGIN PROBLEM 2</span><br>            <span class="hljs-string">&quot;*** YOUR CODE HERE ***&quot;</span><br>            src.pop_first()<br>            <span class="hljs-keyword">return</span> nil<br>            <span class="hljs-comment"># END PROBLEM 2</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-comment"># BEGIN PROBLEM 2</span><br>            <span class="hljs-string">&quot;*** YOUR CODE HERE ***&quot;</span><br>            <span class="hljs-keyword">return</span> Pair(scheme_read(src), read_tail(src))<br>            <span class="hljs-comment"># END PROBLEM 2</span><br>    <span class="hljs-keyword">except</span> EOFError:<br>        <span class="hljs-keyword">raise</span> SyntaxError(<span class="hljs-string">&#x27;unexpected end of file&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<h4 id="3"><a href="#3" class="headerlink" title="3"></a>3</h4><blockquote>
+<p><strong>Important:</strong> Your code for this part should go in <code>scheme_reader.py</code>.</p>
+</blockquote>
+<p>Your task in this problem is to complete the implementation of <code>scheme_read</code> by allowing the function to now be able to handle quoted expressions.</p>
+<p>In Scheme, quoted expressions such as <code>&#39;&lt;expr&gt;</code> are equivalent to <code>(quote &lt;expr&gt;)</code>. That means that we need to wrap the expression following <code>&#39;</code> (which you can get by recursively calling <code>scheme_read</code>) into the <code>quote</code> special form, which is a Scheme list (as with all special forms).</p>
+<p>In our representation, a <code>Pair</code> represents a Scheme list. You should therefore wrap the expression following <code>&#39;</code> in a <code>Pair</code>.</p>
+<p>For example, <code>&#39;bagel</code>, or <code>[&quot;&#39;&quot;, &quot;bagel&quot;]</code> after being tokenized, should be represented as <code>Pair(&#39;quote&#39;, Pair(&#39;bagel&#39;, nil))</code>. <code>&#39;(1 2)</code> (or <code>[&quot;&#39;&quot;, &quot;(&quot;, 1, 2, &quot;)&quot;]</code>) should be represented as <code>Pair(&#39;quote&#39;, Pair(Pair(1, Pair(2, nil)), nil))</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">elif</span> val == <span class="hljs-string">&quot;&#x27;&quot;</span>:<br>    <span class="hljs-comment"># BEGIN PROBLEM 3</span><br>    <span class="hljs-string">&quot;*** YOUR CODE HERE ***&quot;</span><br>    <span class="hljs-keyword">return</span> Pair(<span class="hljs-string">&#x27;quote&#x27;</span>, Pair(scheme_read(src), nil))<span class="hljs-comment">#结尾一定是nil，因为后面一段是个整体</span><br>    <span class="hljs-comment"># END PROBLEM 3</span><br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CS61A/" class="category-chain-item">CS61A</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Computer-Sciense/">#Computer Sciense</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CS61A-30-interpreters</div>
+      <div>http://example.com/2022/08/22/CS61A/30-interpreters&amp;lab11/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Junxin Liu</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 22, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/30/%E7%94%9F%E6%B4%BB/%E5%AF%B9%E7%9F%A5%E8%AF%86%E7%9A%84%E6%80%9D%E8%80%83/" title="对知识的思考">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">对知识的思考</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/21/CS61A/28-exceptions/" title="CS61A-28-exceptions">
+                        <span class="hidden-mobile">CS61A-28-exceptions</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

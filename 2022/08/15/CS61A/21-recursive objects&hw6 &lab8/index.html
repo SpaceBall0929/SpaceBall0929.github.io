@@ -1,0 +1,709 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Junxin Liu">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Linked listsconceptlinked list structure is:  empty a first value and the rest of the linked list     The first (zeroth)  element is an  attribute value  The rest of the  elements are stored  in a lin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS61A-21-recursive objects">
+<meta property="og:url" content="http://example.com/2022/08/15/CS61A/21-recursive%20objects&hw6%20&lab8/index.html">
+<meta property="og:site_name" content="Space">
+<meta property="og:description" content="Linked listsconceptlinked list structure is:  empty a first value and the rest of the linked list     The first (zeroth)  element is an  attribute value  The rest of the  elements are stored  in a lin">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221031155609930.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221031155933124.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221031160350686.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221031160652964.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221031163343755.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221031163410492.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221031174727317.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221031174919411.png">
+<meta property="article:published_time" content="2022-08-15T03:33:24.000Z">
+<meta property="article:modified_time" content="2023-01-18T03:47:55.205Z">
+<meta property="article:author" content="Junxin Liu">
+<meta property="article:tag" content="Computer Sciense">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221031155609930.png">
+  
+  
+  
+  <title>CS61A-21-recursive objects - Space</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20220809105458628.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CS61A-21-recursive objects"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-15 11:33" pubdate>
+          August 15, 2022 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          71 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CS61A-21-recursive objects</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="Linked-lists"><a href="#Linked-lists" class="headerlink" title="Linked lists"></a>Linked lists</h2><h4 id="concept"><a href="#concept" class="headerlink" title="concept"></a>concept</h4><p>linked list structure is:</p>
+<ul>
+<li>empty</li>
+<li>a first value and the rest of the linked list</li>
+</ul>
+<img src="C:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221031155609930.png" srcset="/img/loading.gif" lazyload alt="image-20221031155609930" style="zoom:67%;" />
+
+<ul>
+<li><p>The first (zeroth)  element is an  attribute value</p>
+</li>
+<li><p>The rest of the  elements are stored  in a linked list</p>
+</li>
+<li><p>link.empty is a class attribute represents  an empty linked list</p>
+</li>
+</ul>
+<p><code>Link(3, Link(4, Link(5, Link.empty)))</code></p>
+<blockquote>
+<p>有点像tree呢</p>
+</blockquote>
+<p>也可以这样表示：<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221031155933124.png" srcset="/img/loading.gif" lazyload alt="image-20221031155933124" style="zoom:67%;" /></p>
+<p><strong>implement the class</strong>：</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221031160350686.png" srcset="/img/loading.gif" lazyload alt="image-20221031160350686" style="zoom: 67%;" />
+
+<p><code>help(isinstance)</code>: Return whether an object is an instance of a class or of a subclass thereof.</p>
+<p>使用eg:</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221031160652964.png" srcset="/img/loading.gif" lazyload alt="image-20221031160652964" style="zoom: 80%;" />
+
+<h4 id="Processing"><a href="#Processing" class="headerlink" title="Processing"></a>Processing</h4><p>和<code>iterator</code>处理的结合使用</p>
+<p>搞清楚linklist的递归特征就很好写了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">range_link</span>(<span class="hljs-params">start, end</span>): <br>     <span class="hljs-string">&quot;&quot;&quot;Return a Link containing consecutive integers from start to end.</span><br><span class="hljs-string">     &gt;&gt;&gt; range_link(3, 6)</span><br><span class="hljs-string">     Link(3, Link(4, Link(5)))</span><br><span class="hljs-string">     &quot;&quot;&quot;</span><br>        <span class="hljs-keyword">if</span> start &gt;= end:<br>            <span class="hljs-keyword">return</span> Link.empty<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">return</span> Link(start, range_link(start + <span class="hljs-number">1</span>, end))<br>                <br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">map_link</span>(<span class="hljs-params">f, s</span>): <br>     <span class="hljs-string">&quot;&quot;&quot;Return a Link that contains f(x) for each x in Link s.</span><br><span class="hljs-string">     &gt;&gt;&gt; map_link(square, range_link(3, 6))</span><br><span class="hljs-string">     Link(9, Link(16, Link(25)))</span><br><span class="hljs-string">     &quot;&quot;&quot;</span><br>        <span class="hljs-string">&quot;&quot;&quot;if len(s) &lt;= 0:</span><br><span class="hljs-string">            return Link.empty</span><br><span class="hljs-string">        else:</span><br><span class="hljs-string">            return Link(f(s[0]), map_link(f, s[1:]))&quot;&quot;&quot;</span><br>        <span class="hljs-comment">#注意s是一个link</span><br>        <span class="hljs-comment">#老师的:</span><br>        <span class="hljs-keyword">if</span> s <span class="hljs-keyword">is</span> Link.empty:<br>            <span class="hljs-keyword">return</span> s<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">return</span> Link(f(s.first), map_link(f, s.rest))<br>        <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">filter_link</span>(<span class="hljs-params">f, s</span>): <br>     <span class="hljs-string">&quot;&quot;&quot;Return a Link that contains only the elements x of Link s for which f(x) is a true value.</span><br><span class="hljs-string">     &gt;&gt;&gt; filter_link(odd, range_link(3, 6))</span><br><span class="hljs-string">     Link(3, Link(5))</span><br><span class="hljs-string">     &quot;&quot;&quot;</span><br>        <span class="hljs-string">&quot;&quot;&quot;is s is Link.empty:</span><br><span class="hljs-string">            return s</span><br><span class="hljs-string">        else:</span><br><span class="hljs-string">            if f(s.first):</span><br><span class="hljs-string">                return Link(s.first, filter_link(s.rest))</span><br><span class="hljs-string">            else:</span><br><span class="hljs-string">                return filter_link(s.rest)&quot;&quot;&quot;</span><br>        <br>        <span class="hljs-comment">#老师的:差不多</span><br>        <span class="hljs-keyword">is</span> s <span class="hljs-keyword">is</span> Link.empty:<br>            <span class="hljs-keyword">return</span> s<br>        filtered_rest = filter_link(f, s.rest)<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">if</span> f(s.first):<br>                <span class="hljs-keyword">return</span> Link(s.first, filtered_rest)<br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-keyword">return</span> filtered_rest<br>        <br></code></pre></td></tr></table></figure>
+
+<h4 id="Mutation"><a href="#Mutation" class="headerlink" title="Mutation"></a>Mutation</h4><p>The rest of a linked list can contain the linked list as a sub-list</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221031163343755.png" srcset="/img/loading.gif" lazyload alt="image-20221031163343755" style="zoom:67%;" />
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221031163410492.png" srcset="/img/loading.gif" lazyload alt="image-20221031163410492" style="zoom: 67%;" />
+
+<blockquote>
+<p>注意:对于任何object来说的<code>=</code>(list什么的也算)都表示是指向同一个变量,而不是两个内容一样的变量.</p>
+</blockquote>
+<h6 id="eg"><a href="#eg" class="headerlink" title="eg"></a>eg</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">add</span>(<span class="hljs-params">s, v</span>):<br>     <span class="hljs-string">&quot;&quot;&quot;Add v to an ordered list s with no repeats, returning modified s.</span><br><span class="hljs-string">	(Note: If v is already in s, then don&#x27;t modify s, but still return it.)&quot;&quot;&quot;</span><br>	<span class="hljs-comment">#自己</span><br>    <span class="hljs-keyword">assert</span> s <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-type">List</span>.empty<br>    <span class="hljs-keyword">if</span> s.first &gt; v:<br>        s.first, s.rest = v, Link(s.first, s.rest)<br>    <span class="hljs-keyword">elif</span> s.first &lt; v <span class="hljs-keyword">and</span> empty(s.rest):<br>        s.rest = Link(v)<br>    <span class="hljs-keyword">elif</span> s.first &lt; v:<br>        <span class="hljs-keyword">return</span> Link(s.first, add(s.rest, v))<br>    <span class="hljs-comment">#s.first == v or 以上操作完成</span><br>    <span class="hljs-keyword">return</span> s<br>    <br>    <span class="hljs-comment">#答案差不多</span><br>   <br></code></pre></td></tr></table></figure>
+
+<h2 id="Tree-class"><a href="#Tree-class" class="headerlink" title="Tree class"></a>Tree class</h2><p>与linklist的区别:tree可以有很多branches</p>
+<ul>
+<li>Each location in a tree is called a node</li>
+<li>Each node has a label that can be any value</li>
+<li>The top node is the root node</li>
+</ul>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221031174727317.png" srcset="/img/loading.gif" lazyload alt="image-20221031174727317" style="zoom:67%;" />
+
+<p><strong>implement class tree:</strong></p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221031174919411.png" srcset="/img/loading.gif" lazyload alt="image-20221031174919411" style="zoom:80%;" />
+
+<p>为了print和显示,需要Implement repr和str</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Trees</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Tree</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;A tree is a label and a list of branches.&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, label, branches=[]</span>):<br>        self.label = label<br>        <span class="hljs-keyword">for</span> branch <span class="hljs-keyword">in</span> branches:<br>            <span class="hljs-keyword">assert</span> <span class="hljs-built_in">isinstance</span>(branch, Tree)<br>        self.branches = <span class="hljs-built_in">list</span>(branches)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__repr__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">if</span> self.branches:<br>            branch_str = <span class="hljs-string">&#x27;, &#x27;</span> + <span class="hljs-built_in">repr</span>(self.branches)<br>        <span class="hljs-keyword">else</span>:<br>            branch_str = <span class="hljs-string">&#x27;&#x27;</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;Tree(&#123;0&#125;&#123;1&#125;)&#x27;</span>.<span class="hljs-built_in">format</span>(<span class="hljs-built_in">repr</span>(self.label), branch_str)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__str__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;\n&#x27;</span>.join(self.indented())<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">indented</span>(<span class="hljs-params">self</span>):<br>        lines = []<br>        <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> self.branches:<br>            <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> b.indented():<br>                lines.append(<span class="hljs-string">&#x27;  &#x27;</span> + line)<br>        <span class="hljs-keyword">return</span> [<span class="hljs-built_in">str</span>(self.label)] + lines<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">is_leaf</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">not</span> self.branches<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">fib_tree</span>(<span class="hljs-params">n</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;A Fibonacci tree.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; print(fib_tree(4))</span><br><span class="hljs-string">    3</span><br><span class="hljs-string">      1</span><br><span class="hljs-string">        0</span><br><span class="hljs-string">        1</span><br><span class="hljs-string">      2</span><br><span class="hljs-string">        1</span><br><span class="hljs-string">        1</span><br><span class="hljs-string">          0</span><br><span class="hljs-string">          1</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">if</span> n == <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> n == <span class="hljs-number">1</span>:<br>        <span class="hljs-keyword">return</span> Tree(n)<br>    <span class="hljs-keyword">else</span>:<br>        left = fib_tree(n-<span class="hljs-number">2</span>)<br>        right = fib_tree(n-<span class="hljs-number">1</span>)<br>        fib_n = left.label + right.label<br>        <span class="hljs-keyword">return</span> Tree(fib_n, [left, right])<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">leaves</span>(<span class="hljs-params">tree</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Return the leaf values of a tree.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; leaves(fib_tree(4))</span><br><span class="hljs-string">    [0, 1, 1, 0, 1]</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">if</span> t.is_leaf():<br>        <span class="hljs-keyword">return</span> [t.label]<br>    leaves_lst = []<br>    <span class="hljs-keyword">for</span> branch <span class="hljs-keyword">in</span> t.branches:<br>        <span class="hljs-comment">#leaves_lst.append(leaves(branch))</span><br>        leaves_lst.extend(leaves(branch))<br>    <span class="hljs-keyword">return</span> leaves_lst<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">height</span>(<span class="hljs-params">tree</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;The height of a tree.&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">if</span> tree.is_leaf():<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>  <span class="hljs-comment">#注意不是1，好像是少一层吧</span><br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span> + <span class="hljs-built_in">max</span>([height(b) <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> tree.branches])<span class="hljs-comment">#嗯！很好！</span><br>            <br><br></code></pre></td></tr></table></figure>
+
+<p>关于extend和append的区别：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/342816972">python中append()和extend()区别详解 - 知乎 (zhihu.com)</a></p>
+<p>**extend()**向列表尾部追加一个列表，将列表中的每个元素都追加进来，在原有列表上增加。而append是把后面的那整个内容挡车工一个元素加进来</p>
+<h5 id="tree-mutation"><a href="#tree-mutation" class="headerlink" title="tree mutation"></a>tree mutation</h5><p>Removing subtrees from a  tree is called pruning </p>
+<p>Prune branches before  recursive processing</p>
+<p>来implement吧！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">prune</span>(<span class="hljs-params">t, n</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Prune sub-trees whose label value is n.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; t = fib_tree(5)</span><br><span class="hljs-string">    &gt;&gt;&gt; prune(t, 1)</span><br><span class="hljs-string">    &gt;&gt;&gt; print(t)</span><br><span class="hljs-string">    5</span><br><span class="hljs-string">      2</span><br><span class="hljs-string">      3</span><br><span class="hljs-string">        2</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    t.branches = [b <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> t.branches <span class="hljs-keyword">if</span> b.label != n]<br>    <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> t.branches:<br>        prune(b, n)<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="HW-06"><a href="#HW-06" class="headerlink" title="HW 06"></a>HW 06</h2><h5 id="1-vending-machine"><a href="#1-vending-machine" class="headerlink" title="1 vending machine"></a>1 vending machine</h5><p>注意这个打印出来的东西有‘’，说明这不是print，这是返回值</p>
+<p>attributs放哪里？class里放这个类共有的东西，self里放这个instance个人的东西</p>
+<h5 id="3-store-digits"><a href="#3-store-digits" class="headerlink" title="3 store digits"></a>3 store digits</h5><p>注意它的数字顺序是倒着的。</p>
+<p>还有注意要加在最后一个rest上</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">store_digits</span>(<span class="hljs-params">n</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Stores the digits of a positive number n in a linked list.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; s = store_digits(1)</span><br><span class="hljs-string">    &gt;&gt;&gt; s</span><br><span class="hljs-string">    Link(1)</span><br><span class="hljs-string">    &gt;&gt;&gt; store_digits(2345)</span><br><span class="hljs-string">    Link(2, Link(3, Link(4, Link(5))))</span><br><span class="hljs-string">    &gt;&gt;&gt; store_digits(876)</span><br><span class="hljs-string">    Link(8, Link(7, Link(6)))</span><br><span class="hljs-string">    &gt;&gt;&gt; # a check for restricted functions</span><br><span class="hljs-string">    &gt;&gt;&gt; import inspect, re</span><br><span class="hljs-string">    &gt;&gt;&gt; cleaned = re.sub(r&quot;#.*\\n&quot;, &#x27;&#x27;, re.sub(r&#x27;&quot;&#123;3&#125;[\s\S]*?&quot;&#123;3&#125;&#x27;, &#x27;&#x27;, inspect.getsource(store_digits)))</span><br><span class="hljs-string">    &gt;&gt;&gt; print(&quot;Do not use str or reversed!&quot;) if any([r in cleaned for r in [&quot;str&quot;, &quot;reversed&quot;]]) else None</span><br><span class="hljs-string">    &gt;&gt;&gt; link1 = Link(3, Link(Link(4), Link(5, Link(6))))</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-string">&quot;*** YOUR CODE HERE ***&quot;</span><br>    div, res = n // <span class="hljs-number">10</span>, n % <span class="hljs-number">10</span><br>    <span class="hljs-keyword">if</span> div == <span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">return</span> Link(res)<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-comment">#return Link(res, store_digits(div))注意顺序</span><br>        head = store_digits(div)<br>        tail = head<br>        <span class="hljs-comment">#l.rest = Link(res) 应该是要找到最后一个rest才对</span><br>        <span class="hljs-keyword">while</span> tail.rest != Link.empty:<br>            tail = tail.rest<br>        tail.rest = Link(res)<br>        <span class="hljs-keyword">return</span> head<br></code></pre></td></tr></table></figure>
+
+<h5 id="5-Two-list"><a href="#5-Two-list" class="headerlink" title="5 Two list"></a>5 Two list</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">two_list</span>(<span class="hljs-params">vals, amounts</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    Returns a linked list according to the two lists that were passed in. Assume</span><br><span class="hljs-string">    vals and amounts are the same size. Elements in vals represent the value, and the</span><br><span class="hljs-string">    corresponding element in amounts represents the number of this value desired in the</span><br><span class="hljs-string">    final linked list. Assume all elements in amounts are greater than 0. Assume both</span><br><span class="hljs-string">    lists have at least one element.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; a = [1, 3, 2]</span><br><span class="hljs-string">    &gt;&gt;&gt; b = [1, 1, 1]</span><br><span class="hljs-string">    &gt;&gt;&gt; c = two_list(a, b)</span><br><span class="hljs-string">    &gt;&gt;&gt; c</span><br><span class="hljs-string">    Link(1, Link(3, Link(2)))</span><br><span class="hljs-string">    &gt;&gt;&gt; a = [1, 3, 2]</span><br><span class="hljs-string">    &gt;&gt;&gt; b = [2, 2, 1]</span><br><span class="hljs-string">    &gt;&gt;&gt; c = two_list(a, b)</span><br><span class="hljs-string">    &gt;&gt;&gt; c</span><br><span class="hljs-string">    Link(1, Link(1, Link(3, Link(3, Link(2)))))</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-string">&quot;*** YOUR CODE HERE ***&quot;</span><br>    l = Link(vals[<span class="hljs-number">0</span>])<span class="hljs-comment">#因为初始化一定要first...</span><br>    t = l<br>    i = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> val <span class="hljs-keyword">in</span> vals:<br>        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(amounts[i]):<br>            t.rest= Link(val)<br>            t = t.rest<br>        i += <span class="hljs-number">1</span><br>    <span class="hljs-keyword">return</span> l.rest  <span class="hljs-comment">#等于把第一个元素多做了一次，在这里圆回来   </span><br></code></pre></td></tr></table></figure>
+
+<p>或者：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">vals.reverse()<br>amounts.reverse()<br>result = Link.empty<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(vals)):<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(amounts[i]):<br>        result = Link(vals[i], result)<br><span class="hljs-keyword">return</span> result<br></code></pre></td></tr></table></figure>
+
+<h2 id="Lab-8"><a href="#Lab-8" class="headerlink" title="Lab 8"></a>Lab 8</h2><p>初始化link的时候必须要有一个参数作为first</p>
+<p>但是rest可以是empty</p>
+<h5 id="Q4"><a href="#Q4" class="headerlink" title="Q4"></a>Q4</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">label_squarer</span>(<span class="hljs-params">t</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Mutates a Tree t by squaring all its elements.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; t = Tree(1, [Tree(3, [Tree(5)]), Tree(7)])</span><br><span class="hljs-string">    &gt;&gt;&gt; label_squarer(t)</span><br><span class="hljs-string">    &gt;&gt;&gt; t</span><br><span class="hljs-string">    Tree(1, [Tree(9, [Tree(25)]), Tree(49)])</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-string">&quot;*** YOUR CODE HERE ***&quot;</span><br>    <span class="hljs-comment">#错误解法：不应该有返回值，而是在原树上修改</span><br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    if t.is_leaf():</span><br><span class="hljs-string">      return Tree(t.label**2)</span><br><span class="hljs-string">    else:</span><br><span class="hljs-string">      return Tree(t.label**2, [label_squarer(b) for b in t.branches])&quot;&quot;&quot;</span><br>    t.label *= t.label<br>    <span class="hljs-keyword">if</span> t.is_leaf():<br>      <span class="hljs-keyword">return</span><br>    <span class="hljs-keyword">else</span>:<br>      <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> t.branches:<br>        label_squarer(b)<br></code></pre></td></tr></table></figure>
+
+<p>看注释部分写的</p>
+<h5 id="Q5"><a href="#Q5" class="headerlink" title="Q5"></a>Q5</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">cumulative_mul</span>(<span class="hljs-params">t</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Mutates t so that each node&#x27;s label becomes the product of all labels in</span><br><span class="hljs-string">    the corresponding subtree rooted at t.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; t = Tree(1, [Tree(3, [Tree(5)]), Tree(7)])</span><br><span class="hljs-string">    &gt;&gt;&gt; cumulative_mul(t)</span><br><span class="hljs-string">    &gt;&gt;&gt; t</span><br><span class="hljs-string">    Tree(105, [Tree(15, [Tree(5)]), Tree(7)])</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-string">&quot;*** YOUR CODE HERE ***&quot;</span><br>    <span class="hljs-comment">#观察发现是原始节点数据的累乘，而不是修改过的，所以应该从辈份最高的开始，</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">mul</span>(<span class="hljs-params">t</span>):<br>      <span class="hljs-keyword">if</span> t.is_leaf():<br>        <span class="hljs-keyword">return</span> t.label<br>      <span class="hljs-keyword">else</span>:<br>        num = t.label<br>        <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> t.branches:<br>          num *= mul(b)<br>        <span class="hljs-keyword">return</span> num<br>      <br>    t.label = mul(t)<br>    <span class="hljs-keyword">if</span> t.is_leaf():<br>      <span class="hljs-keyword">return</span><br>    <span class="hljs-keyword">else</span>:<br>      <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> t.branches:<br>        b.label = mul(b)<br></code></pre></td></tr></table></figure>
+
+<p>注意一下python的变量全都是指针，全是对象，所以会被修改</p>
+<p>不过数值型对象会有点不一样</p>
+<h5 id="Q6"><a href="#Q6" class="headerlink" title="Q6"></a>Q6</h5><p>看我写的注释</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">add_d_leaves</span>(<span class="hljs-params">t, v</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Add d leaves containing v to each node at every depth d.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; t_one_to_four = Tree(1, [Tree(2), Tree(3, [Tree(4)])])</span><br><span class="hljs-string">    &gt;&gt;&gt; print(t_one_to_four)</span><br><span class="hljs-string">    1</span><br><span class="hljs-string">      2</span><br><span class="hljs-string">      3</span><br><span class="hljs-string">        4</span><br><span class="hljs-string">    &gt;&gt;&gt; add_d_leaves(t_one_to_four, 5)</span><br><span class="hljs-string">    &gt;&gt;&gt; print(t_one_to_four)</span><br><span class="hljs-string">    1</span><br><span class="hljs-string">      2</span><br><span class="hljs-string">        5</span><br><span class="hljs-string">      3</span><br><span class="hljs-string">        4</span><br><span class="hljs-string">          5</span><br><span class="hljs-string">          5</span><br><span class="hljs-string">        5</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; t1 = Tree(1, [Tree(3)])</span><br><span class="hljs-string">    &gt;&gt;&gt; add_d_leaves(t1, 4)</span><br><span class="hljs-string">    &gt;&gt;&gt; t1</span><br><span class="hljs-string">    Tree(1, [Tree(3, [Tree(4)])])</span><br><span class="hljs-string">    &gt;&gt;&gt; t2 = Tree(2, [Tree(5), Tree(6)])</span><br><span class="hljs-string">    &gt;&gt;&gt; t3 = Tree(3, [t1, Tree(0), t2])</span><br><span class="hljs-string">    &gt;&gt;&gt; print(t3)</span><br><span class="hljs-string">    3</span><br><span class="hljs-string">      1</span><br><span class="hljs-string">        3</span><br><span class="hljs-string">          4</span><br><span class="hljs-string">      0</span><br><span class="hljs-string">      2</span><br><span class="hljs-string">        5</span><br><span class="hljs-string">        6</span><br><span class="hljs-string">    &gt;&gt;&gt; add_d_leaves(t3, 10)</span><br><span class="hljs-string">    &gt;&gt;&gt; print(t3)</span><br><span class="hljs-string">    3</span><br><span class="hljs-string">      1</span><br><span class="hljs-string">        3</span><br><span class="hljs-string">          4</span><br><span class="hljs-string">            10</span><br><span class="hljs-string">            10</span><br><span class="hljs-string">            10</span><br><span class="hljs-string">          10</span><br><span class="hljs-string">          10</span><br><span class="hljs-string">        10</span><br><span class="hljs-string">      0</span><br><span class="hljs-string">        10</span><br><span class="hljs-string">      2</span><br><span class="hljs-string">        5</span><br><span class="hljs-string">          10</span><br><span class="hljs-string">          10</span><br><span class="hljs-string">        6</span><br><span class="hljs-string">          10</span><br><span class="hljs-string">          10</span><br><span class="hljs-string">        10</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-string">&quot;*** YOUR CODE HERE ***&quot;</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">addl</span>(<span class="hljs-params">t, v, d</span>):<br>      <span class="hljs-string">&quot;&quot;&quot;for _ in range(d + 1):</span><br><span class="hljs-string">          t.branches.append(Tree(v))&quot;&quot;&quot;</span><span class="hljs-comment">#不可以噢，因为放在这里等于说源源不断输入leaf然后新来的leaf也加leaf，所以要把增加的操作放在递归后面</span><br>      <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> t.is_leaf():<br>        <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> t.branches:<br>          addl(b, v, d + <span class="hljs-number">1</span>)<br>      <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(d):<br>          t.branches.append(Tree(v))<br>    addl(t, v, <span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CS61A/" class="category-chain-item">CS61A</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Computer-Sciense/">#Computer Sciense</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CS61A-21-recursive objects</div>
+      <div>http://example.com/2022/08/15/CS61A/21-recursive objects&amp;hw6 &amp;lab8/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Junxin Liu</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 15, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/17/CS61A/23-decomposition/" title="CS61A-23-decomposision">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CS61A-23-decomposision</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/14/CS61A/20-representation%20&amp;%20disc07/" title="CS61A-20-representation">
+                        <span class="hidden-mobile">CS61A-20-representation</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

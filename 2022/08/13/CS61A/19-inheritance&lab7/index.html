@@ -1,0 +1,754 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Junxin Liu">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="recall：attributes   Bound methods are also objects: a function  that has its first parameter “self” already  bound to an instance Dot expressions: Attribute Assignment   If the object is an instance,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS61A-19-inheritance">
+<meta property="og:url" content="http://example.com/2022/08/13/CS61A/19-inheritance&lab7/index.html">
+<meta property="og:site_name" content="Space">
+<meta property="og:description" content="recall：attributes   Bound methods are also objects: a function  that has its first parameter “self” already  bound to an instance Dot expressions: Attribute Assignment   If the object is an instance,">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025203306294.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025203428763.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025204214064.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025204300419.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025204651400.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025205723781.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025205733156.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025205922569.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025205959559.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028174349732.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028174940622.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028175058940.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028175507334.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028180843418.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028190929417.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192025068.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192033154.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192059314.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192533634.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192722455.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028202322497.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028202444534.png">
+<meta property="article:published_time" content="2022-08-13T03:33:24.000Z">
+<meta property="article:modified_time" content="2023-01-18T06:04:17.576Z">
+<meta property="article:author" content="Junxin Liu">
+<meta property="article:tag" content="Computer Sciense">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025203306294.png">
+  
+  
+  
+  <title>CS61A-19-inheritance - Space</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20220809105458628.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CS61A-19-inheritance"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-13 11:33" pubdate>
+          August 13, 2022 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.8k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          33 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CS61A-19-inheritance</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>recall：attributes</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025203306294.png" srcset="/img/loading.gif" lazyload alt="image-20221025203306294" style="zoom: 67%;" />
+
+<p>Bound methods are also objects: a function  that has its first parameter “self” already  bound to an instance</p>
+<p>Dot expressions:<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025203428763.png" srcset="/img/loading.gif" lazyload alt="image-20221025203428763" style="zoom:80%;" /></p>
+<h4 id="Attribute-Assignment"><a href="#Attribute-Assignment" class="headerlink" title="Attribute Assignment"></a>Attribute Assignment</h4><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025204214064.png" srcset="/img/loading.gif" lazyload alt="image-20221025204214064" style="zoom:80%;" />
+
+<ul>
+<li>If the object is an instance, then assignment sets an instance attribute </li>
+<li>If the object is a class, then assignment sets a class attribute<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025204300419.png" srcset="/img/loading.gif" lazyload alt="image-20221025204300419" style="zoom:80%;" /></li>
+</ul>
+<p>注意：（某个例子）<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025204651400.png" srcset="/img/loading.gif" lazyload alt="image-20221025204651400" style="zoom:67%;" /></p>
+<p>由于这个instance没有属于instance的attribute named interest（虽然class里有，但这是对instance的操作），因此这里给instance增加了一个叫interest的变量并让它等于0.08</p>
+<p>eg：<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025205723781.png" srcset="/img/loading.gif" lazyload alt="image-20221025205723781"></p>
+<p>对class的进行修改，所有instance的interest都被修改了</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025205733156.png" srcset="/img/loading.gif" lazyload alt="image-20221025205733156" style="zoom:67%;" />
+
+<p>只改jim的，那就只改了jim的，此时jim被创建了新的属于jim的interest</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025205922569.png" srcset="/img/loading.gif" lazyload alt="image-20221025205922569" style="zoom:67%;" />
+
+<p>再改一次class的，发现jim的没改，因为jim这个instance的interest优先级高于class的了</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025205959559.png" srcset="/img/loading.gif" lazyload alt="image-20221025205959559" style="zoom: 67%;" />
+
+<h4 id="Inheritance"><a href="#Inheritance" class="headerlink" title="Inheritance"></a>Inheritance</h4><p>用来relate多个classes</p>
+<p>A common use: Two similar classes differ in their degree of specialization </p>
+<ul>
+<li>The specialized class may have the same attributes as the general class</li>
+<li>along with some special-case behavior</li>
+</ul>
+<p>使用格式：</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028174349732.png" srcset="/img/loading.gif" lazyload alt="image-20221028174349732" style="zoom:67%;" />
+
+<p>the new subclass ：</p>
+<ul>
+<li><strong>inherits</strong> attributes of its base class</li>
+<li>may <strong>override</strong> certain inherited attributes</li>
+</ul>
+<p>关于attributes:</p>
+<p>Base class attributes <strong>aren’t copied</strong> into subclasses</p>
+<p>当你使用一个attribute的时候:</p>
+<ol>
+<li><p>If it names an attribute in the class, return the attribute value.  </p>
+</li>
+<li><p>Otherwise, <strong>look up the name in the base class</strong>, if there is one</p>
+</li>
+</ol>
+<h6 id="eg"><a href="#eg" class="headerlink" title="eg"></a>eg</h6><p> <code>CheckingAccount</code> is a specialized type of <code>Account</code></p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028174940622.png" srcset="/img/loading.gif" lazyload alt="image-20221028174940622" style="zoom: 67%;" />
+
+<p>class定义长这样:</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028175058940.png" srcset="/img/loading.gif" lazyload alt="image-20221028175058940" style="zoom: 67%;" />
+
+<p>使用attributes:</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028175507334.png" srcset="/img/loading.gif" lazyload alt="image-20221028175507334" style="zoom:67%;" />
+
+<p>deposit没在checkingaccount被定义,因此寻找父class的</p>
+<p>withdraw被定义了,因此就用chekingaccount的了</p>
+<h4 id="How-to-design-object-oriented-program"><a href="#How-to-design-object-oriented-program" class="headerlink" title="How to design object-oriented program"></a>How to design object-oriented program</h4><h6 id="for-Inheritance"><a href="#for-Inheritance" class="headerlink" title="for Inheritance"></a>for Inheritance</h6><p>约法:</p>
+<ul>
+<li>Don’t repeat yourself; use existing implementations 避免老是复制已有的函数(那样很呆)</li>
+<li>Look up attributes on instances whenever possible 如果能用父亲的就用(这样简洁) <img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028180843418.png" srcset="/img/loading.gif" lazyload alt="image-20221028180843418" style="zoom:80%;" /></li>
+</ul>
+<h6 id="Inheritance-and-Composition"><a href="#Inheritance-and-Composition" class="headerlink" title="Inheritance and Composition"></a>Inheritance and Composition</h6><ul>
+<li>Inheritance is best for representing <strong>is</strong>-a relationships </li>
+<li>Composition is best for representing <strong>has</strong>-a relationships</li>
+</ul>
+<p><strong>is</strong>:account和checkingaccount</p>
+<p><strong>has</strong>:这个bank可以has chekingaccount</p>
+<h6 id="Attributes-Lookup-Practice"><a href="#Attributes-Lookup-Practice" class="headerlink" title="Attributes Lookup Practice"></a>Attributes Lookup Practice</h6><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028190929417.png" srcset="/img/loading.gif" lazyload alt="image-20221028190929417" style="zoom:80%;" />
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192025068.png" srcset="/img/loading.gif" lazyload alt="image-20221028192025068" style="zoom:67%;" />
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192033154.png" srcset="/img/loading.gif" lazyload alt="image-20221028192033154" style="zoom:80%;" />
+
+<p>并没有创造对象,这只是看了下n</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192059314.png" srcset="/img/loading.gif" lazyload alt="image-20221028192059314" style="zoom:80%;" />
+
+<p>因为上一句没有创建C的对象,因此没有改变z,应是相等的</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192533634.png" srcset="/img/loading.gif" lazyload alt="image-20221028192533634" style="zoom:80%;" />
+
+<p>看图中结构,会发现b.z是一个instance</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192722455.png" srcset="/img/loading.gif" lazyload alt="image-20221028192722455" style="zoom:67%;" />
+
+<h4 id="Multiple-Inheritance"><a href="#Multiple-Inheritance" class="headerlink" title="Multiple Inheritance"></a>Multiple Inheritance</h4><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028202322497.png" srcset="/img/loading.gif" lazyload alt="image-20221028202322497" style="zoom:67%;" />
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028202444534.png" srcset="/img/loading.gif" lazyload alt="image-20221028202444534" style="zoom:67%;" />
+
+<h4 id="Complicated-Inheritance"><a href="#Complicated-Inheritance" class="headerlink" title="Complicated Inheritance"></a>Complicated Inheritance</h4><h1 id="Lab7"><a href="#Lab7" class="headerlink" title="Lab7"></a>Lab7</h1><h4 id="Object-Oriented-Programming"><a href="#Object-Oriented-Programming" class="headerlink" title="Object-Oriented Programming"></a>Object-Oriented Programming</h4><p><strong>Object-oriented programming</strong> (OOP) is a style of programming that allows you to think of code in terms of “objects.” Here’s an example of a <code>Car</code> class:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Car</span>:<br>    num_wheels = <span class="hljs-number">4</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params"><span class="hljs-variable language_">self</span>, color</span>):<br>        <span class="hljs-variable language_">self</span>.wheels = <span class="hljs-title class_">Car</span>.num_wheels<br>        <span class="hljs-variable language_">self</span>.color = color<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">drive</span>(<span class="hljs-params"><span class="hljs-variable language_">self</span></span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.wheels &lt;= <span class="hljs-title class_">Car</span>.<span class="hljs-symbol">num_wheels:</span><br>            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.color + <span class="hljs-string">&#x27; car cannot drive!&#x27;</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.color + <span class="hljs-string">&#x27; car goes vroom!&#x27;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">pop_tire</span>(<span class="hljs-params"><span class="hljs-variable language_">self</span></span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.wheels &gt; <span class="hljs-number">0</span>:<br>            <span class="hljs-variable language_">self</span>.wheels -= <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p>Here’s some terminology:</p>
+<ul>
+<li><p><strong>class</strong>: a blueprint for how to build a certain type of object. The <code>Car</code> class (shown above) describes the behavior and data that all <code>Car</code> objects have.</p>
+</li>
+<li><p><strong>instance</strong>: a particular occurrence of a class. In Python, we create instances of a class like this:</p>
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs isbl">&gt;&gt;&gt; <span class="hljs-variable">my_car</span> = <span class="hljs-function"><span class="hljs-title">Car</span>(<span class="hljs-string">&#x27;red&#x27;</span>)</span><br></code></pre></td></tr></table></figure>
+
+<p><code>my_car</code> is an instance of the <code>Car</code> class.</p>
+</li>
+<li><p><strong>data attributes</strong>: a variable that belongs to the instance (also called instance variables). Think of a data attribute as a quality of the object: cars have <em>wheels</em> and <em>color</em>, so we have given our <code>Car</code> instance <code>self.wheels</code> and <code>self.color</code> attributes. We can access attributes using <strong>dot notation</strong>:</p>
+<figure class="highlight python-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python-repl"><span class="hljs-meta prompt_">&gt;&gt;&gt;</span> <span class="language-python">my_car.color</span><br>&#x27;red&#x27;<br><span class="hljs-meta prompt_">&gt;&gt;&gt;</span> <span class="language-python">my_car.wheels</span><br>4<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>method</strong>: Methods are just like normal functions, except that they are bound to an instance. Think of a method as a “verb” of the class: cars can <em>drive</em> and also <em>pop their tires</em>, so we have given our <code>Car</code> instance the methods <code>drive</code> and <code>pop_tire</code>. We call methods using <strong>dot notation</strong>:</p>
+<figure class="highlight python-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python-repl"><span class="hljs-meta prompt_">&gt;&gt;&gt;</span> <span class="language-python">my_car = Car(<span class="hljs-string">&#x27;red&#x27;</span>)</span><br><span class="hljs-meta prompt_">&gt;&gt;&gt;</span> <span class="language-python">my_car.drive()</span><br>&#x27;red car goes vroom!&#x27;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>constructor</strong>: As with data abstraction, constructors build an instance of the class. The constructor for car objects is <code>Car(color)</code>. When Python calls that constructor, it immediately calls the <code>__init__</code> method. That’s where we initialize the data attributes:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params"><span class="hljs-variable language_">self</span>, color</span>):<br>    <span class="hljs-variable language_">self</span>.wheels = <span class="hljs-title class_">Car</span>.num_wheels<br>    <span class="hljs-variable language_">self</span>.color = color<br></code></pre></td></tr></table></figure>
+
+<p>The constructor takes in one argument, <code>color</code>. As you can see, this constructor also creates the <code>self.wheels</code> and <code>self.color</code> attributes.</p>
+</li>
+<li><p><code>self</code>: in Python, <code>self</code> is the first parameter for many methods (in this class, we will only use methods whose first parameter is <code>self</code>). When a method is called, <code>self</code> is bound to an instance of the class. For example:</p>
+<figure class="highlight python-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python-repl"><span class="hljs-meta prompt_">&gt;&gt;&gt;</span> <span class="language-python">my_car = Car(<span class="hljs-string">&#x27;red&#x27;</span>)</span><br><span class="hljs-meta prompt_">&gt;&gt;&gt;</span> <span class="language-python">car.drive()</span><br></code></pre></td></tr></table></figure>
+
+<p>Notice that the <code>drive</code> method takes in <code>self</code> as an argument, but it looks like we didn’t pass one in! This is because the dot notation <em>implicitly</em> passes in <code>car</code> as <code>self</code> for us.</p>
+</li>
+</ul>
+<h4 id="Cars"><a href="#Cars" class="headerlink" title="Cars"></a>Cars</h4><p>对继承更深的理解：</p>
+<p>base class就相当于普适的一类，比如说到车，我们就想到它有四个轮子。但是继承它的东西，应该说针对性的细化了，比如卡车耗油更多啥的</p>
+<h4 id="accounts"><a href="#accounts" class="headerlink" title="accounts"></a>accounts</h4>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CS61A/" class="category-chain-item">CS61A</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Computer-Sciense/">#Computer Sciense</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CS61A-19-inheritance</div>
+      <div>http://example.com/2022/08/13/CS61A/19-inheritance&amp;lab7/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Junxin Liu</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 13, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/14/CS61A/20-representation%20&amp;%20disc07/" title="CS61A-20-representation">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CS61A-20-representation</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/12/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/kkk/" title="python中pip安装库时出现Read timed out">
+                        <span class="hidden-mobile">python中pip安装库时出现Read timed out</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

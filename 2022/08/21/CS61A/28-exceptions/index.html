@@ -1,0 +1,707 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Junxin Liu">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Programs as dataExpressions, which can be:  Primitive expressions: 2 3.3 true + quotient  Combinations: (quotient 10 2) (not true)  built-in list structure can represent combinations: 12345scm&gt; (li">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS61A-28-exceptions">
+<meta property="og:url" content="http://example.com/2022/08/21/CS61A/28-exceptions/index.html">
+<meta property="og:site_name" content="Space">
+<meta property="og:description" content="Programs as dataExpressions, which can be:  Primitive expressions: 2 3.3 true + quotient  Combinations: (quotient 10 2) (not true)  built-in list structure can represent combinations: 12345scm&gt; (li">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109162536356.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109162913266.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109162921334.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109164159442.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109165053362.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109184847233.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109184854641.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109185231372.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109185317840.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109190429939.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109190720200.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109192348324.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109200754526.png">
+<meta property="article:published_time" content="2022-08-21T03:33:24.000Z">
+<meta property="article:modified_time" content="2023-01-18T03:49:17.773Z">
+<meta property="article:author" content="Junxin Liu">
+<meta property="article:tag" content="Computer Sciense">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109162536356.png">
+  
+  
+  
+  <title>CS61A-28-exceptions - Space</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20220809105458628.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CS61A-28-exceptions"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-21 11:33" pubdate>
+          August 21, 2022 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CS61A-28-exceptions</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="Programs-as-data"><a href="#Programs-as-data" class="headerlink" title="Programs as data"></a>Programs as data</h2><p>Expressions, which can be:</p>
+<ul>
+<li>Primitive expressions: <code>2 3.3 true + quotient </code></li>
+<li>Combinations: <code>(quotient 10 2) (not true)</code></li>
+</ul>
+<p>built-in list structure can represent combinations:</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scheme">scm&gt; (<span class="hljs-name"><span class="hljs-built_in">list</span></span> <span class="hljs-symbol">&#x27;quotient</span> <span class="hljs-number">10</span> <span class="hljs-number">2</span>)<br>(<span class="hljs-name"><span class="hljs-built_in">quotient</span></span> <span class="hljs-number">10</span> <span class="hljs-number">2</span>)<br>scm&gt; (<span class="hljs-name"><span class="hljs-built_in">eval</span></span> (<span class="hljs-name"><span class="hljs-built_in">list</span></span> <span class="hljs-symbol">&#x27;quotient</span> <span class="hljs-number">10</span> <span class="hljs-number">2</span>))<br><span class="hljs-number">5</span><br><span class="hljs-comment">;原来注释是这样写阿</span><br></code></pre></td></tr></table></figure>
+
+<p>eval：获取右边表达式的值</p>
+<p>这样就可以<strong>用代码写代码</strong>了！</p>
+<h6 id="一些eg"><a href="#一些eg" class="headerlink" title="一些eg"></a>一些eg</h6><p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109162536356.png" srcset="/img/loading.gif" lazyload alt="image-20221109162536356"></p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109162913266.png" srcset="/img/loading.gif" lazyload alt="image-20221109162913266" style="zoom:80%;" />
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109162921334.png" srcset="/img/loading.gif" lazyload alt="image-20221109162921334" style="zoom:80%;" />
+
+<h2 id="Generating-code"><a href="#Generating-code" class="headerlink" title="Generating code"></a>Generating code</h2><h5 id="Quasiquotation"><a href="#Quasiquotation" class="headerlink" title="Quasiquotation"></a>Quasiquotation</h5><p> two ways to quote</p>
+<ul>
+<li>Quote: <code>&#39;(a b) =&gt; (a b) </code></li>
+<li>Quasiquote: &#96;&#96;(a b) &#x3D;&gt; (a b)&#96;</li>
+</ul>
+<p>Difference:  quasiquoted expression can be <strong>unquoted with <code>,</code></strong></p>
+<ul>
+<li>Quote:<code>&#39;(a ,(+ b 1)) =&gt; (a (unquote (+ b 1))</code></li>
+<li>Quasiquote: &#96;&#96;(a ,(+ b 1)) &#x3D;&gt; (a 5)&#96;</li>
+</ul>
+<p>Quasiquotation is particularly convenient for generating Scheme expressions:</p>
+<h5 id="eg-while-statements"><a href="#eg-while-statements" class="headerlink" title="eg:while statements"></a>eg:while statements</h5><p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109164159442.png" srcset="/img/loading.gif" lazyload alt="image-20221109164159442"></p>
+<p>有意思的部分来了！现在让scheme自己把代码写出来！</p>
+<blockquote>
+<p>想做做今天的作业看看了</p>
+</blockquote>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs scheme">(<span class="hljs-name"><span class="hljs-built_in">define</span></span>   (<span class="hljs-name">sum-while</span> starting-x while-condition add-to-total update-x)<br>  <span class="hljs-comment">; (eval (sum-while 2          &#x27;(&lt; x 10)       &#x27;(* x x)     &#x27;(+ x 2)))  =&gt;  120</span><br>  <span class="hljs-comment">; (eval (sum-while 1          &#x27;(&lt; (* x x) 50) &#x27;x           &#x27;(+ x 1)))  =&gt;  28</span><br>  `(begin<br>     (define (f x total)<br>       (if ,while-condition<br>         (f ,update-x (+ total ,add-to-total))<br>         total))<br>     (f ,starting-x <span class="hljs-number">0</span>)))<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109165053362.png" srcset="/img/loading.gif" lazyload alt="image-20221109165053362"></p>
+<h2 id="Exceptions"><a href="#Exceptions" class="headerlink" title="Exceptions"></a>Exceptions</h2><p>Handling Errors,such as:</p>
+<ul>
+<li>A function receives an argument value of an improper type </li>
+<li>Some resource (such as a file) is not available </li>
+<li>A network connection is lost in the middle of data transmission</li>
+</ul>
+<p>the way to handle: <strong>exception</strong></p>
+<p>Python raises an exception whenever an error occurs Exceptions can be handled by the program, preventing the interpreter from halting</p>
+<p>Exceptions are objects</p>
+<p>If f calls g and g calls h, exceptions can shift control from h to f <strong>without waiting for  g to return</strong></p>
+<h5 id="Raising-Exceptions"><a href="#Raising-Exceptions" class="headerlink" title="Raising Exceptions"></a>Raising Exceptions</h5><p><strong>assert</strong></p>
+<p><code>assert ,&lt;expression&gt;, &lt;string&gt; </code></p>
+<p>They can be ignored to increase efficiency  by running Python with the “-O” flag; “O” stands for optimized:<code>python3 -O</code></p>
+<p>Whether assertions are enabled is governed by a bool <code>__debug__</code></p>
+<h6 id="eg"><a href="#eg" class="headerlink" title="eg"></a>eg</h6><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109184847233.png" srcset="/img/loading.gif" lazyload alt="image-20221109184847233" style="zoom:80%;" />
+
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109184854641.png" srcset="/img/loading.gif" lazyload alt="image-20221109184854641"></p>
+<p><strong>raise</strong></p>
+<p><code>raise &lt;expression&gt; </code></p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109185231372.png" srcset="/img/loading.gif" lazyload alt="image-20221109185231372"></p>
+<h6 id="eg-1"><a href="#eg-1" class="headerlink" title="eg"></a>eg</h6><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109185317840.png" srcset="/img/loading.gif" lazyload alt="image-20221109185317840" style="zoom:80%;" />
+
+<h5 id="Try-statements"><a href="#Try-statements" class="headerlink" title="Try statements"></a>Try statements</h5><p>Try statements handle exceptions</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109190429939.png" srcset="/img/loading.gif" lazyload alt="image-20221109190429939" style="zoom:80%;" />
+
+<ol>
+<li><p>Execute <try suite></p>
+</li>
+<li><p>an exception is raised</p>
+<p>not handled</p>
+<p> inherits from <exception class></p>
+</li>
+<li><p>The  is executed, with  bound to the exception</p>
+</li>
+</ol>
+<h6 id="eg-2"><a href="#eg-2" class="headerlink" title="eg"></a>eg</h6><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109190720200.png" srcset="/img/loading.gif" lazyload alt="image-20221109190720200" style="zoom:67%;" />
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">invert</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Return 1/x</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; invert(2)</span><br><span class="hljs-string">    Never printed if x is 0</span><br><span class="hljs-string">    0.5</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    result = <span class="hljs-number">1</span>/x  <span class="hljs-comment"># Raises a ZeroDivisionError if x is 0</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Never printed if x is 0&#x27;</span>)<br>    <span class="hljs-keyword">return</span> result<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">invert_safe</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Return 1/x, or the string &#x27;divison by zero&#x27; if x is 0.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; invert_safe(2)</span><br><span class="hljs-string">    Never printed if x is 0</span><br><span class="hljs-string">    0.5</span><br><span class="hljs-string">    &gt;&gt;&gt; invert_safe(0)</span><br><span class="hljs-string">    &#x27;division by zero&#x27;</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-keyword">return</span> invert(x)<br>    <span class="hljs-keyword">except</span> ZeroDivisionError <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">str</span>(e)<br></code></pre></td></tr></table></figure>
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109192348324.png" srcset="/img/loading.gif" lazyload alt="image-20221109192348324" style="zoom:80%;" />
+
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221109200754526.png" srcset="/img/loading.gif" lazyload alt="image-20221109200754526"></p>
+<p>👆此时因为exception已经被处理了,所以没有运行后面print hello的部分</p>
+<h5 id="eg-reduce"><a href="#eg-reduce" class="headerlink" title="eg:reduce"></a>eg:reduce</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> operator <span class="hljs-keyword">import</span> add, mul, truediv<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">reduce</span>(<span class="hljs-params">f, s, initial</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Combine elements of s pairwise using f, starting with initial.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; reduce(mul, [2, 4, 8], 1)</span><br><span class="hljs-string">    64</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> s:<br>        <span class="hljs-keyword">return</span> initial<br>    <span class="hljs-keyword">else</span>:<br>        first, rest = s[<span class="hljs-number">0</span>], s[<span class="hljs-number">1</span>:]<br>        <span class="hljs-keyword">return</span> reduce(f, rest, f(initial, first))<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">reduce2</span>(<span class="hljs-params">f, s, initial</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Combine elements of s pairwise using f, starting with initial.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; reduce2(mul, [2, 4, 8], 1)</span><br><span class="hljs-string">    64</span><br><span class="hljs-string">    &gt;&gt;&gt; reduce2(pow, [1, 2, 3, 4], 2)</span><br><span class="hljs-string">    16777216</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> s:<br>        initial = f(initial, x)<br>    <span class="hljs-keyword">return</span> initial<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">divide_all</span>(<span class="hljs-params">n, ds</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Divide n by every d in ds.</span><br><span class="hljs-string"></span><br><span class="hljs-string">    &gt;&gt;&gt; divide_all(1024, [2, 4, 8])</span><br><span class="hljs-string">    16.0</span><br><span class="hljs-string">    &gt;&gt;&gt; divide_all(1024, [2, 4, 0, 8])</span><br><span class="hljs-string">    inf</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-keyword">return</span> reduce(truediv, ds, n)<br>    <span class="hljs-keyword">except</span> ZeroDivisionError:<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">float</span>(<span class="hljs-string">&#x27;inf&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>inf</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CS61A/" class="category-chain-item">CS61A</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Computer-Sciense/">#Computer Sciense</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CS61A-28-exceptions</div>
+      <div>http://example.com/2022/08/21/CS61A/28-exceptions/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Junxin Liu</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 21, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/22/CS61A/30-interpreters&amp;lab11/" title="CS61A-30-interpreters">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CS61A-30-interpreters</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/21/CS61A/29-calculator&amp;hw8/" title="CS61A-29-calculator">
+                        <span class="hidden-mobile">CS61A-29-calculator</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

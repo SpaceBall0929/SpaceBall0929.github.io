@@ -1,0 +1,788 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Junxin Liu">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Scheme itself is not commonly used in production, but has influenced many other languages, and is a good example of a functional programming language.   Scheme Intro在终端使用sheme：输入mit-scheme Scheme ex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS61A-27-scheme">
+<meta property="og:url" content="http://example.com/2022/08/20/CS61A/27-scheme%20lab10%20hw7/index.html">
+<meta property="og:site_name" content="Space">
+<meta property="og:description" content="Scheme itself is not commonly used in production, but has influenced many other languages, and is a good example of a functional programming language.   Scheme Intro在终端使用sheme：输入mit-scheme Scheme ex">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106170253292.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106170506716.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106170806986.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106171944068.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106172025295.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106172544986.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106172600444.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106173332774.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106173607583.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106173716179.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106203717850.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106204134929.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106204406176.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106205310037.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106205650546.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106211350945.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106211737244.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106212800466.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106213749144.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106213759104.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106213854836.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106213915060.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106213939837.png">
+<meta property="og:image" content="https://inst.eecs.berkeley.edu/~cs61a/fa21/lab/lab10/assets/list2.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221108203318449.png">
+<meta property="article:published_time" content="2022-08-20T03:33:24.000Z">
+<meta property="article:modified_time" content="2023-01-18T03:49:01.734Z">
+<meta property="article:author" content="Junxin Liu">
+<meta property="article:tag" content="Computer Sciense">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106170253292.png">
+  
+  
+  
+  <title>CS61A-27-scheme - Space</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20220809105458628.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CS61A-27-scheme"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-20 11:33" pubdate>
+          August 20, 2022 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          34 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CS61A-27-scheme</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<blockquote>
+<p>Scheme itself is not commonly used in production, but has influenced many other languages, and is a good example of a functional programming language.</p>
+</blockquote>
+</blockquote>
+<h1 id="Scheme-Intro"><a href="#Scheme-Intro" class="headerlink" title="Scheme Intro"></a>Scheme Intro</h1><p>在终端使用sheme：输入<code>mit-scheme</code></p>
+<h2 id="Scheme-expressions"><a href="#Scheme-expressions" class="headerlink" title="Scheme expressions"></a>Scheme expressions</h2><ul>
+<li><p>Primitive expressions: <code>2 3.3 true + quotient </code></p>
+</li>
+<li><p>Combinations: <code>(quotient 10 2) (not true)</code></p>
+</li>
+</ul>
+<p>Numbers -&gt; self-evaluating;</p>
+<p>symbols -&gt; bound to values.</p>
+<p>scheme里的functions叫procedures</p>
+<p>Call expressions include an operator and 0 or more operands in parentheses：</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106170253292.png" srcset="/img/loading.gif" lazyload alt="image-20221106170253292" style="zoom:67%;" />
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106170506716.png" srcset="/img/loading.gif" lazyload alt="image-20221106170506716" style="zoom:80%;" />
+
+<p>判断右边的东西是不是<code>?</code>左边的东西:</p>
+<blockquote>
+<p>这个<code>?</code>其实是函数名的一部分啦… …</p>
+</blockquote>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106170806986.png" srcset="/img/loading.gif" lazyload alt="image-20221106170806986" style="zoom:80%;" />
+
+<h2 id="Scheme-Forms"><a href="#Scheme-Forms" class="headerlink" title="Scheme Forms"></a>Scheme Forms</h2><p>A combination that is not a call expression is a special form.</p>
+<ul>
+<li>if expression: <code>(if  &lt;predicate&gt; &lt;consequent&gt; &lt;alternative&gt; )</code></li>
+</ul>
+<ol>
+<li>evaluate <code>&lt;predicate&gt;</code></li>
+<li>evaluate <code>&lt;consequent&gt;</code> or <code>&lt;alternative&gt;</code></li>
+</ol>
+<ul>
+<li><p>and or<code>(and  &lt;e1&gt; ... &lt;en&gt; ), (or &lt;e1&gt; ... &lt;en&gt; )</code></p>
+</li>
+<li><p>Binding symbols: <code>(define &lt;symbol&gt; &lt;expression&gt; )</code></p>
+</li>
+</ul>
+  <img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106171944068.png" srcset="/img/loading.gif" lazyload alt="image-20221106171944068" style="zoom:80%;" />
+
+<ul>
+<li>New procedures: <code>(define (&lt;symbol&gt; &lt;formal parameters&gt;) &lt;body&gt;)</code></li>
+</ul>
+  <img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106172025295.png" srcset="/img/loading.gif" lazyload alt="image-20221106172025295" style="zoom:80%;" />
+
+  
+
+<blockquote>
+<p>有点像汇编语言</p>
+</blockquote>
+<h6 id="自己上机操作"><a href="#自己上机操作" class="headerlink" title="自己上机操作"></a>自己上机操作</h6><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106172544986.png" srcset="/img/loading.gif" lazyload alt="image-20221106172544986" style="zoom:67%;" />
+
+<p>可以嵌套:</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106172600444.png" srcset="/img/loading.gif" lazyload alt="image-20221106172600444" style="zoom:67%;" />
+
+<p>递归调用:</p>
+<p>牛顿迭代法求sqrt</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106173332774.png" srcset="/img/loading.gif" lazyload alt="image-20221106173332774" style="zoom:80%;" />
+
+<h5 id="lambda-expressions"><a href="#lambda-expressions" class="headerlink" title="lambda expressions"></a>lambda expressions</h5><p>evaluate to anonymous procedures</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106173607583.png" srcset="/img/loading.gif" lazyload alt="image-20221106173607583" style="zoom:80%;" />
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106173716179.png" srcset="/img/loading.gif" lazyload alt="image-20221106173716179" style="zoom:80%;" />
+
+<h5 id="more-special-forms"><a href="#more-special-forms" class="headerlink" title="more special forms"></a>more special forms</h5><h6 id="Cond-amp-Begin"><a href="#Cond-amp-Begin" class="headerlink" title="Cond &amp; Begin"></a>Cond &amp; Begin</h6><p> cond behaves like if-elif-else statements in Python</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106203717850.png" srcset="/img/loading.gif" lazyload alt="image-20221106203717850" style="zoom:80%;" />
+
+<p>begin combines multiple expressions into one expression</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106204134929.png" srcset="/img/loading.gif" lazyload alt="image-20221106204134929" style="zoom: 67%;" />
+
+<p> let binds symbols to values temporarily; just for one expression</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106204406176.png" srcset="/img/loading.gif" lazyload alt="image-20221106204406176" style="zoom:80%;" />
+
+<p>注:在scheme中,一般用let不用define,define就像宏一样用于定义“permanent”的东西</p>
+<h6 id="eg-Sierpinski’s-Triangle"><a href="#eg-Sierpinski’s-Triangle" class="headerlink" title="eg:Sierpinski’s Triangle"></a>eg:Sierpinski’s Triangle</h6><p>操控小箭头</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scheme">(<span class="hljs-name">fd</span> <span class="hljs-number">40</span>) //向前<br>(<span class="hljs-name">rt</span> <span class="hljs-number">90</span>) //右转<span class="hljs-number">90</span>°<br>(<span class="hljs-name">lt</span> <span class="hljs-number">90</span>)<br></code></pre></td></tr></table></figure>
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106205310037.png" srcset="/img/loading.gif" lazyload alt="image-20221106205310037" style="zoom:80%;" />
+
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs scheme">(<span class="hljs-name">speed</span> <span class="hljs-number">0</span>)<br>(<span class="hljs-name">rt</span> <span class="hljs-number">90</span>)<br>(<span class="hljs-name"><span class="hljs-built_in">define</span></span> (<span class="hljs-name">line</span>) (<span class="hljs-name">fd</span> <span class="hljs-number">100</span>))<br>(<span class="hljs-name"><span class="hljs-built_in">define</span></span> (<span class="hljs-name">twice</span> fn) (<span class="hljs-name">fn</span>) (<span class="hljs-name">fn</span>))<br>(<span class="hljs-name"><span class="hljs-built_in">define</span></span> (<span class="hljs-name">repeat</span> k fn)<br>  <span class="hljs-comment">; Repeat fn k times.</span><br>  (<span class="hljs-name">fn</span>)<br>  (<span class="hljs-name"><span class="hljs-built_in">if</span></span> (<span class="hljs-name"><span class="hljs-built_in">&gt;</span></span> k <span class="hljs-number">1</span>) (<span class="hljs-name">repeat</span> (<span class="hljs-name"><span class="hljs-built_in">-</span></span> k <span class="hljs-number">1</span>) fn)))<br>(<span class="hljs-name"><span class="hljs-built_in">define</span></span> (<span class="hljs-name">tri</span> fn)<br>  <span class="hljs-comment">; Repeat fn 3 times, each followed by a 120 degree turn.</span><br>  (<span class="hljs-name">repeat</span> <span class="hljs-number">3</span> (<span class="hljs-name"><span class="hljs-built_in">lambda</span></span> () (<span class="hljs-name">fn</span>) (<span class="hljs-name">lt</span> <span class="hljs-number">120</span>))))<br>(<span class="hljs-name"><span class="hljs-built_in">define</span></span> (<span class="hljs-name">sier</span> d k)<br>  <span class="hljs-comment">; Draw three legs of Sierpinski&#x27;s triangle to depth d.</span><br>  (<span class="hljs-name">tri</span> (<span class="hljs-name"><span class="hljs-built_in">lambda</span></span> ()<br>         (<span class="hljs-name"><span class="hljs-built_in">if</span></span> (<span class="hljs-name"><span class="hljs-built_in">=</span></span> k <span class="hljs-number">1</span>) (<span class="hljs-name">fd</span> d) (<span class="hljs-name">leg</span> d k)))))<br>(<span class="hljs-name"><span class="hljs-built_in">define</span></span> (<span class="hljs-name">leg</span> d k)<br>  <span class="hljs-comment">; Draw one leg of Sierpinski&#x27;s triangle to depth d.</span><br>  (<span class="hljs-name">sier</span> (<span class="hljs-name"><span class="hljs-built_in">/</span></span> d <span class="hljs-number">2</span>) (<span class="hljs-name"><span class="hljs-built_in">-</span></span> k <span class="hljs-number">1</span>))<br>  (<span class="hljs-name">penup</span>) (<span class="hljs-name">fd</span> d) (<span class="hljs-name">pendown</span>))<br>(<span class="hljs-name">sier</span> <span class="hljs-number">200</span> <span class="hljs-number">5</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106205650546.png" srcset="/img/loading.gif" lazyload alt="image-20221106205650546" style="zoom:67%;" />
+
+<h5 id="Lists"><a href="#Lists" class="headerlink" title="Lists"></a>Lists</h5><p>Every scheme list is a link list</p>
+<ul>
+<li>cons: Two-argument procedure that creates a linked list </li>
+<li>car: Procedure that returns the first element of a list</li>
+<li>cdr: Procedure that returns the rest of a list</li>
+<li>nil: The empty list</li>
+</ul>
+<p> Scheme lists are written in parentheses with elements separated by spaces</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106211350945.png" srcset="/img/loading.gif" lazyload alt="image-20221106211350945"></p>
+<p>还可以draw</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106211737244.png" srcset="/img/loading.gif" lazyload alt="image-20221106211737244" style="zoom: 67%;" />
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106212800466.png" srcset="/img/loading.gif" lazyload alt="image-20221106212800466" style="zoom:67%;" />
+
+<h5 id="Symbolic-Programming"><a href="#Symbolic-Programming" class="headerlink" title="Symbolic Programming"></a>Symbolic Programming</h5><p>quote可以让symbol也变成value</p>
+<blockquote>
+<p>人话:字符</p>
+</blockquote>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106213749144.png" srcset="/img/loading.gif" lazyload alt="image-20221106213749144"></p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106213759104.png" srcset="/img/loading.gif" lazyload alt="image-20221106213759104"></p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106213854836.png" srcset="/img/loading.gif" lazyload alt="image-20221106213854836" style="zoom:80%;" />
+
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106213915060.png" srcset="/img/loading.gif" lazyload alt="image-20221106213915060"></p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221106213939837.png" srcset="/img/loading.gif" lazyload alt="image-20221106213939837"></p>
+<h1 id="Lab-10"><a href="#Lab-10" class="headerlink" title="Lab 10"></a>Lab 10</h1><h4 id="1"><a href="#1" class="headerlink" title="1"></a>1</h4><figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs scheme">------quotient是向下取整------<br>scm&gt; (<span class="hljs-name"><span class="hljs-built_in">quotient</span></span> <span class="hljs-number">29</span> <span class="hljs-number">5</span>)<br>? <span class="hljs-number">6</span><br>-- Not quite. Try again! --<br><br>? <span class="hljs-number">5</span><br>-- OK! --<br><br>------Scheme uses <span class="hljs-symbol">&#x27;=</span>&#x27; instead of <span class="hljs-symbol">&#x27;==</span>&#x27; for comparison------<br>scm&gt; (<span class="hljs-name"><span class="hljs-built_in">=</span></span> <span class="hljs-number">1</span> <span class="hljs-number">3</span>)<br><br>------or 最原始的感觉,遇到true的值就停了------<br>scm&gt; (<span class="hljs-name"><span class="hljs-built_in">or</span></span> <span class="hljs-number">1</span> <span class="hljs-literal">#t</span>)                  <span class="hljs-comment">; or special form short circuits</span><br>? #t<br>-- Not quite. Try again! --<br>? #f<br>-- Not quite. Try again! --<br>? <span class="hljs-number">1</span><br>-- OK! --<br><br>------define的返回值------<br>scm&gt; (<span class="hljs-name"><span class="hljs-built_in">define</span></span> x <span class="hljs-number">3</span>)<br>? x<br>-- OK! --<br><br>------lambda后面的是形参,不是前面提到的值------<br>scm&gt; (<span class="hljs-name"><span class="hljs-built_in">define</span></span> x (<span class="hljs-name"><span class="hljs-built_in">lambda</span></span> (y) (<span class="hljs-name"><span class="hljs-built_in">*</span></span> y <span class="hljs-number">2</span>)))<br>? x<br>-- OK! --<br>scm&gt; (<span class="hljs-name">x</span> y)<br>? [<span class="hljs-name">14</span>,<span class="hljs-number">7</span>]<br>-- Not quite. Try again! --<br>? <span class="hljs-number">14</span><br>-- OK! --<br><br>------if语句没只过去,但是hi是在传参的时候被print的------<br>scm&gt; (<span class="hljs-name">foo</span> <span class="hljs-number">1</span> <span class="hljs-number">2</span> (<span class="hljs-name">print</span> <span class="hljs-symbol">&#x27;hi</span>))<br>(<span class="hljs-name">line</span> <span class="hljs-number">1</span>)? hi<br>(<span class="hljs-name">line</span> <span class="hljs-number">2</span>)? <span class="hljs-number">2</span><br>-- OK! --<br>------scheme传参是不用括号的！-------<br><br>------被耍了草------<br>scm&gt; ((<span class="hljs-name"><span class="hljs-built_in">lambda</span></span> (a) (<span class="hljs-name">print</span> <span class="hljs-symbol">&#x27;a</span>)) <span class="hljs-number">100</span>)<br>? <span class="hljs-number">100</span><br>-- Not quite. Try again! --<br>? <span class="hljs-symbol">&#x27;100</span><br>-- Not quite. Try again! --<br>? a<br>-- OK! --<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="2"><a href="#2" class="headerlink" title="2"></a>2</h4><p>关于什么时候加括号的问题：</p>
+<p>函数定义<code>define (over-or-under num1 num2) </code> 应该是把后面 <code>函数名 参数</code>也看成一个expression了</p>
+<blockquote>
+<p>看来scheme对理解编译原理是有帮助的阿…</p>
+</blockquote>
+<h4 id="3"><a href="#3" class="headerlink" title="3"></a>3</h4><blockquote>
+<p>Write the procedure <code>make-adder</code> which takes in an initial number, <code>num</code>, and then returns a procedure. This returned procedure takes in a number <code>inc</code> and returns the result of <code>num + inc</code>.</p>
+</blockquote>
+<p> Scheme will automatically <strong>return the last clause</strong> in your procedure.</p>
+<p>更深的理解:</p>
+<p><code>(操作  参数)</code></p>
+<p>既然它会自动返回最后一个clause</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scheme">(<span class="hljs-name"><span class="hljs-built_in">define</span></span> (<span class="hljs-name">make-adder</span> num) <br>    (<span class="hljs-name"><span class="hljs-built_in">define</span></span> (<span class="hljs-name">add</span> inc) (<span class="hljs-name"><span class="hljs-built_in">+</span></span> num inc))<br>    add)<br></code></pre></td></tr></table></figure>
+
+<p>那最后一个clause就直接留一个函数吧!</p>
+<h4 id="4"><a href="#4" class="headerlink" title="4"></a>4</h4><figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs scheme">scm&gt; c<br>? (<span class="hljs-name">3</span> (<span class="hljs-name">2</span> <span class="hljs-number">1</span>))<br>-- OK! --<br><br>scm&gt; (<span class="hljs-name"><span class="hljs-built_in">cdr</span></span> c)<br>? (<span class="hljs-name">2</span> <span class="hljs-number">1</span>)<br>-- Not quite. Try again! --<br><br>? ((<span class="hljs-name">2</span> <span class="hljs-number">1</span>))<br>-- OK! --<br></code></pre></td></tr></table></figure>
+<p>cdr是一个list</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs scheme">scm&gt; (<span class="hljs-name"><span class="hljs-built_in">cdr</span></span> (<span class="hljs-name"><span class="hljs-built_in">car</span></span> (<span class="hljs-name"><span class="hljs-built_in">cdr</span></span> c)))<br>? nil<br>-- Not quite. Try again! --<br><br>?<br>-- Not quite. Try again! --<br><br>? ()<br>-- Not quite. Try again! --<br><br>? <span class="hljs-number">1</span><br>-- Not quite. Try again! --<br><br>? (<span class="hljs-name">1</span>)<br>-- OK! --<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://inst.eecs.berkeley.edu/~cs61a/fa21/lab/lab10/assets/list2.png" srcset="/img/loading.gif" lazyload alt="linked list"></p>
+<p>2不是sublist的开头元素,而是这个list的第二个元素</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scheme">type out exactly how Scheme would print the list that will be defined in this problem (<span class="hljs-name">see</span> spec)<br>? ((<span class="hljs-name">1</span>) <span class="hljs-number">2</span> (<span class="hljs-name">3</span> <span class="hljs-number">4</span>) <span class="hljs-number">5</span>)<br>-- OK! --<br></code></pre></td></tr></table></figure>
+
+<p>implement一个scheme list的方法:<br>先把打印形式写出来,然后再把cons和nil加进去</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs scheme">(<span class="hljs-name"><span class="hljs-built_in">define</span></span> lst <br>   (<span class="hljs-name"><span class="hljs-built_in">cons</span></span> (<span class="hljs-name"><span class="hljs-built_in">cons</span></span> <span class="hljs-number">1</span> nil) <br>         (<span class="hljs-name"><span class="hljs-built_in">cons</span></span> <span class="hljs-number">2</span> <br>                 (<span class="hljs-name"><span class="hljs-built_in">cons</span></span> (<span class="hljs-name"><span class="hljs-built_in">cons</span></span> <span class="hljs-number">3</span> (<span class="hljs-name"><span class="hljs-built_in">cons</span></span> <span class="hljs-number">4</span> nil)) <br>                       (<span class="hljs-name"><span class="hljs-built_in">cons</span></span> <span class="hljs-number">5</span> nil)))<br>         )<br>     )<br></code></pre></td></tr></table></figure>
+
+<h1 id="HW-07"><a href="#HW-07" class="headerlink" title="HW 07"></a>HW 07</h1><h5 id="2-1"><a href="#2-1" class="headerlink" title="2"></a>2</h5><p>这里的#t不能写成（#t），因为这是call的表达式，而#t是call不了的。</p>
+<p>call的表达式一定要符合<code>(操作 被操作的东西)</code></p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs scheme">(<span class="hljs-name"><span class="hljs-built_in">define</span></span> (<span class="hljs-name">ordered?</span> s) <br>    (<span class="hljs-name"><span class="hljs-built_in">cond</span></span> ((<span class="hljs-name"><span class="hljs-built_in">null?</span></span> s) <span class="hljs-literal">#t</span>)<br>          ((<span class="hljs-name"><span class="hljs-built_in">null?</span></span> (<span class="hljs-name"><span class="hljs-built_in">cdr</span></span> s)) <span class="hljs-literal">#t</span>)<br>          (<span class="hljs-name"><span class="hljs-built_in">else</span></span> <br>                (<span class="hljs-name"><span class="hljs-built_in">if</span></span> (<span class="hljs-name"><span class="hljs-built_in">&gt;</span></span> (<span class="hljs-name"><span class="hljs-built_in">car</span></span> s) (<span class="hljs-name"><span class="hljs-built_in">cadr</span></span> s))<br>                  <span class="hljs-literal">#f</span><br>                  (<span class="hljs-name">ordered?</span> (<span class="hljs-name"><span class="hljs-built_in">cdr</span></span> s))))<br>        )<br>    )<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-1"><a href="#3-1" class="headerlink" title="3"></a>3</h4><p>总之要注意这一个test:</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221108203318449.png" srcset="/img/loading.gif" lazyload alt="image-20221108203318449"></p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs scheme">(<span class="hljs-name"><span class="hljs-built_in">define</span></span> (<span class="hljs-name">pow</span> base exp) <br>    (<span class="hljs-name"><span class="hljs-built_in">if</span></span> (<span class="hljs-name"><span class="hljs-built_in">=</span></span> <span class="hljs-number">1</span> base)<br>        <span class="hljs-number">1</span><br>        (<span class="hljs-name"><span class="hljs-built_in">if</span></span> (<span class="hljs-name"><span class="hljs-built_in">even?</span></span> exp)<br>        (<span class="hljs-name">square</span> (<span class="hljs-name">pow</span> base (<span class="hljs-name"><span class="hljs-built_in">/</span></span> exp <span class="hljs-number">2</span>)))<br>        (<span class="hljs-name"><span class="hljs-built_in">if</span></span> (<span class="hljs-name"><span class="hljs-built_in">=</span></span> <span class="hljs-number">1</span> exp)<br>            base<br>            (<span class="hljs-name"><span class="hljs-built_in">*</span></span> base (<span class="hljs-name">pow</span> base (<span class="hljs-name"><span class="hljs-built_in">-</span></span> exp <span class="hljs-number">1</span>)))<br>            )<br>        )<br>    )<br>)<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CS61A/" class="category-chain-item">CS61A</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Computer-Sciense/">#Computer Sciense</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CS61A-27-scheme</div>
+      <div>http://example.com/2022/08/20/CS61A/27-scheme lab10 hw7/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Junxin Liu</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 20, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/21/CS61A/29-calculator&amp;hw8/" title="CS61A-29-calculator">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CS61A-29-calculator</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/18/CS61A/24-data%20examples/" title="CS61A-24">
+                        <span class="hidden-mobile">CS61A-24</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
