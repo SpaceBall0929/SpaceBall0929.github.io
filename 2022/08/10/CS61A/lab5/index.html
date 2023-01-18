@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>CS61A-lab5 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ListsQ1: Factors ListWrite factors_list, which takes a number n and returns a list of its factors in ascending order. 解答1234567891011121314151617def factors_list(n):    &quot;&quot;&quot;Return a list">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS61A-lab5">
+<meta property="og:url" content="http://example.com/2022/08/10/CS61A/lab5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="ListsQ1: Factors ListWrite factors_list, which takes a number n and returns a list of its factors in ascending order. 解答1234567891011121314151617def factors_list(n):    &quot;&quot;&quot;Return a list">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20220810121735858.png">
+<meta property="article:published_time" content="2022-08-10T03:33:24.000Z">
+<meta property="article:modified_time" content="2022-08-10T11:04:32.554Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Computer Sciense">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20220810121735858.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CS61A/lab5" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/08/10/CS61A/lab5/" class="article-date">
+  <time datetime="2022-08-10T03:33:24.000Z" itemprop="datePublished">2022-08-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CS61A/">CS61A</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CS61A-lab5
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Lists"><a href="#Lists" class="headerlink" title="Lists"></a>Lists</h2><h3 id="Q1-Factors-List"><a href="#Q1-Factors-List" class="headerlink" title="Q1: Factors List"></a>Q1: Factors List</h3><p>Write <code>factors_list</code>, which takes a number <code>n</code> and returns a list of its factors in ascending order.</p>
+<h5 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">factors_list</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Return a list containing all the numbers that divide `n` evenly, except</span></span><br><span class="line"><span class="string">    for the number itself. Make sure the list is in ascending order.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; factors_list(6)</span></span><br><span class="line"><span class="string">    [1, 2, 3]</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; factors_list(8)</span></span><br><span class="line"><span class="string">    [1, 2, 4]</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; factors_list(28)</span></span><br><span class="line"><span class="string">    [1, 2, 4, 7, 14]</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    all_factors = []</span><br><span class="line">    <span class="string">&quot;*** YOUR CODE HERE ***&quot;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n // <span class="number">2</span> + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> n % (i + <span class="number">1</span>):</span><br><span class="line">            all_factors.append(i + <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> all_factors</span><br></pre></td></tr></table></figure>
+
+<h3 id="Q2-Flatten"><a href="#Q2-Flatten" class="headerlink" title="Q2: Flatten"></a>Q2: Flatten</h3><p>Write a function <code>flatten</code> that takes a list and “flattens” it. The list could be a deep list, meaning that there could be a multiple layers of nesting within the list.</p>
+<p>For example, one use case of <code>flatten</code> could be the following:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; lst = [1, [[2], 3], 4, [5, 6]]</span><br><span class="line">&gt;&gt;&gt; flatten(lst)</span><br><span class="line">[1, 2, 3, 4, 5, 6]</span><br></pre></td></tr></table></figure>
+
+<p>Make sure your solution does not mutate the input list.</p>
+<blockquote>
+<p><strong>Hint</strong>: you can check if something is a list by using the built-in <code>type</code> function. For example:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; type(3) == list</span><br><span class="line">False</span><br><span class="line">&gt;&gt;&gt; type([1, 2, 3]) == list</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h5 id="解答-1"><a href="#解答-1" class="headerlink" title="解答"></a>解答</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">flatten</span>(<span class="params">s</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Returns a flattened version of list s.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; flatten([1, 2, 3])     # normal list</span></span><br><span class="line"><span class="string">    [1, 2, 3]</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; x = [1, [2, 3], 4]     # deep list</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; flatten(x)</span></span><br><span class="line"><span class="string">    [1, 2, 3, 4]</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; x # Ensure x is not mutated</span></span><br><span class="line"><span class="string">    [1, [2, 3], 4]</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; x = [[1, [1, 1]], 1, [1, 1]] # deep list</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; flatten(x)</span></span><br><span class="line"><span class="string">    [1, 1, 1, 1, 1, 1]</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; x</span></span><br><span class="line"><span class="string">    [[1, [1, 1]], 1, [1, 1]]</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="string">&quot;*** YOUR CODE HERE ***&quot;</span></span><br><span class="line">    f = []</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">rec_flat</span>(<span class="params">s, n</span>):</span><br><span class="line">        <span class="keyword">if</span> n == <span class="built_in">len</span>(s):</span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        <span class="keyword">elif</span> <span class="built_in">type</span>(s[n]) != <span class="built_in">list</span>:</span><br><span class="line">            f.append(s[n])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            rec_flat(s[n], <span class="number">0</span>)</span><br><span class="line">        rec_flat(s, n + <span class="number">1</span>)</span><br><span class="line">    rec_flat(s, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> f</span><br></pre></td></tr></table></figure>
+
+<p>pass了但是有点丑……</p>
+<p>因为觉得思路蛮递归的（因为要倒回来用之前的步骤），所以选择了递归。</p>
+<p>思路：</p>
+<ol>
+<li><p>扫描这个list</p>
+</li>
+<li><p>如果元素不是list，就加入f，去看下一个元素；</p>
+</li>
+<li><p>如果元素是list，那就针对这个list，从1.开始</p>
+</li>
+<li><p>如果扫描完了就结束这一次扫描</p>
+</li>
+</ol>
+<h2 id="Data-Abstraction"><a href="#Data-Abstraction" class="headerlink" title="Data Abstraction"></a>Data Abstraction</h2><p>Say we have an abstract data type for cities. A city has a name, a latitude coordinate, and a longitude coordinate.</p>
+<p>Our data abstraction has one <strong>constructor</strong>:</p>
+<ul>
+<li><code>make_city(name, lat, lon)</code>: Creates a city object with the given name, latitude, and longitude.</li>
+</ul>
+<p>We also have the following <strong>selectors</strong> in order to get the information for each city:</p>
+<ul>
+<li><code>get_name(city)</code>: Returns the city’s name</li>
+<li><code>get_lat(city)</code>: Returns the city’s latitude</li>
+<li><code>get_lon(city)</code>: Returns the city’s longitude</li>
+</ul>
+<p>Here is how we would use the constructor and selectors to create cities and extract their information:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; berkeley = make_city(&#x27;Berkeley&#x27;, 122, 37)</span><br><span class="line">&gt;&gt;&gt; get_name(berkeley)</span><br><span class="line">&#x27;Berkeley&#x27;</span><br><span class="line">&gt;&gt;&gt; get_lat(berkeley)</span><br><span class="line">122</span><br><span class="line">&gt;&gt;&gt; new_york = make_city(&#x27;New York City&#x27;, 74, 40)</span><br><span class="line">&gt;&gt;&gt; get_lon(new_york)</span><br><span class="line">40</span><br></pre></td></tr></table></figure>
+
+<p>All of the selector and constructor functions can be found in the lab file, if you are curious to see how they are implemented. However, the point of data abstraction is that we do not need to know how an abstract data type is implemented, but rather just how we can interact with and use the data type.</p>
+<h3 id="Q3-Distance"><a href="#Q3-Distance" class="headerlink" title="Q3: Distance"></a>Q3: Distance</h3><p>We will now implement the function <code>distance</code>, which computes the distance between two city objects. Recall that the distance between two coordinate pairs <code>(x1, y1)</code> and <code>(x2, y2)</code> can be found by calculating the <code>sqrt</code> of <code>(x1 - x2)**2 + (y1 - y2)**2</code>. We have already imported <code>sqrt</code> for your convenience. Use the latitude and longitude of a city as its coordinates; you’ll need to use the selectors to access this info!</p>
+<h5 id="解答-2"><a href="#解答-2" class="headerlink" title="解答"></a>解答</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">distance</span>(<span class="params">city_a, city_b</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; city_a = make_city(&#x27;city_a&#x27;, 0, 1)</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; city_b = make_city(&#x27;city_b&#x27;, 0, 2)</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; distance(city_a, city_b)</span></span><br><span class="line"><span class="string">    1.0</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; city_c = make_city(&#x27;city_c&#x27;, 6.5, 12)</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; city_d = make_city(&#x27;city_d&#x27;, 2.5, 15)</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; distance(city_c, city_d)</span></span><br><span class="line"><span class="string">    5.0</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="string">&quot;*** YOUR CODE HERE ***&quot;</span></span><br><span class="line">    x1 = get_lat(city_a)</span><br><span class="line">    y1 = get_lon(city_a)</span><br><span class="line">    x2 = get_lat(city_b)</span><br><span class="line">    y2 = get_lon(city_b)</span><br><span class="line">    <span class="keyword">return</span> sqrt((x1 - x2)**<span class="number">2</span> + </span><br><span class="line">                (y1 - y2)**<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Q4-Closer-city"><a href="#Q4-Closer-city" class="headerlink" title="Q4: Closer city"></a>Q4: Closer city</h3><p>Next, implement <code>closer_city</code>, a function that takes a latitude, longitude, and two cities, and returns the name of the city that is relatively closer to the provided latitude and longitude.</p>
+<p>You may only use the selectors and constructors introduced above and the <code>distance</code> function you just defined for this question.</p>
+<blockquote>
+<p><strong>Hint</strong>: How can you use your <code>distance</code> function to find the distance between the given location and each of the given cities?</p>
+</blockquote>
+<h5 id="解答-3"><a href="#解答-3" class="headerlink" title="解答"></a>解答</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">closer_city</span>(<span class="params">lat, lon, city_a, city_b</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Returns the name of either city_a or city_b, whichever is closest to</span></span><br><span class="line"><span class="string">    coordinate (lat, lon). If the two cities are the same distance away</span></span><br><span class="line"><span class="string">    from the coordinate, consider city_b to be the closer city.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; berkeley = make_city(&#x27;Berkeley&#x27;, 37.87, 112.26)</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; stanford = make_city(&#x27;Stanford&#x27;, 34.05, 118.25)</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; closer_city(38.33, 121.44, berkeley, stanford)</span></span><br><span class="line"><span class="string">    &#x27;Stanford&#x27;</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; bucharest = make_city(&#x27;Bucharest&#x27;, 44.43, 26.10)</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; vienna = make_city(&#x27;Vienna&#x27;, 48.20, 16.37)</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; closer_city(41.29, 174.78, bucharest, vienna)</span></span><br><span class="line"><span class="string">    &#x27;Bucharest&#x27;</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="string">&quot;*** YOUR CODE HERE ***&quot;</span></span><br><span class="line">    sample_city = make_city(<span class="string">&#x27;sample&#x27;</span>, lat, lon)</span><br><span class="line">    dist_a = distance(sample_city, city_a)</span><br><span class="line">    dist_b = distance(sample_city, city_b)</span><br><span class="line">    <span class="keyword">if</span> dist_a &gt; dist_b:</span><br><span class="line">        <span class="keyword">return</span> get_name(city_b)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> get_name(city_a)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Q5-Don’t-violate-the-abstraction-barrier"><a href="#Q5-Don’t-violate-the-abstraction-barrier" class="headerlink" title="Q5: Don’t violate the abstraction barrier!"></a>Q5: Don’t violate the abstraction barrier!</h3><p>When writing functions that use an data abstraction, we should use the constructor(s) and selector(s) whenever possible instead of assuming the data abstraction’s implementation. Relying on a data abstraction’s underlying implementation is known as <em>violating the abstraction barrier</em>, and we never want to do this!</p>
+<p>通过了,说明之前的code没有越过barrier!芜湖~</p>
+<h2 id="Trees"><a href="#Trees" class="headerlink" title="Trees"></a>Trees</h2><h3 id="Tree-review"><a href="#Tree-review" class="headerlink" title="Tree review"></a>Tree review</h3><p>A <code>tree</code> is a data structure that represents a hierarchy of information. A file system is a good example of a tree structure. For example, within your <code>cs61a</code> folder, you have folders separating your <code>projects</code>, <code>lab</code> assignments, and <code>homework</code>. The next level is folders that separate different assignments, <code>hw01</code>, <code>lab01</code>, <code>hog</code>, etc., and inside those are the files themselves, including the starter files and <code>ok</code>. Below is an incomplete diagram of what your <code>cs61a</code> directory might look like.</p>
+<p><img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20220810121735858.png" alt="cs61a_tree"></p>
+<p>As you can see, unlike trees in nature, the tree abstract data type is drawn with the root at the top and the leaves at the bottom.</p>
+<p>Some tree terminology:</p>
+<ul>
+<li><strong>root</strong>: the node at the top of the tree</li>
+<li><strong>label</strong>: the value in a node</li>
+<li><strong>branches</strong>: a list of trees directly under the tree’s root</li>
+<li><strong>leaf</strong>: a tree with zero branches</li>
+<li><strong>node</strong>: any location within the tree (e.g., root node, leaf nodes, etc.)</li>
+</ul>
+<p>Our <code>tree</code> abstract data type consists of a root and a list of its <code>branches</code>. To create a tree and access its root value and branches, use the following constructor and selectors:</p>
+<ul>
+<li>Constructor<ul>
+<li><code>tree(label, branches=[])</code>: creates a tree object with the given <code>label</code> value at its root node and list of <code>branches</code>. Notice that the second argument to this constructor, <code>branches</code>, is optional - if you want to make a tree with no branches, leave this argument empty.</li>
+</ul>
+</li>
+<li>Selectors<ul>
+<li><code>label(tree)</code>: returns the value in the root node of <code>tree</code>.</li>
+<li><code>branches(tree)</code>: returns the list of branches of the given <code>tree</code>.</li>
+</ul>
+</li>
+<li>Convenience function<ul>
+<li><code>is_leaf(tree)</code>: returns <code>True</code> if <code>tree</code>‘s list of <code>branches</code> is empty, and <code>False</code> otherwise.</li>
+</ul>
+</li>
+</ul>
+<p>For example, the tree generated by</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">number_tree = tree(1,</span><br><span class="line">         [tree(2),</span><br><span class="line">          tree(3,</span><br><span class="line">               [tree(4),</span><br><span class="line">                tree(5)]),</span><br><span class="line">          tree(6,</span><br><span class="line">               [tree(7)])])</span><br></pre></td></tr></table></figure>
+
+<p>would look like this:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   1</span><br><span class="line"> / | \</span><br><span class="line">2  3  6</span><br><span class="line">  / \  \</span><br><span class="line"> 4   5  7</span><br></pre></td></tr></table></figure>
+
+<p>To extract the number <code>3</code> from this tree, which is the label of the root of its second branch, we would do this:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">label(branches(number_tree)[1])</span><br></pre></td></tr></table></figure>
+
+<p>The <code>print_tree</code> function prints out a tree in a human-readable form. The exact form follows the pattern illustrated above, where the root is unindented, and each of its branches is indented one level further.</p>
+<p>def print_tree(t, indent=0):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&quot;&quot;&quot;Print a representation of this tree in which each node is</span><br><span class="line">indented by two spaces times its depth from the root.</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; print_tree(tree(1))</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; print_tree(tree(1, [tree(2)]))</span><br><span class="line">1</span><br><span class="line">  2</span><br><span class="line">&gt;&gt;&gt; numbers = tree(1, [tree(2), tree(3, [tree(4), tree(5)]), tree(6, [tree(7)])])</span><br><span class="line">&gt;&gt;&gt; print_tree(numbers)</span><br><span class="line">1</span><br><span class="line">  2</span><br><span class="line">  3</span><br><span class="line">    4</span><br><span class="line">    5</span><br><span class="line">  6</span><br><span class="line">    7</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">print(&#x27;  &#x27; * indent + str(label(t)))</span><br><span class="line">for b in branches(t):</span><br><span class="line">    print_tree(b, indent + 1)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Q6-Finding-Berries"><a href="#Q6-Finding-Berries" class="headerlink" title="Q6: Finding Berries!"></a>Q6: Finding Berries!</h3><p>The squirrels on campus need your help! There are a lot of trees on campus and the squirrels would like to know which ones contain berries. Define the function <code>berry_finder</code>, which takes in a tree and returns <code>True</code> if the tree contains a node with the value <code>&#39;berry&#39;</code> and <code>False</code> otherwise.</p>
+<blockquote>
+<p><strong>Hint</strong>: To iterate through each of the branches of a particular tree, you can consider using a <code>for</code> loop to get each branch.</p>
+</blockquote>
+<h5 id="回答"><a href="#回答" class="headerlink" title="回答"></a>回答</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">berry_finder</span>(<span class="params">t</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Returns True if t contains a node with the value &#x27;berry&#x27; and </span></span><br><span class="line"><span class="string">    False otherwise.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; scrat = tree(&#x27;berry&#x27;)</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; berry_finder(scrat)</span></span><br><span class="line"><span class="string">    True</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; sproul = tree(&#x27;roots&#x27;, [tree(&#x27;branch1&#x27;, [tree(&#x27;leaf&#x27;), tree(&#x27;berry&#x27;)]), tree(&#x27;branch2&#x27;)])</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; berry_finder(sproul)</span></span><br><span class="line"><span class="string">    True</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; numbers = tree(1, [tree(2), tree(3, [tree(4), tree(5)]), tree(6, [tree(7)])])</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; berry_finder(numbers)</span></span><br><span class="line"><span class="string">    False</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; t = tree(1, [tree(&#x27;berry&#x27;,[tree(&#x27;not berry&#x27;)])])</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; berry_finder(t)</span></span><br><span class="line"><span class="string">    True</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="string">&quot;*** YOUR CODE HERE ***&quot;</span></span><br><span class="line">    <span class="keyword">if</span> label(t) == <span class="string">&#x27;berry&#x27;</span>:</span><br><span class="line">        is_berry = <span class="literal">True</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        is_berry = <span class="literal">False</span> <span class="comment">#</span></span><br><span class="line">    <span class="keyword">for</span> branch <span class="keyword">in</span> branches(t):</span><br><span class="line">        is_berry = is_berry <span class="keyword">or</span> berry_finder(branch)</span><br><span class="line">    <span class="keyword">return</span> is_berry</span><br></pre></td></tr></table></figure>
+
+<p>tree的先根后结点的搜索方式。</p>
+<p>如何让它找到一个berry就能返回<code>True</code>呢，我这里用的是全部用或语句连接的方式。</p>
+<p>#号部分并不会使其出现一个<code>False</code>就返回<code>False</code>.因为在不同的frame噢(可以思考一下)</p>
+<p>另一种写法:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> label(t) == <span class="string">&#x27;berry&#x27;</span>:</span><br><span class="line">    is_berry = <span class="number">1</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    is_berry = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> branch <span class="keyword">in</span> branches(t):</span><br><span class="line">    is_berry += berry_finder(branch)</span><br><span class="line"><span class="keyword">return</span> <span class="built_in">bool</span>(is_berry)</span><br></pre></td></tr></table></figure>
+
+<p>解法2:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> label(t) == <span class="string">&#x27;berry&#x27;</span>:</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"><span class="keyword">for</span> branch <span class="keyword">in</span> branches(t):</span><br><span class="line">    <span class="keyword">if</span> berry_finder(branch):</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"><span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Q7-Sprout-leaves"><a href="#Q7-Sprout-leaves" class="headerlink" title="Q7: Sprout leaves"></a>Q7: Sprout leaves</h3><p>Define a function <code>sprout_leaves</code> that takes in a tree, <code>t</code>, and a list of leaves, <code>leaves</code>. It produces a new tree that is identical to <code>t</code>, but where each old leaf node has new branches, one for each leaf in <code>leaves</code>.</p>
+<p>For example, say we have the tree <code>t = tree(1, [tree(2), tree(3, [tree(4)])])</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  1</span><br><span class="line"> / \</span><br><span class="line">2   3</span><br><span class="line">    |</span><br><span class="line">    4</span><br></pre></td></tr></table></figure>
+
+<p>If we call <code>sprout_leaves(t, [5, 6])</code>, the result is the following tree:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">     1</span><br><span class="line">   /   \</span><br><span class="line">  2     3</span><br><span class="line"> / \    |</span><br><span class="line">5   6   4</span><br><span class="line">       / \</span><br><span class="line">      5   6</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sprout_leaves</span>(<span class="params">t, leaves</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Sprout new leaves containing the data in leaves at each leaf in</span></span><br><span class="line"><span class="string">    the original tree t and return the resulting tree.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; t1 = tree(1, [tree(2), tree(3)])</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; print_tree(t1)</span></span><br><span class="line"><span class="string">    1</span></span><br><span class="line"><span class="string">      2</span></span><br><span class="line"><span class="string">      3</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; new1 = sprout_leaves(t1, [4, 5])</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; print_tree(new1)</span></span><br><span class="line"><span class="string">    1</span></span><br><span class="line"><span class="string">      2</span></span><br><span class="line"><span class="string">        4</span></span><br><span class="line"><span class="string">        5</span></span><br><span class="line"><span class="string">      3</span></span><br><span class="line"><span class="string">        4</span></span><br><span class="line"><span class="string">        5</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; t2 = tree(1, [tree(2, [tree(3)])])</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; print_tree(t2)</span></span><br><span class="line"><span class="string">    1</span></span><br><span class="line"><span class="string">      2</span></span><br><span class="line"><span class="string">        3</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; new2 = sprout_leaves(t2, [6, 1, 2])</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; print_tree(new2)</span></span><br><span class="line"><span class="string">    1</span></span><br><span class="line"><span class="string">      2</span></span><br><span class="line"><span class="string">        3</span></span><br><span class="line"><span class="string">          6</span></span><br><span class="line"><span class="string">          1</span></span><br><span class="line"><span class="string">          2</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="string">&quot;*** YOUR CODE HERE ***&quot;</span></span><br><span class="line">    <span class="keyword">if</span> is_leaf(t):</span><br><span class="line">        <span class="keyword">return</span> tree(label(t), [tree(i) <span class="keyword">for</span> i <span class="keyword">in</span> leaves])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> tree(label(t),</span><br><span class="line">                    [sprout_leaves(j, leaves) <span class="keyword">for</span> j <span class="keyword">in</span> branches(t)])</span><br></pre></td></tr></table></figure>
+
+<p>不能用append</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/08/10/CS61A/lab5/" data-id="cld15jd2q001gggpg62x41ko2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Computer-Sciense/" rel="tag">Computer Sciense</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/08/12/CS61A/18-object/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          CS61A-18-object
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/08/09/CS61A/14-mutability/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CS61A-14-Mutability</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CS61A/">CS61A</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Essay-Notes/">Essay Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Q-A/">Q&A</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%97%E8%99%9A%E6%8B%9F%E4%BA%BA/">数字虚拟人</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%8E%E5%AE%8F%E6%AF%85%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">李宏毅机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E5%86%85/">课内</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Computer-Sciense/" rel="tag">Computer Sciense</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Deep-learning/" rel="tag">Deep learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/" rel="tag">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UE/" rel="tag">UE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/compiler/" rel="tag">compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/" rel="tag">pip</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Computer-Sciense/" style="font-size: 20px;">Computer Sciense</a> <a href="/tags/Deep-learning/" style="font-size: 10px;">Deep learning</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/UE/" style="font-size: 15px;">UE</a> <a href="/tags/compiler/" style="font-size: 10px;">compiler</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">October 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/18/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/12/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">CS61A-18-object</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/06/CS61A/25-users/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/04/CS61A/21-2-project%20Ants/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/02/CS61A/22-effiency/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

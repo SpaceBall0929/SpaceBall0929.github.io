@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="什么是iterators定义：一个对象，可以把一个序列变成“一个一个来”的元素（词穷是这样的  可以理解成position in a sequence  iter(iterable) 变成一个iterator next(iterator) returns the next element in an iterator. next是不可逆的 举例： 12345678toppings &#x3D; [&amp;quot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2022/10/18/CS61A/16-iterators%20&%20lab6/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="什么是iterators定义：一个对象，可以把一个序列变成“一个一个来”的元素（词穷是这样的  可以理解成position in a sequence  iter(iterable) 变成一个iterator next(iterator) returns the next element in an iterator. next是不可逆的 举例： 12345678toppings &#x3D; [&amp;quot">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018211105174.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018184158454.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018184405521.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018211014066.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018202734345.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018202746639.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203114282.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203337883.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203359317.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203611626.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203823872.png">
+<meta property="og:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018204138982.png">
+<meta property="og:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019111711933.png">
+<meta property="og:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019112035959.png">
+<meta property="og:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019112449717.png">
+<meta property="og:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019112936444.png">
+<meta property="og:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019121658198.png">
+<meta property="og:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019121724268.png">
+<meta property="og:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019122009770.png">
+<meta property="article:published_time" content="2022-10-18T08:10:31.749Z">
+<meta property="article:modified_time" content="2022-10-19T11:02:03.783Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018211105174.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CS61A/16-iterators &amp; lab6" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/10/18/CS61A/16-iterators%20&%20lab6/" class="article-date">
+  <time datetime="2022-10-18T08:10:31.749Z" itemprop="datePublished">2022-10-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="什么是iterators"><a href="#什么是iterators" class="headerlink" title="什么是iterators"></a>什么是iterators</h2><p>定义：一个对象，可以把一个序列变成“一个一个来”的元素（词穷是这样的</p>
+<blockquote>
+<p>可以理解成position in a sequence</p>
+</blockquote>
+<p><code>iter(iterable)</code> 变成一个iterator</p>
+<p><code>next(iterator)</code> returns the next element in an iterator.</p>
+<p>next是不可逆的</p>
+<p>举例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">toppings = [<span class="string">&quot;pineapple&quot;</span>, <span class="string">&quot;pepper&quot;</span>, <span class="string">&quot;mushroom&quot;</span>, <span class="string">&quot;roasted red pepper&quot;</span>]</span><br><span class="line"></span><br><span class="line">topperator = <span class="built_in">iter</span>(toppings)</span><br><span class="line"><span class="built_in">next</span>(<span class="built_in">iter</span>) <span class="comment"># &#x27;pineapple&#x27;</span></span><br><span class="line"><span class="built_in">next</span>(<span class="built_in">iter</span>) <span class="comment"># &#x27;pepper&#x27;</span></span><br><span class="line"><span class="built_in">next</span>(<span class="built_in">iter</span>) <span class="comment"># &#x27;mushroom&#x27;</span></span><br><span class="line"><span class="built_in">next</span>(<span class="built_in">iter</span>) <span class="comment"># &#x27;roasted red pepper&#x27;</span></span><br><span class="line"><span class="built_in">next</span>(<span class="built_in">iter</span>) <span class="comment"># ❌ StopIteration exception</span></span><br></pre></td></tr></table></figure>
+
+<p>什么样的才算iterable呢：Lists, tuples, dictionaries, strings, and ranges</p>
+<p>这些内容都可以生成迭代器。</p>
+<p>重复生成iterator,你会得到同一个东西:</p>
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018211105174.png" alt="image-20221018211105174" style="zoom: 67%;" />
+
+<h5 id="对于字典"><a href="#对于字典" class="headerlink" title="对于字典"></a>对于字典</h5><p>字典中item的顺序：</p>
+<ul>
+<li>版本3.5以后：加入顺序</li>
+<li>3.5及以前：arbitrary order</li>
+</ul>
+<p>而对于字典，可以有三种选择：keys iterator, values iterator, keys&amp;values(iterms) iterator.</p>
+<p><code>iter(d</code>默认使用keys)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">price_iter = <span class="built_in">iter</span>(prices.items())</span><br><span class="line"><span class="built_in">next</span>(price_iter)  <span class="comment"># (&quot;pineapple&quot;, 9.99)</span></span><br></pre></td></tr></table></figure>
+
+<p>如果迭代的时候，字典的结构/值被改变，则不能继续做iteration：</p>
+<p><img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018184158454.png" alt="image-20221018184158454"></p>
+<p>即这个时候迭代器不能用了。应该是出于数据安全性考虑！</p>
+<h2 id="iterator-遍历"><a href="#iterator-遍历" class="headerlink" title="iterator 遍历"></a>iterator 遍历</h2><p>在使用for的时候，会自动call next（）</p>
+<p>注意，iteration是<strong>不可逆</strong>的，任何情况都是！：</p>
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018184405521.png" alt="image-20221018184405521" style="zoom:80%;" />
+
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018211014066.png" alt="image-20221018211014066" style="zoom:80%;" />
+
+<p>除非重新创建一个iterator呢。 </p>
+<p>iterator是mutable的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nums = <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">4</span>)</span><br><span class="line">num_iter = <span class="built_in">iter</span>(nums)</span><br><span class="line">first = <span class="built_in">next</span>(num_iter)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> num_iter:</span><br><span class="line">    <span class="built_in">print</span>(num)</span><br></pre></td></tr></table></figure>
+
+<h2 id="一些好用的function"><a href="#一些好用的function" class="headerlink" title="一些好用的function"></a>一些好用的function</h2><p>把iterable转换成别的类型：</p>
+<table>
+<thead>
+<tr>
+<th align="left">Function</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functions.html#func-list"><code>list(iterable)</code></a></td>
+<td align="left">Returns a list containing all items in <code>iterable</code></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functions.html#func-tuple"><code>tuple(iterable)</code></a></td>
+<td align="left">Returns a tuple containing all items in <code>iterable</code></td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functions.html#sorted"><code>sorted(iterable)</code></a></td>
+<td align="left">Returns a sorted list containing all items in <code>iterable</code></td>
+</tr>
+</tbody></table>
+<p>把别的类型转换成iterable：<br>| Function                                                     | Description                                                  |<br>| :———————————————————– | :———————————————————– |<br>| <a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functions.html#reversed"><code>reversed(sequence)</code></a> | reverse了sequence [(See example in PythonTutor)](<a target="_blank" rel="noopener" href="http://pythontutor.com/visualize.html#code=chocolate_bars">http://pythontutor.com/visualize.html#code=chocolate_bars</a> %3D (“90%”, “70%”, “55%”) worst_first %3D reversed(chocolate_bars) for chocolate in worst_first%3A    print(chocolate)&amp;cumulative=true&amp;curInstr=0&amp;heapPrimitives=nevernest&amp;mode=display&amp;origin=opt-frontend.js&amp;py=3&amp;rawInputLstJSON=[]&amp;textReferences=false) |<br>| <a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functions.html#zip"><code>zip(*iterables)</code></a> | Iterate over co-indexed tuples with elements from each of the <code>iterables</code>（有点像笛卡尔积，把一维变成二维，两个序列合在一起了。） [(See example in PythonTutor)](<a target="_blank" rel="noopener" href="http://pythontutor.com/composingprograms.html#code=eng_nums">http://pythontutor.com/composingprograms.html#code=eng_nums</a> %3D [“one”, “two”, “three”] esp_nums %3D [“uno”, “dos”, “tres”] zip_iter %3D zip(eng_nums, esp_nums) eng, esp %3D next(zip_iter) print(eng, esp) for eng, esp in zip(eng_nums, esp_nums)%3A    print(eng, esp)&amp;cumulative=true&amp;curInstr=0&amp;mode=display&amp;origin=composingprograms.js&amp;py=3&amp;rawInputLstJSON=[]) |<br>| <a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functions.html#map"><code>map(func, iterable, ...)</code></a> | Iterate over <code>func(x)</code> for <code>x</code> in <code>iterable</code> Same as <code>[func(x) for x in iterable]</code> （返回函数值序列迭代器）[(See example in PythonTutor)](<a target="_blank" rel="noopener" href="http://pythontutor.com/visualize.html#code=nums">http://pythontutor.com/visualize.html#code=nums</a> %3D [1, 2, 3, 4, 5] %23 Map returns an iterator squares1 %3D map(lambda num%3A num ** 2, nums) %23 Create a list of all the elements from the iterator squares1 %3D list(squares1) %23 Compare to… squares2 %3D [num**2 for num in nums]&amp;cumulative=true&amp;curInstr=0&amp;heapPrimitives=nevernest&amp;mode=display&amp;origin=opt-frontend.js&amp;py=3&amp;rawInputLstJSON=[]&amp;textReferences=false) |<br>| <a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functions.html#filter"><code>filter(func, iterable)</code></a> | Iterate over <code>x</code> in <code>iterable</code> if <code>func(x)</code> Same as <code>[x for x in iterable if func(x)]</code>（条件） [(See example in PythonTutor)](<a target="_blank" rel="noopener" href="http://pythontutor.com/visualize.html#code=nums">http://pythontutor.com/visualize.html#code=nums</a> %3D [1, 2, 3, 4, 5] %23 Filter returns an iterator even1 %3D filter(lambda num%3A num % 2 %3D%3D 0, nums) %23 Create a list of all the elements from the iterator even1 %3D list(even1) %23 Compare to… even2 %3D [num for num in nums if num % 2 %3D%3D 0]&amp;cumulative=true&amp;curInstr=0&amp;heapPrimitives=nevernest&amp;mode=display&amp;origin=opt-frontend.js&amp;py=3&amp;rawInputLstJSON=[]&amp;textReferences=false) |</p>
+<h5 id="map："><a href="#map：" class="headerlink" title="map："></a>map：</h5><p>可不只是把函数值放进列表里这么简单哦！<br>实际上它有 <strong>调用函数</strong>这一步！</p>
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018202734345.png" alt="image-20221018202734345" style="zoom:67%;" />
+
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018202746639.png" alt="image-20221018202746639" style="zoom:67%;" />
+
+<p>可以看到print语句也被执行了。</p>
+<p>test：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">termified</span>(<span class="params">n, term</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Returns every the result of calling TERM</span></span><br><span class="line"><span class="string">    on each element in the range from 0 to N (inclusive).</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; termified(5, lambda x: 2 ** x)</span></span><br><span class="line"><span class="string">    [1, 2, 4, 8, 16, 32]</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">list</span>(<span class="built_in">map</span>(term, <span class="built_in">range</span>(n + <span class="number">1</span>)))</span><br></pre></td></tr></table></figure>
+<h5 id="filter："><a href="#filter：" class="headerlink" title="filter："></a>filter：</h5><p>和map结合在一起：</p>
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203114282.png" alt="image-20221018203114282" style="zoom:67%;" />
+
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203337883.png" alt="image-20221018203337883" style="zoom:67%;" />
+
+<p>可以发现，map的结果并不是返回一个单纯的函数序列， 而是”map“这个类型，也就是说，生成map的时候函数是没有被调用的。</p>
+<blockquote>
+<p>PS：iterator本身也是iterable的哦。</p>
+</blockquote>
+<p>转换成了filter的iterator，call next之后，一直调用map的func知道满足filter条件为止。</p>
+<p>之后，我们可以把剩下的元素list出来：</p>
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203359317.png" alt="image-20221018203359317" style="zoom:67%;" />
+
+<p>呀！已经没有剩下的了~</p>
+<h6 id="list"><a href="#list" class="headerlink" title="list"></a>list</h6><p>list（）把iteration转换成了列表，也就代表它全部<code>next</code>了一遍,把结果生成了一个list.对,map里的func也被一直call直到结束为止!</p>
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203611626.png" alt="image-20221018203611626" style="zoom:67%;" />
+
+<p>test:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">divisors</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Returns all the divisors of N.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; divisors(12)</span></span><br><span class="line"><span class="string">    [1, 2, 3, 4, 6]</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    #return list(filter(lambda x, n:n % x == 0, range(1, n / 2)))</span></span><br><span class="line"><span class="string">    #并不用传n进lambda，因为都在filter的frame里；而且也不能这么做，&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">list</span>(<span class="built_in">filter</span>(<span class="keyword">lambda</span> x: n % x == <span class="number">0</span>, <span class="built_in">range</span>(<span class="number">1</span>, n)))</span><br></pre></td></tr></table></figure>
+
+<h5 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h5><p>list之间是可以直接用关系运算符比较的:</p>
+<img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018203823872.png" alt="image-20221018203823872" style="zoom:67%;" />
+
+<h5 id="zip"><a href="#zip" class="headerlink" title="zip:"></a>zip:</h5><p>遇到对不上的,就直接丢了:</p>
+<p><img src="http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221018204138982.png" alt="image-20221018204138982"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">matches</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Return the number of values k such that A[k] == B[k].</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; matches([1, 2, 3, 4, 5], [3, 2, 3, 0, 5])</span></span><br><span class="line"><span class="string">    3</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; matches(&quot;abdomens&quot;, &quot;indolence&quot;)</span></span><br><span class="line"><span class="string">    4</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; matches(&quot;abcd&quot;, &quot;dcba&quot;)</span></span><br><span class="line"><span class="string">    0</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; matches(&quot;abcde&quot;, &quot;edcba&quot;)</span></span><br><span class="line"><span class="string">    1</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; matches(&quot;abcdefg&quot;, &quot;edcba&quot;)</span></span><br><span class="line"><span class="string">    1</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment">#zipped = list(zip(a, b))</span></span><br><span class="line">    <span class="comment">#return len(list(filter(lambda x:x[0] == x[1], zipped)))</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sum</span>([<span class="number">1</span> <span class="keyword">for</span> a, b <span class="keyword">in</span> <span class="built_in">zip</span>(a, b) <span class="keyword">if</span> a == b])</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">palindrome</span>(<span class="params">s</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Return whether s is the same sequence backward and forward.</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; palindrome([3, 1, 4, 1, 5])</span></span><br><span class="line"><span class="string">    False</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; palindrome([3, 1, 4, 1, 3])</span></span><br><span class="line"><span class="string">    True</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; palindrome(&#x27;seveneves&#x27;)</span></span><br><span class="line"><span class="string">    True</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; palindrome(&#x27;seven eves&#x27;)</span></span><br><span class="line"><span class="string">    False</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">   <span class="comment"># forward = iterator(s)</span></span><br><span class="line">   <span class="comment"># backward = reserved(s)</span></span><br><span class="line">   <span class="comment"># return forward == backward</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">#return list(s) == list(reversed(s))</span></span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">all</span>([a == b <span class="keyword">for</span> a, b <span class="keyword">in</span> <span class="built_in">zip</span>(s, <span class="built_in">reversed</span>(s))])</span><br></pre></td></tr></table></figure>
+
+<p>all:相当于全用and连接</p>
+<h2 id="iterator实例"><a href="#iterator实例" class="headerlink" title="iterator实例"></a>iterator实例</h2><p>为啥用iterator，它有什么好处吗？</p>
+<ul>
+<li>转换格式很方便</li>
+<li>所以其他人用起来也方便</li>
+<li>有”位置“这个新的信息，而且只能向前不能回头</li>
+</ul>
+<p>example:casino blackjack</p>
+<h2 id="Lab6"><a href="#Lab6" class="headerlink" title="Lab6"></a>Lab6</h2><h5 id="Q1"><a href="#Q1" class="headerlink" title="Q1"></a>Q1</h5><p>append()似乎是没有返回值的。</p>
+<img src="C:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019111711933.png" alt="image-20221019111711933" style="zoom:67%;" />
+
+<p>pop()参数就是lst的下标。</p>
+<img src="C:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019112035959.png" alt="image-20221019112035959" style="zoom:80%;" />
+
+<p>a和lst指向的是同一个东西（会一起变），而b不是</p>
+<img src="C:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019112449717.png" alt="image-20221019112449717" style="zoom:67%;" />
+
+<p>注意运算顺序。也注意看看返回值应该是什么噢：</p>
+<p><img src="C:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019112936444.png" alt="image-20221019112936444"></p>
+<h5 id="Q2"><a href="#Q2" class="headerlink" title="Q2"></a>Q2</h5><p>更自由控制循环的方式就是用while</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">insert_items</span>(<span class="params">lst, entry, elem</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Inserts elem into lst after each occurence of entry and then returns lst.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; test_lst = [1, 5, 8, 5, 2, 3]</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; new_lst = insert_items(test_lst, 5, 7)</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; new_lst</span></span><br><span class="line"><span class="string">    [1, 5, 7, 8, 5, 7, 2, 3]</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; double_lst = [1, 2, 1, 2, 3, 3]</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; double_lst = insert_items(double_lst, 3, 4)</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; double_lst</span></span><br><span class="line"><span class="string">    [1, 2, 1, 2, 3, 4, 3, 4]</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; large_lst = [1, 4, 8]</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; large_lst2 = insert_items(large_lst, 4, 4)</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; large_lst2</span></span><br><span class="line"><span class="string">    [1, 4, 4, 8]</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; large_lst3 = insert_items(large_lst2, 4, 6)</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; large_lst3</span></span><br><span class="line"><span class="string">    [1, 4, 6, 4, 6, 8]</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; large_lst3 is large_lst</span></span><br><span class="line"><span class="string">    True</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; # Ban creating new lists</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; from construct_check import check</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; check(HW_SOURCE_FILE, &#x27;insert_items&#x27;,</span></span><br><span class="line"><span class="string">    ...       [&#x27;List&#x27;, &#x27;ListComp&#x27;, &#x27;Slice&#x27;])</span></span><br><span class="line"><span class="string">    True</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="string">&quot;*** YOUR CODE HERE ***&quot;</span></span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span>(i &lt; <span class="built_in">len</span>(lst)):</span><br><span class="line">        <span class="keyword">if</span> lst[i] == entry:</span><br><span class="line">            lst.insert(i + <span class="number">1</span>, elem)</span><br><span class="line">            i = i + <span class="number">1</span></span><br><span class="line">        i = i + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> lst</span><br></pre></td></tr></table></figure>
+
+<h5 id="Q3"><a href="#Q3" class="headerlink" title="Q3"></a>Q3</h5><p><img src="C:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019121658198.png" alt="image-20221019121658198"></p>
+<img src="C:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019121724268.png" alt="image-20221019121724268" style="zoom:80%;" />
+
+<p>map如果碰到list，会把list里的所有元素都……</p>
+<p>但是这样就不行</p>
+<p><img src="C:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221019122009770.png" alt="image-20221019122009770"></p>
+<h5 id="Q5"><a href="#Q5" class="headerlink" title="Q5"></a>Q5</h5><p>在做之前先看清题目……</p>
+<blockquote>
+<p>参考textbook的：<a target="_blank" rel="noopener" href="http://composingprograms.com/pages/24-mutable-data.html#local-state">http://composingprograms.com/pages/24-mutable-data.html#local-state</a></p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">repeated</span>(<span class="params">t, k</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Return the first value in iterator T that appears K times in a row.</span></span><br><span class="line"><span class="string">    Iterate through the items such that if the same iterator is passed into</span></span><br><span class="line"><span class="string">    the function twice, it continues in the second call at the point it left</span></span><br><span class="line"><span class="string">    off in the first.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; s = iter([10, 9, 10, 9, 9, 10, 8, 8, 8, 7])</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; repeated(s, 2)</span></span><br><span class="line"><span class="string">    9</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; s2 = iter([10, 9, 10, 9, 9, 10, 8, 8, 8, 7])</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; repeated(s2, 3)</span></span><br><span class="line"><span class="string">    8</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; s = iter([3, 2, 2, 2, 1, 2, 1, 4, 4, 5, 5, 5])</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; repeated(s, 3)</span></span><br><span class="line"><span class="string">    2</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; repeated(s, 3)</span></span><br><span class="line"><span class="string">    5</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; s2 = iter([4, 1, 6, 6, 7, 7, 8, 8, 2, 2, 2, 5])</span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; repeated(s2, 3)</span></span><br><span class="line"><span class="string">    2</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">assert</span> k &gt; <span class="number">1</span></span><br><span class="line">    <span class="string">&quot;*** YOUR CODE HERE ***&quot;</span></span><br><span class="line">    last, times = <span class="literal">None</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">repeat</span>():</span><br><span class="line">        <span class="keyword">nonlocal</span> last, times</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            n = <span class="built_in">next</span>(t)</span><br><span class="line">            <span class="keyword">if</span> n == last:</span><br><span class="line">                times += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                last = n</span><br><span class="line">                times = <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> times == k:</span><br><span class="line">                <span class="keyword">return</span> last</span><br><span class="line">    <span class="keyword">return</span> repeat()</span><br></pre></td></tr></table></figure>
+
+<p>这题主要是掌握nonlocal的用法。</p>
+<p>（好像不用也行啊……</p>
+<p>其实题目有点表述不清？从上一次位置开始，没说要保留上一次的结果……</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/10/18/CS61A/16-iterators%20&%20lab6/" data-id="cld15jd1b0006ggpgggh9gu6k" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/11/02/CS61A/22-effiency/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/09/21/%E8%AF%BE%E5%86%85/lab1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">编译原理词法分析实验报告</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CS61A/">CS61A</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Essay-Notes/">Essay Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Q-A/">Q&A</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%97%E8%99%9A%E6%8B%9F%E4%BA%BA/">数字虚拟人</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%8E%E5%AE%8F%E6%AF%85%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">李宏毅机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E5%86%85/">课内</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Computer-Sciense/" rel="tag">Computer Sciense</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Deep-learning/" rel="tag">Deep learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/" rel="tag">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UE/" rel="tag">UE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/compiler/" rel="tag">compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/" rel="tag">pip</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Computer-Sciense/" style="font-size: 20px;">Computer Sciense</a> <a href="/tags/Deep-learning/" style="font-size: 10px;">Deep learning</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/UE/" style="font-size: 15px;">UE</a> <a href="/tags/compiler/" style="font-size: 10px;">compiler</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">October 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/18/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/12/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">CS61A-18-object</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/06/CS61A/25-users/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/04/CS61A/21-2-project%20Ants/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/02/CS61A/22-effiency/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

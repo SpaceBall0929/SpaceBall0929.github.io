@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>CS61A-19-inheritance | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="recall：attributes   Bound methods are also objects: a function  that has its first parameter “self” already  bound to an instance Dot expressions: Attribute Assignment    If the object is an instance,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS61A-19-inheritance">
+<meta property="og:url" content="http://example.com/2022/08/13/CS61A/19-inheritance&lab7/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="recall：attributes   Bound methods are also objects: a function  that has its first parameter “self” already  bound to an instance Dot expressions: Attribute Assignment    If the object is an instance,">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025203306294.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025203428763.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025204214064.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025204300419.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025204651400.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025205723781.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025205733156.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025205922569.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025205959559.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028174349732.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028174940622.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028175058940.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028175507334.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028180843418.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028190929417.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192025068.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192033154.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192059314.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192533634.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192722455.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028202322497.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028202444534.png">
+<meta property="article:published_time" content="2022-08-13T03:33:24.000Z">
+<meta property="article:modified_time" content="2023-01-18T03:47:09.815Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Computer Sciense">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025203306294.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CS61A/19-inheritance&amp;lab7" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/08/13/CS61A/19-inheritance&lab7/" class="article-date">
+  <time datetime="2022-08-13T03:33:24.000Z" itemprop="datePublished">2022-08-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CS61A/">CS61A</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CS61A-19-inheritance
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>recall：attributes</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025203306294.png" alt="image-20221025203306294" style="zoom: 67%;" />
+
+<p>Bound methods are also objects: a function  that has its first parameter “self” already  bound to an instance</p>
+<p>Dot expressions:<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025203428763.png" alt="image-20221025203428763" style="zoom:80%;" /></p>
+<h4 id="Attribute-Assignment"><a href="#Attribute-Assignment" class="headerlink" title="Attribute Assignment"></a>Attribute Assignment</h4><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025204214064.png" alt="image-20221025204214064" style="zoom:80%;" />
+
+<ul>
+<li> If the object is an instance, then assignment sets an instance attribute </li>
+<li>If the object is a class, then assignment sets a class attribute<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025204300419.png" alt="image-20221025204300419" style="zoom:80%;" /></li>
+</ul>
+<p>注意：（某个例子）<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025204651400.png" alt="image-20221025204651400" style="zoom:67%;" /></p>
+<p>由于这个instance没有属于instance的attribute named interest（虽然class里有，但这是对instance的操作），因此这里给instance增加了一个叫interest的变量并让它等于0.08</p>
+<p>eg：<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025205723781.png" alt="image-20221025205723781"></p>
+<p>对class的进行修改，所有instance的interest都被修改了</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025205733156.png" alt="image-20221025205733156" style="zoom:67%;" />
+
+<p>只改jim的，那就只改了jim的，此时jim被创建了新的属于jim的interest</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025205922569.png" alt="image-20221025205922569" style="zoom:67%;" />
+
+<p>再改一次class的，发现jim的没改，因为jim这个instance的interest优先级高于class的了</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025205959559.png" alt="image-20221025205959559" style="zoom: 67%;" />
+
+<h4 id="Inheritance"><a href="#Inheritance" class="headerlink" title="Inheritance"></a>Inheritance</h4><p>用来relate多个classes</p>
+<p>A common use: Two similar classes differ in their degree of specialization </p>
+<ul>
+<li>The specialized class may have the same attributes as the general class</li>
+<li> along with some special-case behavior</li>
+</ul>
+<p>使用格式：</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028174349732.png" alt="image-20221028174349732" style="zoom:67%;" />
+
+<p>the new subclass ：</p>
+<ul>
+<li><strong>inherits</strong> attributes of its base class</li>
+<li> may <strong>override</strong> certain inherited attributes</li>
+</ul>
+<p>关于attributes:</p>
+<p>Base class attributes <strong>aren’t copied</strong> into subclasses</p>
+<p>当你使用一个attribute的时候:</p>
+<ol>
+<li><p>If it names an attribute in the class, return the attribute value.  </p>
+</li>
+<li><p>Otherwise, <strong>look up the name in the base class</strong>, if there is one</p>
+</li>
+</ol>
+<h6 id="eg"><a href="#eg" class="headerlink" title="eg"></a>eg</h6><p> <code>CheckingAccount</code> is a specialized type of <code>Account</code></p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028174940622.png" alt="image-20221028174940622" style="zoom: 67%;" />
+
+<p>class定义长这样:</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028175058940.png" alt="image-20221028175058940" style="zoom: 67%;" />
+
+<p>使用attributes:</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028175507334.png" alt="image-20221028175507334" style="zoom:67%;" />
+
+<p>deposit没在checkingaccount被定义,因此寻找父class的</p>
+<p>withdraw被定义了,因此就用chekingaccount的了</p>
+<h4 id="How-to-design-object-oriented-program"><a href="#How-to-design-object-oriented-program" class="headerlink" title="How to design object-oriented program"></a>How to design object-oriented program</h4><h6 id="for-Inheritance"><a href="#for-Inheritance" class="headerlink" title="for Inheritance"></a>for Inheritance</h6><p>约法:</p>
+<ul>
+<li>Don’t repeat yourself; use existing implementations 避免老是复制已有的函数(那样很呆)</li>
+<li>Look up attributes on instances whenever possible 如果能用父亲的就用(这样简洁) <img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028180843418.png" alt="image-20221028180843418" style="zoom:80%;" /></li>
+</ul>
+<h6 id="Inheritance-and-Composition"><a href="#Inheritance-and-Composition" class="headerlink" title="Inheritance and Composition"></a>Inheritance and Composition</h6><ul>
+<li>Inheritance is best for representing <strong>is</strong>-a relationships </li>
+<li>Composition is best for representing <strong>has</strong>-a relationships</li>
+</ul>
+<p><strong>is</strong>:account和checkingaccount</p>
+<p><strong>has</strong>:这个bank可以has chekingaccount</p>
+<h6 id="Attributes-Lookup-Practice"><a href="#Attributes-Lookup-Practice" class="headerlink" title="Attributes Lookup Practice"></a>Attributes Lookup Practice</h6><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028190929417.png" alt="image-20221028190929417" style="zoom:80%;" />
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192025068.png" alt="image-20221028192025068" style="zoom:67%;" />
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192033154.png" alt="image-20221028192033154" style="zoom:80%;" />
+
+<p>并没有创造对象,这只是看了下n</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192059314.png" alt="image-20221028192059314" style="zoom:80%;" />
+
+<p>因为上一句没有创建C的对象,因此没有改变z,应是相等的</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192533634.png" alt="image-20221028192533634" style="zoom:80%;" />
+
+<p>看图中结构,会发现b.z是一个instance</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028192722455.png" alt="image-20221028192722455" style="zoom:67%;" />
+
+<h4 id="Multiple-Inheritance"><a href="#Multiple-Inheritance" class="headerlink" title="Multiple Inheritance"></a>Multiple Inheritance</h4><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028202322497.png" alt="image-20221028202322497" style="zoom:67%;" />
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221028202444534.png" alt="image-20221028202444534" style="zoom:67%;" />
+
+<h4 id="Complicated-Inheritance"><a href="#Complicated-Inheritance" class="headerlink" title="Complicated Inheritance"></a>Complicated Inheritance</h4><h1 id="Lab7"><a href="#Lab7" class="headerlink" title="Lab7"></a>Lab7</h1><h4 id="Object-Oriented-Programming"><a href="#Object-Oriented-Programming" class="headerlink" title="Object-Oriented Programming"></a>Object-Oriented Programming</h4><p><strong>Object-oriented programming</strong> (OOP) is a style of programming that allows you to think of code in terms of “objects.” Here’s an example of a <code>Car</code> class:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class Car:</span><br><span class="line">    num_wheels = 4</span><br><span class="line"></span><br><span class="line">    def __init__(self, color):</span><br><span class="line">        self.wheels = Car.num_wheels</span><br><span class="line">        self.color = color</span><br><span class="line"></span><br><span class="line">    def drive(self):</span><br><span class="line">        if self.wheels &lt;= Car.num_wheels:</span><br><span class="line">            return self.color + &#x27; car cannot drive!&#x27;</span><br><span class="line">        return self.color + &#x27; car goes vroom!&#x27;</span><br><span class="line"></span><br><span class="line">    def pop_tire(self):</span><br><span class="line">        if self.wheels &gt; 0:</span><br><span class="line">            self.wheels -= 1</span><br></pre></td></tr></table></figure>
+
+<p>Here’s some terminology:</p>
+<ul>
+<li><p><strong>class</strong>: a blueprint for how to build a certain type of object. The <code>Car</code> class (shown above) describes the behavior and data that all <code>Car</code> objects have.</p>
+</li>
+<li><p><strong>instance</strong>: a particular occurrence of a class. In Python, we create instances of a class like this:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; my_car = Car(&#x27;red&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p><code>my_car</code> is an instance of the <code>Car</code> class.</p>
+</li>
+<li><p><strong>data attributes</strong>: a variable that belongs to the instance (also called instance variables). Think of a data attribute as a quality of the object: cars have <em>wheels</em> and <em>color</em>, so we have given our <code>Car</code> instance <code>self.wheels</code> and <code>self.color</code> attributes. We can access attributes using <strong>dot notation</strong>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; my_car.color</span><br><span class="line">&#x27;red&#x27;</span><br><span class="line">&gt;&gt;&gt; my_car.wheels</span><br><span class="line">4</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>method</strong>: Methods are just like normal functions, except that they are bound to an instance. Think of a method as a “verb” of the class: cars can <em>drive</em> and also <em>pop their tires</em>, so we have given our <code>Car</code> instance the methods <code>drive</code> and <code>pop_tire</code>. We call methods using <strong>dot notation</strong>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; my_car = Car(&#x27;red&#x27;)</span><br><span class="line">&gt;&gt;&gt; my_car.drive()</span><br><span class="line">&#x27;red car goes vroom!&#x27;</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>constructor</strong>: As with data abstraction, constructors build an instance of the class. The constructor for car objects is <code>Car(color)</code>. When Python calls that constructor, it immediately calls the <code>__init__</code> method. That’s where we initialize the data attributes:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def __init__(self, color):</span><br><span class="line">    self.wheels = Car.num_wheels</span><br><span class="line">    self.color = color</span><br></pre></td></tr></table></figure>
+
+<p>The constructor takes in one argument, <code>color</code>. As you can see, this constructor also creates the <code>self.wheels</code> and <code>self.color</code> attributes.</p>
+</li>
+<li><p><code>self</code>: in Python, <code>self</code> is the first parameter for many methods (in this class, we will only use methods whose first parameter is <code>self</code>). When a method is called, <code>self</code> is bound to an instance of the class. For example:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; my_car = Car(&#x27;red&#x27;)</span><br><span class="line">&gt;&gt;&gt; car.drive()</span><br></pre></td></tr></table></figure>
+
+<p>Notice that the <code>drive</code> method takes in <code>self</code> as an argument, but it looks like we didn’t pass one in! This is because the dot notation <em>implicitly</em> passes in <code>car</code> as <code>self</code> for us.</p>
+</li>
+</ul>
+<h4 id="Cars"><a href="#Cars" class="headerlink" title="Cars"></a>Cars</h4><p>对继承更深的理解：</p>
+<p>base class就相当于普适的一类，比如说到车，我们就想到它有四个轮子。但是继承它的东西，应该说针对性的细化了，比如卡车耗油更多啥的</p>
+<h4 id="accounts"><a href="#accounts" class="headerlink" title="accounts"></a>accounts</h4>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/08/13/CS61A/19-inheritance&lab7/" data-id="cld15jd1l000eggpg6mg82vci" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Computer-Sciense/" rel="tag">Computer Sciense</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/08/14/CS61A/20-representation%20&%20disc07/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          CS61A-20-representation
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/08/12/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/kkk/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">python中pip安装库时出现Read timed out</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CS61A/">CS61A</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Essay-Notes/">Essay Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Q-A/">Q&A</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%97%E8%99%9A%E6%8B%9F%E4%BA%BA/">数字虚拟人</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%8E%E5%AE%8F%E6%AF%85%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">李宏毅机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E5%86%85/">课内</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Computer-Sciense/" rel="tag">Computer Sciense</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Deep-learning/" rel="tag">Deep learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/" rel="tag">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UE/" rel="tag">UE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/compiler/" rel="tag">compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/" rel="tag">pip</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Computer-Sciense/" style="font-size: 20px;">Computer Sciense</a> <a href="/tags/Deep-learning/" style="font-size: 10px;">Deep learning</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/UE/" style="font-size: 15px;">UE</a> <a href="/tags/compiler/" style="font-size: 10px;">compiler</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">October 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/18/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/12/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">CS61A-18-object</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/06/CS61A/25-users/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/04/CS61A/21-2-project%20Ants/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/02/CS61A/22-effiency/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

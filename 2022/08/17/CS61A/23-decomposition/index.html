@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>CS61A-23-decomposision | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Python modulesA Python module is a file typically containing function or class definitions. import的方式有三种:   with alias: run a moduleThis command runs a module: 1📄python module.py  When run like that,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS61A-23-decomposision">
+<meta property="og:url" content="http://example.com/2022/08/17/CS61A/23-decomposition/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Python modulesA Python module is a file typically containing function or class definitions. import的方式有三种:   with alias: run a moduleThis command runs a module: 1📄python module.py  When run like that,">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221104205050758.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221104205149284.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221104205425035.png">
+<meta property="og:image" content="c:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221104143458938.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221104143815957.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221104205734421.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221104210120737.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221104212321026.png">
+<meta property="article:published_time" content="2022-08-17T03:33:24.000Z">
+<meta property="article:modified_time" content="2023-01-18T03:48:17.583Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Computer Sciense">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221104205050758.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CS61A/23-decomposition" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/08/17/CS61A/23-decomposition/" class="article-date">
+  <time datetime="2022-08-17T03:33:24.000Z" itemprop="datePublished">2022-08-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CS61A/">CS61A</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CS61A-23-decomposision
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="Python-modules"><a href="#Python-modules" class="headerlink" title="Python modules"></a>Python modules</h2><p>A <a target="_blank" rel="noopener" href="https://docs.python.org/3/tutorial/modules.html">Python module</a> is a file typically containing function or class definitions.</p>
+<p>import的方式有三种:</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221104205050758.png" alt="image-20221104205050758" style="zoom: 50%;" />
+
+<p>with alias:<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221104205149284.png" alt="image-20221104205149284" style="zoom: 50%;" /></p>
+<h5 id="run-a-module"><a href="#run-a-module" class="headerlink" title="run a module"></a>run a module</h5><p>This command runs a module:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">📄python module.py</span><br></pre></td></tr></table></figure>
+
+<p>When run like that, Python sets a global variable <code>__name__</code> to “main”.</p>
+<p> you often see code at the bottom of modules like this:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">📄if __name__ == &quot;__main__&quot;:</span><br><span class="line">    # use the code in the module somehow</span><br></pre></td></tr></table></figure>
+
+<p>The code <strong>inside that condition will be executed as well</strong></p>
+<h2 id="Packages"><a href="#Packages" class="headerlink" title="Packages"></a>Packages</h2><p>A <a target="_blank" rel="noopener" href="https://docs.python.org/3/tutorial/modules.html#packages">Python package</a> is a way of bundling multiple related modules together. </p>
+<p>Popular packages are NumPy and Pillow.</p>
+<p>import方式:<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221104205425035.png" alt="image-20221104205425035" style="zoom: 50%;" /></p>
+<p><code>pip</code> is the standard way to install package</p>
+<h2 id="Modular-Design"><a href="#Modular-Design" class="headerlink" title="Modular Design"></a>Modular Design</h2><p>Ways to isolate in Python:</p>
+<ul>
+<li>Functions</li>
+<li>Classes</li>
+<li>Modules</li>
+<li>Packages</li>
+</ul>
+<p><strong>Separation of Concerns</strong></p>
+<ul>
+<li> Isolate different parts of a program that address different concerns</li>
+<li>A modular component can be <strong>developed and tested independently</strong></li>
+</ul>
+<p>互相不用知道对方怎么实现的，separate了</p>
+<img src="C:/Users/Liu%20Junxin/AppData/Roaming/Typora/typora-user-images/image-20221104143458938.png" alt="image-20221104143458938" style="zoom:67%;" />
+
+<p>并且，修改一个part的时候，不需要修改别的part</p>
+<h5 id="eg：restaurant"><a href="#eg：restaurant" class="headerlink" title="eg：restaurant"></a>eg：restaurant</h5><p>data长这样：<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221104143815957.png" alt="image-20221104143815957" style="zoom: 67%;" /></p>
+<p>有餐馆信息,user review信息</p>
+<blockquote>
+<p>user_id:不是给联系方式啥的,而是indicate是不是同个user写了不同的评论之类.</p>
+</blockquote>
+<p>现在要写一个程序能“ look up a restaurant by name and show related restaurants “</p>
+<h6 id="search"><a href="#search" class="headerlink" title="search"></a>search</h6><p>我们不知道all_restaurants是什么,但是可以先把逻辑写出来,之后再来修改它:</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221104205734421.png" alt="image-20221104205734421" style="zoom:67%;" />
+
+<p>因为ranking是正序的,所以stars取负值,这样前面的就是stars最多的</p>
+<p>当现在implement有点困难的时候,最好的方法是先写个docstring:</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221104210120737.png" alt="image-20221104210120737" style="zoom: 67%;" />
+
+<p>下面来完成这个simiilar把!</p>
+<h6 id="similar"><a href="#similar" class="headerlink" title="similar"></a>similar</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sorted</span>(iterable, /, *, key=<span class="literal">None</span>, reverse=<span class="literal">False</span>)</span><br><span class="line"> Return a new <span class="built_in">list</span> containing <span class="built_in">all</span> items <span class="keyword">from</span> the iterable <span class="keyword">in</span> ascending order.</span><br><span class="line"> A custom key function can be supplied to customize the sort order, <span class="keyword">and</span> the reverse flag can be <span class="built_in">set</span> to request the result <span class="keyword">in</span> descending order.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">similar</span>(<span class="params">self, k, similarity=num_shared_reviewers</span>):</span><br><span class="line">        <span class="string">&quot;Return the K most similar restaurants to SELF, using SIMILARITY for comparison.&quot;</span></span><br><span class="line">        others = <span class="built_in">list</span>(Restaurant.<span class="built_in">all</span>)</span><br><span class="line">        others.remove(self)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sorted</span>(others, key= <span class="keyword">lambda</span> k:-similarity(self, k) )[:k]</span><br></pre></td></tr></table></figure>
+
+<h6 id="reading-files"><a href="#reading-files" class="headerlink" title="reading files"></a>reading files</h6><p>用python的json包来处理（就是变成了字典）</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221104212321026.png" alt="image-20221104212321026" style="zoom:80%;" />
+
+<h6 id="Set-Intersection"><a href="#Set-Intersection" class="headerlink" title="Set Intersection"></a>Set Intersection</h6><p>之前的similarity search太费时间了,因此改成linear time的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">fast_overlap</span>(<span class="params">s, t</span>): </span><br><span class="line"> <span class="string">&quot;&quot;&quot;Return the overlap between sorted S and sorted T. </span></span><br><span class="line"><span class="string"> &gt;&gt;&gt; fast_overlap([3, 4, 6, 7, 9, 10], [1, 3, 5, 7, 8]) </span></span><br><span class="line"><span class="string"> 2 </span></span><br><span class="line"><span class="string"> &quot;&quot;&quot;</span> </span><br><span class="line"> 	i, j, count = <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span></span><br><span class="line"> 	<span class="keyword">while</span> i &lt; <span class="built_in">len</span>(s) <span class="keyword">and</span> j &lt; <span class="built_in">len</span>(t):</span><br><span class="line">        <span class="keyword">if</span> s[i] == t[j]:</span><br><span class="line">            count, i, j = count + <span class="number">1</span>, i + <span class="number">1</span>, j + <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> s[i] &lt; t[j]:</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span>:</span><br><span class="line">            j += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> count</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/08/17/CS61A/23-decomposition/" data-id="cld15jd1p000qggpggvjx6h37" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Computer-Sciense/" rel="tag">Computer Sciense</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/08/18/CS61A/24-data%20examples/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          CS61A-24
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/08/15/CS61A/21-recursive%20objects&hw6%20&lab8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CS61A-21-recursive objects</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CS61A/">CS61A</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Essay-Notes/">Essay Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Q-A/">Q&A</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%97%E8%99%9A%E6%8B%9F%E4%BA%BA/">数字虚拟人</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%8E%E5%AE%8F%E6%AF%85%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">李宏毅机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E5%86%85/">课内</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Computer-Sciense/" rel="tag">Computer Sciense</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Deep-learning/" rel="tag">Deep learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/" rel="tag">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UE/" rel="tag">UE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/compiler/" rel="tag">compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/" rel="tag">pip</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Computer-Sciense/" style="font-size: 20px;">Computer Sciense</a> <a href="/tags/Deep-learning/" style="font-size: 10px;">Deep learning</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/UE/" style="font-size: 15px;">UE</a> <a href="/tags/compiler/" style="font-size: 10px;">compiler</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">October 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/18/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/12/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">CS61A-18-object</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/06/CS61A/25-users/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/04/CS61A/21-2-project%20Ants/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/02/CS61A/22-effiency/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>CS61A-18-object | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="OOP All values are objects in python  一个使用示例： ClassClass statement:   create &amp; bind to  in the current environment  create attributes of the class (not names in frames)  当class被call时：      A new i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS61A-18-object">
+<meta property="og:url" content="http://example.com/2022/08/12/CS61A/18-object/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="OOP All values are objects in python  一个使用示例： ClassClass statement:   create &amp; bind to  in the current environment  create attributes of the class (not names in frames)  当class被call时：      A new i">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221021210238791.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025154412857.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025155609284.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025160240135.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025155648333.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025161356737.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025163809895.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025163843977.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025164256579.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025164302600.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025165146028.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025165316731.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025165534104.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025165719152.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025165743333.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025165948546.png">
+<meta property="article:published_time" content="2022-08-12T03:33:24.000Z">
+<meta property="article:modified_time" content="2023-01-18T03:46:48.822Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Computer Sciense">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221021210238791.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CS61A/18-object" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/08/12/CS61A/18-object/" class="article-date">
+  <time datetime="2022-08-12T03:33:24.000Z" itemprop="datePublished">2022-08-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CS61A/">CS61A</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CS61A-18-object
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="OOP"><a href="#OOP" class="headerlink" title="OOP"></a>OOP</h2><blockquote>
+<p>All values are objects in python</p>
+</blockquote>
+<p>一个使用示例：<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221021210238791.png" alt="image-20221021210238791" style="zoom: 67%;" /></p>
+<h2 id="Class"><a href="#Class" class="headerlink" title="Class"></a>Class</h2><h4 id="Class-statement"><a href="#Class-statement" class="headerlink" title="Class statement:"></a><strong>Class statement</strong>:</h4><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025154412857.png" alt="image-20221025154412857" style="zoom:50%;" />
+
+<ul>
+<li>create &amp; bind to <name> in the current environment</li>
+<li><suite> create attributes of the class (not names in frames)</li>
+</ul>
+<p>当class被call时：</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025155609284.png" alt="image-20221025155609284" style="zoom:80%;" />
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025160240135.png" alt="image-20221025160240135" style="zoom:67%;" />
+
+<ul>
+<li>A new instance of that class is created</li>
+<li><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025155648333.png" alt="image-20221025155648333" style="zoom:50%;" />method被call，<code>self</code>被bound,init里的内容被execute</li>
+</ul>
+<p><code>__init__</code>叫constructor.</p>
+<p><strong>Object identity</strong>:</p>
+<p>每一个类都有identity</p>
+<p>所以:<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025161356737.png" alt="image-20221025161356737" style="zoom:67%;" /></p>
+<h4 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h4><p>method就是定义在suite里的function</p>
+<p>使用该类里面的内容时要传递self作为参数</p>
+<blockquote>
+<p>These def statements create function objects as always, but their names are bound as attributes of the class</p>
+<p>虽是函数,但不会再frame里被bound成函数,而是attributes of the class</p>
+</blockquote>
+<p><strong>invoking methods:</strong></p>
+<blockquote>
+<p>All invoked methods have access to the object via the self parameter, and so they can all  access and manipulate the object’s state</p>
+</blockquote>
+<p>method可以通过self指针改变自己:<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025163809895.png" alt="image-20221025163809895" style="zoom:67%;" /></p>
+<p>调用时,自用传入self参数,不用另外传:<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025163843977.png" alt="image-20221025163843977" style="zoom:67%;" /></p>
+<p><strong>Dot expressions</strong>:</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025164256579.png" alt="image-20221025164256579" style="zoom:80%;" />
+
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025164302600.png" alt="image-20221025164302600" style="zoom:80%;" />
+
+<h4 id="Attributes"><a href="#Attributes" class="headerlink" title="Attributes"></a>Attributes</h4><p>如何查看attribute</p>
+<p>看看attribute的值:<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025165146028.png" alt="image-20221025165146028" style="zoom:80%;" /></p>
+<p>是否有这个attribute:<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025165316731.png" alt="image-20221025165316731" style="zoom:80%;" /></p>
+<p>先看instance里有没有,后看class</p>
+<p><strong>python区分method和function:</strong></p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025165534104.png" alt="image-20221025165534104" style="zoom:80%;" />
+
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025165719152.png" alt="image-20221025165719152"></p>
+<p>evaluate a dot expression: </p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025165743333.png" alt="image-20221025165743333"></p>
+<p><strong>class attribute:</strong></p>
+<blockquote>
+<p>“shared” across all instances of a class because they are attributes  of the class, not the instance</p>
+</blockquote>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221025165948546.png" alt="image-20221025165948546" style="zoom:67%;" />
+
+<p>而instance的是在init里定义的</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/08/12/CS61A/18-object/" data-id="cld15jd1h0008ggpg8hab7x0u" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Computer-Sciense/" rel="tag">Computer Sciense</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/08/12/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/kkk/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          python中pip安装库时出现Read timed out
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/08/10/CS61A/lab5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CS61A-lab5</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CS61A/">CS61A</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Essay-Notes/">Essay Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Q-A/">Q&A</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%97%E8%99%9A%E6%8B%9F%E4%BA%BA/">数字虚拟人</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%8E%E5%AE%8F%E6%AF%85%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">李宏毅机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E5%86%85/">课内</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Computer-Sciense/" rel="tag">Computer Sciense</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Deep-learning/" rel="tag">Deep learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/" rel="tag">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UE/" rel="tag">UE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/compiler/" rel="tag">compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/" rel="tag">pip</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Computer-Sciense/" style="font-size: 20px;">Computer Sciense</a> <a href="/tags/Deep-learning/" style="font-size: 10px;">Deep learning</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/UE/" style="font-size: 15px;">UE</a> <a href="/tags/compiler/" style="font-size: 10px;">compiler</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">October 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/18/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/12/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">CS61A-18-object</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/06/CS61A/25-users/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/04/CS61A/21-2-project%20Ants/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/02/CS61A/22-effiency/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

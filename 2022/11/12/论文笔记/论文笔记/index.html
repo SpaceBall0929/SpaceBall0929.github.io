@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>CS61A-18-object | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Titanium: A Metadata-Hiding File-Sharing System with Malicious Security补充知识参考：NDSS 2022 Titanium: A Metadata-Hiding File-Sharing System with Malicious Security - YouTube Metal Metal: A Metadata-Hiding">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS61A-18-object">
+<meta property="og:url" content="http://example.com/2022/11/12/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Titanium: A Metadata-Hiding File-Sharing System with Malicious Security补充知识参考：NDSS 2022 Titanium: A Metadata-Hiding File-Sharing System with Malicious Security - YouTube Metal Metal: A Metadata-Hiding">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190906115745598.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L211dG91cmVuZA==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190906121317439.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L211dG91cmVuZA==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221030115455275.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221030101855046.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094122896.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094201996.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094313611.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094520741.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094938203.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105095231602.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105100108690.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105100209752.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105100340718.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105101102813.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105101420166.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105101555131.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105101754461.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105102045180.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105102537911.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105102829326.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105103332649.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105103351303.png">
+<meta property="article:published_time" content="2022-11-12T03:33:24.000Z">
+<meta property="article:modified_time" content="2023-01-18T03:52:59.249Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Security">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190906115745598.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L211dG91cmVuZA==,size_16,color_FFFFFF,t_70">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-论文笔记/论文笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/11/12/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2022-11-12T03:33:24.000Z" itemprop="datePublished">2022-11-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Essay-Notes/">Essay Notes</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CS61A-18-object
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Titanium-A-Metadata-Hiding-File-Sharing-System-with-Malicious-Security"><a href="#Titanium-A-Metadata-Hiding-File-Sharing-System-with-Malicious-Security" class="headerlink" title="Titanium: A Metadata-Hiding File-Sharing System with Malicious Security"></a>Titanium: A Metadata-Hiding File-Sharing System with Malicious Security</h1><h2 id="补充知识"><a href="#补充知识" class="headerlink" title="补充知识"></a>补充知识</h2><p>参考：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=D4YktK9QZK8&list=PLfUWWM-POgQsS08uHJUJI6sawDO_3sNh0&index=2">NDSS 2022 Titanium: A Metadata-Hiding File-Sharing System with Malicious Security - YouTube</a></p>
+<h4 id="Metal"><a href="#Metal" class="headerlink" title="Metal"></a>Metal</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.ndss-symposium.org/ndss-paper/metal-a-metadata-hiding-file-sharing-system/">Metal: A Metadata-Hiding File-Sharing System – NDSS Symposium (ndss-symposium.org)</a></p>
+</blockquote>
+<h4 id="End-to-endencrypted-file-sharing-systems"><a href="#End-to-endencrypted-file-sharing-systems" class="headerlink" title="End-to-endencrypted file-sharing systems"></a>End-to-endencrypted file-sharing systems</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.ibm.com/topics/end-to-end-encryption">What is end-to-end encryption? | IBM</a></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.ibm.com/topics/encryption">Data encryption</a> is the process of using an algorithm that transforms standard text characters into an <strong>unreadable</strong> format. </p>
+<blockquote>
+<p>Data encryption is a way of translating data from plaintext (unencrypted) to ciphertext (encrypted). Users can access encrypted data with an encryption key and decrypted data with a decryption key.</p>
+</blockquote>
+<p>this process uses <strong>encryption keys to scramble data</strong> so that <strong>only authorized users can read it</strong>. </p>
+<p>End-to-end encryption uses this same process, too. However, it takes it a step farther by securing communications from one endpoint to another.</p>
+<hr>
+<p>In many messaging services, third parties store the data, which is encrypted only in transit. </p>
+<ul>
+<li>This server-side encryption method secures the data from unauthorized viewers only. </li>
+<li>But as an effect of this method, <strong>the sender can view the information, too</strong>, which can be undesirable in cases where data privacy at all points is needed.</li>
+</ul>
+<p>所以出现了n2n:encrypted data is <strong>only viewable by those with decryption keys</strong>.</p>
+<p>How it works:</p>
+<ul>
+<li>End-to-end encryption begins with cryptography, a method for protecting information by transforming it into an unreadable format called ciphertext.</li>
+<li>Only users who possess a secret key can decipher, or decrypt, the message into plaintext.and only the intended receiver or reader can decrypt it.</li>
+</ul>
+<p>encrypts and decrypts the data using two separate cryptographic keys.</p>
+<ul>
+<li> The public key is used to encrypt a message and send it to the public key’s owner.</li>
+<li> the message can only be decrypted using a corresponding private key, also known as a decryption key.</li>
+</ul>
+<p><strong>Challenges with E2EE</strong></p>
+<ol>
+<li><p>E2EE only encrypts data between the endpoints.This fact means <strong>the endpoints themselves are</strong> <strong>vulnerable to attack</strong>.</p>
+</li>
+<li><p>Hackers can insert themselves between two endpoints, eavesdrop and intercept messages. They impersonate the intended recipient, swap decryption keys and forward the message to the actual recipient without being detected.                            </p>
+</li>
+</ol>
+<h4 id="meta-data"><a href="#meta-data" class="headerlink" title="meta data"></a>meta data</h4><blockquote>
+<p>以文学领域为例，<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E5%90%8E%E7%8E%B0%E4%BB%A3%E4%B8%BB%E4%B9%89&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:65565699%7D">后现代主义</a>文学中有一种小说叫作“元小说”，也就是“关于小说的小说”</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E5%85%83%E6%95%B0%E6%8D%AE&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:65565699%7D">元数据</a>(meta data)——“data about data” 关于数据的数据，一般是结构化数据（如存储在数据库里的数据，规定了字段的长度、类型等）。</p>
+<p>元数据是指从信息资源中抽取出来的用于说明其特征、内容的结构化的数据(如题名,版本、出版数据、相关说明,包括检索点等)，用于组织、描述、检索、保存、管理信息和知识资源。</p>
+<h4 id="MAC"><a href="#MAC" class="headerlink" title="MAC"></a>MAC</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/375629961">密码学笔记 - Message Authentication Code（消息认证码） - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mutourend/article/details/100576422">(105条消息) 密码学中的MAC(message authentication code)_mutourend的博客-CSDN博客_message authentication code</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.fortinet.com/resources/cyberglossary/message-authentication-code">What Is a Message Authentication Code (MAC)? | Fortinet</a></p>
+</blockquote>
+<p>MAC ensures that the message is coming from the correct sender, has not been changed, and that the data transferred over a network or stored in or outside a system is legitimate and does not contain harmful code.</p>
+<p>If the resulting MAC the receiver arrives at equals the one sent by the sender, the message is verified</p>
+<p>when the recipient attempts to verify the authenticity of the data, the key will not work, and the end result will not match that of the sender.            </p>
+<p>​                <img src="https://img-blog.csdnimg.cn/20190906115745598.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L211dG91cmVuZA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190906121317439.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L211dG91cmVuZA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>人话：a的消息和key经过算法得到一个mac，b收到之后再过一遍这个算法看看mac是否相同，相同的话证明就是俺要的message</p>
+<h4 id="secret-sharing"><a href="#secret-sharing" class="headerlink" title="secret sharing"></a>secret sharing</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/44999983">密钥分享Secret Sharing介绍 - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/384759946">隐私计算技术之安全多方计算(MPC) - 知乎 (zhihu.com)</a></p>
+</blockquote>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221030115455275.png" alt="image-20221030115455275"></p>
+<p>安全多方计算（Secure Multiparty Computation, MPC）旨在解决多个参与方之间的安全计算问题，目的是使各参与方在不知晓其他参与方输入信息的前提下完成计算，并可保证计算过程不泄漏输入信息。</p>
+<p>每个参与者P1P1，有一个自己的保密输入信息X1X1，n个参与者要共同计算一个函数f(X1,X2,…,Xn)=(Y1,Y2,…,Yn)f(X1,X2,…,Xn)=(Y1,Y2,…,Yn),计算结束时，每个参与者PiPi只能了解YiYi，不能了解其他方的任何信息。”</p>
+<h4 id="多级cache"><a href="#多级cache" class="headerlink" title="多级cache"></a>多级cache</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zgcjaxj/article/details/114970728">(107条消息) 多层次cache的包含关系_123axj的博客-CSDN博客</a></p>
+<h4 id="ORAM"><a href="#ORAM" class="headerlink" title="ORAM"></a>ORAM</h4><p>还没看</p>
+<p><a target="_blank" rel="noopener" href="https://research.kudelskisecurity.com/2020/04/22/an-introduction-to-oblivious-ram-oram/">An Introduction to Oblivious RAM (ORAM) – Kudelski Security Research</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/c630843901/article/details/120655057">(108条消息) ORAM简介_Joey Liao的博客-CSDN博客</a></p>
+<h4 id="沙米尔算法"><a href="#沙米尔算法" class="headerlink" title="沙米尔算法"></a>沙米尔算法</h4><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1zy4y1u7cn/?spm_id_from=333.337.search-card.all.click&vd_source=3413af2c1f998ce457ec6cf9d0a1f7b6">【shamir 算法】富翁的烦心的那些事……_哔哩哔哩_bilibili</a></p>
+<h4 id="random-oracle"><a href="#random-oracle" class="headerlink" title="random oracle"></a>random oracle</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://crypto.stackexchange.com/questions/879/what-is-the-random-oracle-model-and-why-is-it-controversial">provable security - What is the “Random Oracle Model” and why is it controversial? - Cryptography Stack Exchange</a></p>
+</blockquote>
+<p>we know nothing about the output we could get for a given input message m, until we actually try m</p>
+<h4 id="hash-function"><a href="#hash-function" class="headerlink" title="hash function"></a>hash function</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.ionos.com/digitalguide/server/security/hash-function/">Hash functions: definition, usage, and examples - IONOS</a></p>
+</blockquote>
+<h2 id="论文笔记"><a href="#论文笔记" class="headerlink" title="论文笔记"></a>论文笔记</h2><h5 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h5><p>e2ee虽然在分享文件的时候不会像server透露content，但是server仍然可以获得metadata（比如user的itentties和access patterns，whom the user shares files with）</p>
+<p>前人的工作有缺陷：</p>
+<ul>
+<li>Metal (NDSS ’20) is not secure against malicious servers.（对恶意服务器不安全）</li>
+<li> MCORAM (ASIACRYPT ’20) provides confidentiality against malicious servers, but not integrity.（不完整）</li>
+</ul>
+<p>Titanium： a <strong>metadata-hiding</strong> file-sharing system that offers <strong>confidentiality and integrity</strong> against <strong>malicious users and servers</strong>.</p>
+<h5 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h5><p> the impact of metadata leakage： a hacker or a malicious employee of the cloud may<br>already know the whistleblower’s identity.</p>
+<p><strong>malicious security</strong>：</p>
+<p>Malicious security should be the standard for distributed applications, rather than semi-honest security.</p>
+<ul>
+<li>handle malicious users</li>
+<li>malicious servers</li>
+</ul>
+<p><strong>efficient file access</strong></p>
+<p>Linear passing:expensive</p>
+<p>Titanium avoids linear passes by using a <strong>sublinear</strong> <strong>oblivious access algorithm</strong> on the multi-server model, Circuit ORAM [45], and making improvements that reduce its eviction overhead by up to a half.</p>
+<p><strong>Titanium’s goals and techniques</strong></p>
+<ol>
+<li> security against malicious users:  </li>
+</ol>
+<p>   minimizing the users’ participation in the protocol, he can only sending requests and receiving the responses, through an API</p>
+<p>   never touch the data stored on the servers. </p>
+<blockquote>
+<p>RAM:<a target="_blank" rel="noopener" href="https://www.avast.com/c-what-is-ram-memory">What Is RAM? | Random Access Memory Definition | Avast</a></p>
+</blockquote>
+<ol start="2">
+<li><p>integrity for data storage:</p>
+<p>  Titanium uses authenticated secret sharing to store the data</p>
+<p>  at least one of the servers is assumed to be honest. The MACs enable t<strong>his server to detect if an incorrect version</strong> of the file is sent to the user or another file that the user did not request, thereby ensuring integrity</p>
+</li>
+<li><p>  integrity for user inputs and outputs:</p>
+</li>
+</ol>
+<pre><code>design a maliciously secure input/output protocol users can confirm that the proxy receives the correct inputs and the user receives the correct outputs from the proxy
+</code></pre>
+<ol start="4">
+<li>  efficient file access.</li>
+</ol>
+<pre><code>propose an optimized algorithm to perform the Circuit- ORAM eviction in secure computation more efficiently
+
+&gt; [Circuit ORAM - 腾讯云开发者社区-腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/1747284)
+</code></pre>
+<h5 id="why-semi-honest-security-is-insuffi-cient-in-practice"><a href="#why-semi-honest-security-is-insuffi-cient-in-practice" class="headerlink" title="why semi-honest security is insuffi-cient in practice"></a>why semi-honest security is insuffi-cient in practice</h5><p>未！！！！！</p>
+<h5 id="overview"><a href="#overview" class="headerlink" title="overview"></a>overview</h5><h6 id="System-model"><a href="#System-model" class="headerlink" title="System model"></a>System model</h6><p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221030101855046.png" alt="image-20221030101855046"></p>
+<blockquote>
+<p>?那你这proxy权力有点大啊</p>
+</blockquote>
+<ol>
+<li>workflow</li>
+<li>API</li>
+<li>Randomized ID</li>
+</ol>
+<h6 id="Threat-model"><a href="#Threat-model" class="headerlink" title="Threat model"></a>Threat model</h6><ul>
+<li>threat举例</li>
+<li>security定义</li>
+<li>assumptions：存在遗留问题供探讨</li>
+</ul>
+<h5 id="Making-the-proxy’s-access-to-the-storage-maliciously-secure"><a href="#Making-the-proxy’s-access-to-the-storage-maliciously-secure" class="headerlink" title="Making the proxy’s access to the storage maliciously secure"></a>Making the proxy’s access to the storage maliciously secure</h5><blockquote>
+<p>开始对proxy下手2</p>
+</blockquote>
+<h6 id="File-storage-with-authenticated-secret-sharing"><a href="#File-storage-with-authenticated-secret-sharing" class="headerlink" title="File storage with authenticated secret sharing"></a>File storage with authenticated secret sharing</h6><h6 id="Running-the-proxy-in-secure-multiparty-computation"><a href="#Running-the-proxy-in-secure-multiparty-computation" class="headerlink" title="Running the proxy in secure multiparty computation"></a>Running the proxy in secure multiparty computation</h6><h2 id="思路总结"><a href="#思路总结" class="headerlink" title="思路总结"></a>思路总结</h2><h5 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h5><ul>
+<li>e2ee虽然在分享文件的时候不会像server透露content，但是server仍然可以获得metadata（比如user的itentties和access patterns）</li>
+<li>前人的工作各有缺陷（对恶意服务器不安全）（不完整）</li>
+</ul>
+<h2 id="PPT"><a href="#PPT" class="headerlink" title="PPT"></a>PPT</h2><p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094122896.png" alt="image-20221105094122896"></p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094201996.png" alt="image-20221105094201996"></p>
+<p>看似解决了，但是还有个问题，semi honest这个假设其实是个strong assuming</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094313611.png" alt="image-20221105094313611"></p>
+<p>无法鉴别这个server是不是follow了指示，无法鉴别它是不是恶意的（<strong>eg在paper中</strong>）</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094520741.png" alt="image-20221105094520741"></p>
+<hr>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105094938203.png" alt="image-20221105094938203"></p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105095231602.png" alt="image-20221105095231602"></p>
+<p>ORAM藏匿了要的哪个文件</p>
+<p><strong>Malicious security</strong></p>
+<p>包括privacy和integrity</p>
+<ol>
+<li>server—ORAM</li>
+</ol>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105100108690.png" alt="image-20221105100108690"></p>
+<p>2.storage—authenticated secret sharing</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105100209752.png" alt="image-20221105100209752"></p>
+<p>3.communication between servers and users—-黑客可以篡改request</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105100340718.png" alt="image-20221105100340718"></p>
+<p><strong>关于overhead</strong></p>
+<p>前人工作解决了malicious security会有overhead</p>
+<p>但是titanium解决了这个问题</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105101102813.png" alt="image-20221105101102813"></p>
+<p>efficient ORAM：</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105101420166.png" alt="image-20221105101420166"></p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105101555131.png" alt="image-20221105101555131"></p>
+<p>传统方法：</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105101754461.png" alt="image-20221105101754461"></p>
+<p>提出的升级版：</p>
+<p>改成swap</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105102045180.png" alt="image-20221105102045180"></p>
+<p>对于第四个case：</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105102537911.png" alt="image-20221105102537911"><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105102829326.png" alt="image-20221105102829326" style="zoom: 50%;" /></p>
+<p>evaluation</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105103332649.png" alt="image-20221105103332649" style="zoom:67%;" />
+
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20221105103351303.png" alt="image-20221105103351303"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/12/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" data-id="cld15jd2u001qggpgcnzdc15e" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Security/" rel="tag">Security</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/18/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/11/06/CS61A/25-users/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CS61A/">CS61A</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Essay-Notes/">Essay Notes</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Q-A/">Q&A</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%97%E8%99%9A%E6%8B%9F%E4%BA%BA/">数字虚拟人</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%8E%E5%AE%8F%E6%AF%85%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">李宏毅机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E5%86%85/">课内</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Computer-Sciense/" rel="tag">Computer Sciense</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Deep-learning/" rel="tag">Deep learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/" rel="tag">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UE/" rel="tag">UE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/compiler/" rel="tag">compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/" rel="tag">pip</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Computer-Sciense/" style="font-size: 20px;">Computer Sciense</a> <a href="/tags/Deep-learning/" style="font-size: 10px;">Deep learning</a> <a href="/tags/Security/" style="font-size: 10px;">Security</a> <a href="/tags/UE/" style="font-size: 15px;">UE</a> <a href="/tags/compiler/" style="font-size: 10px;">compiler</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">October 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/18/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/12/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">CS61A-18-object</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/06/CS61A/25-users/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/04/CS61A/21-2-project%20Ants/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/02/CS61A/22-effiency/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
