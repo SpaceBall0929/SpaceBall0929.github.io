@@ -1,0 +1,687 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/junko.png">
+  <link rel="icon" href="/img/junko.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Junxin Liu">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="path ORAM结构先介绍一下结构：  tree上的每个node都叫做bucket，每个bucket可以存Z个blocks，通常Z&#x3D;4 position map存储在客户端，存的是每个block对应的路径，在这个路径上一定可以找到这个block（如同上图） 也就是这两个符号：（就是字面意思啦）  如果你知道二叉树，你就知道每个leaf node都可以指定一条唯一的从根到leaf nod">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文笔记-path_ORAM">
+<meta property="og:url" content="http://example.com/2023/01/12/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/path%20oram/index.html">
+<meta property="og:site_name" content="Space">
+<meta property="og:description" content="path ORAM结构先介绍一下结构：  tree上的每个node都叫做bucket，每个bucket可以存Z个blocks，通常Z&#x3D;4 position map存储在客户端，存的是每个block对应的路径，在这个路径上一定可以找到这个block（如同上图） 也就是这两个符号：（就是字面意思啦）  如果你知道二叉树，你就知道每个leaf node都可以指定一条唯一的从根到leaf nod">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201204657872.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201205123249.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201205530430.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201204546419.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201210042728.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201210405793.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201210951262.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201211112474.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201211345855.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201212750203.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201213242613.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201214128313.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201214630246.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201214711217.png">
+<meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201221501150.png">
+<meta property="article:published_time" content="2023-01-12T03:33:24.000Z">
+<meta property="article:modified_time" content="2023-02-01T14:54:08.484Z">
+<meta property="article:author" content="Junxin Liu">
+<meta property="article:tag" content="Security">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201204657872.png">
+  
+  
+  
+  <title>论文笔记-path_ORAM - Space</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Space Ball</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('http://camillle-img.oss-cn-hangzhou.aliyuncs.com/img/image-20220809105458628.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="论文笔记-path_ORAM"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-12 11:33" pubdate>
+          January 12, 2023 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">论文笔记-path_ORAM</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="path-ORAM"><a href="#path-ORAM" class="headerlink" title="path ORAM"></a><strong>path ORAM</strong></h1><h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>先介绍一下结构：</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201204657872.png" srcset="/img/loading.gif" lazyload alt="image-20230201204657872"></p>
+<p>tree上的每个node都叫做bucket，每个bucket可以存Z个blocks，通常Z&#x3D;4</p>
+<p>position map存储在客户端，存的是每个block对应的路径，在这个路径上一定可以找到这个block（如同上图）</p>
+<p>也就是这两个符号：<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201205123249.png" srcset="/img/loading.gif" lazyload alt="image-20230201205123249" style="zoom: 37%;" />（就是字面意思啦）</p>
+<blockquote>
+<p>如果你知道二叉树，你就知道每个leaf node都可以指定一条唯一的从根到leaf node路径</p>
+</blockquote>
+<p>再看这个符号：<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201205530430.png" srcset="/img/loading.gif" lazyload alt="image-20230201205530430" style="zoom: 33%;" /></p>
+<p>这个a就相当于上面结构图里的x啦，block a存在由x确定的路径里的某个bucket里哦。也可能在stash里，stash也储存在客户端，用来存放溢出来的block.</p>
+<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><p>放一张符号表在这里对照:</p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201204546419.png" srcset="/img/loading.gif" lazyload alt="image-20230201204546419"></p>
+<p>完整的算法是这样的:</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201210042728.png" srcset="/img/loading.gif" lazyload alt="image-20230201210042728" style="zoom: 50%;" />
+
+<p>现在来分段解释.</p>
+<p>这个算法完成的是 access block a,调用时这么调用:</p>
+<figure class="highlight pascal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pascal">data ← Access(<span class="hljs-keyword">read</span>, a, None)<br></code></pre></td></tr></table></figure>
+
+<p>表示把a的内容读到data</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-constructor">Access(<span class="hljs-params">write</span>, <span class="hljs-params">a</span>, <span class="hljs-params">data</span>∗)</span><br></code></pre></td></tr></table></figure>
+
+<p>表示把data写入block a里.</p>
+<h3 id="具体步骤如下"><a href="#具体步骤如下" class="headerlink" title="具体步骤如下:"></a>具体步骤如下:</h3><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201210405793.png" srcset="/img/loading.gif" lazyload alt="image-20230201210405793" style="zoom:50%;" />
+
+<p>让把a的位置赋值给x, 给a随机一个路径.</p>
+<blockquote>
+<p>L是数的高度, $2^L-1$就是leaves node的数量,也即路径数量</p>
+</blockquote>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201210951262.png" srcset="/img/loading.gif" lazyload alt="image-20230201210951262" style="zoom:50%;" />
+
+<p>把这条路径的所有bucket读到客户端</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201211112474.png" srcset="/img/loading.gif" lazyload alt="image-20230201211112474" style="zoom:50%;" />
+
+<p>如果命令是write, 替换a的内容为新的data*.(没内容的时候默认存的是0)</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201211345855.png" srcset="/img/loading.gif" lazyload alt="image-20230201211345855" style="zoom: 45%;" />
+
+<p>接下来把文件写回去, 我们选好了新路径, 新路径存在<code>position[a’]</code>里. 但不能让别人知道新的路径. </p>
+<p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201212750203.png" srcset="/img/loading.gif" lazyload alt="image-20230201212750203"></p>
+<p>假设我们选的新路径是黄色的, 如果我们选红色数字标出的任何一个bucket放置, 都会被发现新路径的信息. 因此我们可以把它放在<strong>和旧路径相交的最高层节点上</strong>, 就是这个代码:<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201213242613.png" srcset="/img/loading.gif" lazyload alt="image-20230201213242613" style="zoom:50%;" /></p>
+<p>如果这个节点存不下, 就放在stash里, 但是position[a’]的值依旧是原来的. (所以找文件之前要先看看stash里有没有…)</p>
+<p>比如这个例子里就是根节点啦. 因为旧路径已经被知道了, 所以没关系啦<del>这样它是猜不到我们给新路径选的x是谁的. 这次访问的是叶节点🍎确定的路径, 下次访问的是叶节点🍌确定的路径, 它猜不到我们访问的是同个文件的</del></p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201214128313.png" srcset="/img/loading.gif" lazyload alt="image-20230201214128313" style="zoom: 33%;" />
+
+<blockquote>
+<p>注意,路径🍌上也是会存别的文件的哦, 所以它猜不出我们是访问之前的那个文件,还是访问香蕉上的其他文件. 因为客户端是一次性把路径上的所有文件都取出来,然后把用户要的文件给ta.</p>
+<p>客户端相当于一个代理, 用户给它的是找文件f的指令, 客户端给memory发的是让memory不知道客户要的是哪个文件的指令. like this:</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201214630246.png" srcset="/img/loading.gif" lazyload alt="image-20230201214630246" style="zoom:50%;" />
+
+<p>关于oblivious的解释like this:</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201214711217.png" srcset="/img/loading.gif" lazyload alt="image-20230201214711217" style="zoom: 33%;" />
+</blockquote>
+<h3 id="eviction"><a href="#eviction" class="headerlink" title="eviction"></a>eviction</h3><p>一直放在和旧路径相交的最高层节点上,这不好罢, 所以有了eviction, 把我们的东西放到已经选好路径里的其他地方.</p>
+<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201221501150.png" srcset="/img/loading.gif" lazyload alt="image-20230201221501150" style="zoom: 33%;" />
+
+<p>从最底层开始, 每一层随机选两个bucket打开, 然后只选其中一个放. 这样就很难发现我们放在那里了捏.</p>
+<h2 id="其他改进"><a href="#其他改进" class="headerlink" title="其他改进"></a>其他改进</h2><p>因为position map太大, 所以可以把它改成ORAM的二叉树结构, 具体还是看论文吧~</p>
+<blockquote>
+<p>新的感悟:原来到自己觉得完全可以通过代码解释出来才叫看懂了啊</p>
+</blockquote>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>ORAM解决的问题：从RAM到ORAM - 是不懂啊的文章 - 知乎 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/30050593">https://zhuanlan.zhihu.com/p/30050593</a></p>
+<p>[(25) Oblivious RAM (Part 1) - Gilad Asharov - YouTube](</p>
+<p>Path ORAM: An Extremely Simple Oblivious RAM Protocol</p>
+<p>（懒得按格式写了，反正自己的网站，不怕啦）</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Essay-Notes/" class="category-chain-item">Essay Notes</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Security/">#Security</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>论文笔记-path_ORAM</div>
+      <div>http://example.com/2023/01/12/论文笔记/path oram/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Junxin Liu</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 12, 2023</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/12/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" title="论文笔记-Titanium">
+                        <span class="hidden-mobile">论文笔记-Titanium</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
