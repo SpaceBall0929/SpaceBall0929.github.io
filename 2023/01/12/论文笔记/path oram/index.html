@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201214711217.png">
 <meta property="og:image" content="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201221501150.png">
 <meta property="article:published_time" content="2023-01-12T03:33:24.000Z">
-<meta property="article:modified_time" content="2023-02-01T14:54:08.484Z">
+<meta property="article:modified_time" content="2023-02-01T14:57:40.687Z">
 <meta property="article:author" content="Junxin Liu">
 <meta property="article:tag" content="Security">
 <meta name="twitter:card" content="summary_large_image">
@@ -330,7 +330,7 @@
 <p><img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201212750203.png" srcset="/img/loading.gif" lazyload alt="image-20230201212750203"></p>
 <p>假设我们选的新路径是黄色的, 如果我们选红色数字标出的任何一个bucket放置, 都会被发现新路径的信息. 因此我们可以把它放在<strong>和旧路径相交的最高层节点上</strong>, 就是这个代码:<img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201213242613.png" srcset="/img/loading.gif" lazyload alt="image-20230201213242613" style="zoom:50%;" /></p>
 <p>如果这个节点存不下, 就放在stash里, 但是position[a’]的值依旧是原来的. (所以找文件之前要先看看stash里有没有…)</p>
-<p>比如这个例子里就是根节点啦. 因为旧路径已经被知道了, 所以没关系啦<del>这样它是猜不到我们给新路径选的x是谁的. 这次访问的是叶节点🍎确定的路径, 下次访问的是叶节点🍌确定的路径, 它猜不到我们访问的是同个文件的</del></p>
+<p>比如这个例子里就是根节点啦. 因为旧路径已经被知道了, 所以没关系啦~这样它是猜不到我们给新路径选的x是谁的. 这次访问的是叶节点🍎确定的路径, 下次访问的是叶节点🍌确定的路径, 它猜不到我们访问的是同个文件的！</p>
 <img src="https://camillle-img.oss-cn-hangzhou.aliyuncs.com/imgimage-20230201214128313.png" srcset="/img/loading.gif" lazyload alt="image-20230201214128313" style="zoom: 33%;" />
 
 <blockquote>
